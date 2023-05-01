@@ -1,5 +1,6 @@
 Param(
-    [string[]]$chapters
+    [string[]]$chapters,
+    [string]$template
 )
 
 $pdfFile = "..\generated\conceptual_model\ConceptualModel.pdf"
@@ -14,6 +15,7 @@ if ( Test-Path -Path $pdfFile -PathType Leaf )
 }
 
 pandoc -s $mdFile $chapters -o $pdfFile
+#--template $template
 if ( Test-Path -Path $pdfFile -PathType Leaf)
 {
     Write-Output "`t- PDF generiert"

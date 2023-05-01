@@ -1,0 +1,159 @@
+%------------------ vorlage.tex ------------------------------------------------
+%
+% LaTeX-Vorlage zur Erstellung von Projektdokumentationen
+% im Fachbereich Informatik der Hochschule Trier
+%
+% Basis: Vorlage 'svmono' des Springer Verlags
+% Bearbeiter: Hermann Schloß, Christian Bettinger
+%
+%-------------------------------------------------------------------------------
+
+
+%------------------ Präambel ---------------------------------------------------
+\documentclass[envcountsame, envcountchap, deutsch]{i-studis}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[a4paper]{geometry}
+\usepackage[english, ngerman]{babel}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+
+\usepackage{listings}
+
+\usepackage[german, ruled, vlined]{algorithm2e}
+\usepackage{amssymb, amsfonts, amstext, amsmath}
+\usepackage{array}
+\usepackage[skip=10pt]{caption}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage[pdftex, plainpages=false]{hyperref}
+\usepackage{textcomp}
+
+\usepackage{bibgerm}
+\bibliographystyle{geralpha}
+
+\usepackage{makeidx}
+\usepackage{multicol}
+\makeindex
+
+\pagestyle{myheadings}
+\setlength{\textheight}{1.1\textheight}
+
+\lstset{
+	basicstyle=\scriptsize\ttfamily,
+	commentstyle=\scriptsize\ttfamily\color{Gray},
+	identifierstyle=\scriptsize\ttfamily,
+	keywordstyle=\scriptsize\ttfamily,
+	stringstyle=\scriptsize\ttfamily,
+	tabsize=4,
+	numbers=left,
+	numberstyle=\tiny,
+	numberblanklines=false,
+	frame=single,
+	framesep=3mm,
+	framexleftmargin=7mm,
+	xleftmargin=10mm,
+	linewidth=144mm,
+	captionpos=b,
+}
+
+\usepackage[Export]{adjustbox}
+\adjustboxset*{width=1\linewidth}
+
+
+\hypersetup{
+$if(title-meta)$
+  pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+  pdfauthor={$author-meta$},
+$endif$
+$if(lang)$
+  pdflang={$lang$},
+$endif$
+$if(subject)$
+  pdfsubject={$subject$},
+$endif$
+$if(keywords)$
+  pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
+}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%------------------ Manuelle Silbentrennung ------------------------------------
+\hyphenation{Ele-men-tar-ob-jek-te ab-ge-tas-tet Aus-wer-tung House-holder-Matrix Least-Squares-Al-go-ri-th-men}
+
+
+%------------------ Titelseite -------------------------------------------------
+\begin{document}
+
+$if(title)$
+\title{$title$}
+$endif$
+$if(subtitle)$
+\subtitle{$subtitle$}
+$endif$
+
+$if(author)$
+\author{$author$}
+$endif$
+
+$if(supervisor)$
+\supervisor{$supervisor$}
+$endif$
+
+$if(address)$
+\address{$address$}
+$endif$
+$if(date)$
+\submitdate{$date$}
+$endif$
+
+%------------------ Projektart -------------------------------------------------
+%\project{Bachelor-Projektarbeit}
+% \project{Bachelor-Abschlussarbeit}
+% \project{Master-Projektstudium}
+%\project{Master-Abschlussarbeit}
+%\project{Seminar}
+%\project{Hausarbeit}
+$if(project)$
+\project{$project$}
+$endif$
+
+\mytitlepage
+
+%------------------ Vorwort, Kurzfassung, Verzeichnisse ------------------------
+\frontmatter
+% \input{chapters/Vorwort}								% Vorwort (optional)
+% \input{chapters/Kurzfassung}							% Kurzfassung/Abstract
+$if(abstract)$
+\abstract{$abstract$}
+$endif$
+\tableofcontents										% Inhaltsverzeichnis
+% \listoffigures											% Abbildungsverzeichnis (optional)
+% \listoftables											% Tabellenverzeichnis (optional)
+% \lstlistoflistings										% Listings (optional)
+
+
+%------------------ Kapitel ----------------------------------------------------
+\mainmatter
+$body$
+
+
+% %------------------ Literaturverzeichnis & Index -------------------------------
+% \backmatter
+% \bibliography{literatur}								% Literaturverzeichnis (literatur.bib)
+% \printindex												% Index (optional)
+
+
+% %------------------ Anhänge ----------------------------------------------------
+% \begin{appendix}
+% 	\include{chapters/Glossar}							% Glossar (optional)
+% 	\include{chapters/Selbststaendigkeitserklaerung}	% Selbstständigkeitserklärung
+% \end{appendix}
+
+
+\end{document}

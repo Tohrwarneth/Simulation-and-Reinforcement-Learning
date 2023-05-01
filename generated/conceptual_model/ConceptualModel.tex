@@ -1,97 +1,116 @@
-% Options for packages loaded elsewhere
-\PassOptionsToPackage{unicode}{hyperref}
-\PassOptionsToPackage{hyphens}{url}
+%------------------ vorlage.tex ------------------------------------------------
 %
-\documentclass[
-]{book}
-\usepackage{amsmath,amssymb}
-\usepackage{iftex}
-\ifPDFTeX
-  \usepackage[T1]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
-  \usepackage{unicode-math} % this also loads fontspec
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-\fi
-\usepackage{lmodern}
-\ifPDFTeX\else
-  % xetex/luatex font selection
-\fi
-% Use upquote if available, for straight quotes in verbatim environments
-\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
-\IfFileExists{microtype.sty}{% use microtype if available
-  \usepackage[]{microtype}
-  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
-}{}
-\makeatletter
-\@ifundefined{KOMAClassName}{% if non-KOMA class
-  \IfFileExists{parskip.sty}{%
-    \usepackage{parskip}
-  }{% else
-    \setlength{\parindent}{0pt}
-    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
-}{% if KOMA class
-  \KOMAoptions{parskip=half}}
-\makeatother
-\usepackage{xcolor}
-\usepackage{graphicx}
-\makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Set default figure placement to htbp
-\makeatletter
-\def\fps@figure{htbp}
-\makeatother
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
-\ifLuaTeX
-\usepackage[bidi=basic]{babel}
-\else
-\usepackage[bidi=default]{babel}
-\fi
-\babelprovide[main,import]{ngerman}
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-\graphicspath{{../paper/conceptual_model/chapters/}}
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same}
+% LaTeX-Vorlage zur Erstellung von Projektdokumentationen
+% im Fachbereich Informatik der Hochschule Trier
+%
+% Basis: Vorlage 'svmono' des Springer Verlags
+% Bearbeiter: Hermann Schloß, Christian Bettinger
+%
+%-------------------------------------------------------------------------------
+
+
+%------------------ Präambel ---------------------------------------------------
+\documentclass[envcountsame, envcountchap, deutsch]{i-studis}
+
+\usepackage[utf8]{inputenc}
+
+\usepackage[a4paper]{geometry}
+\usepackage[english, ngerman]{babel}
+
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+
+\usepackage{listings}
+
+\usepackage[german, ruled, vlined]{algorithm2e}
+\usepackage{amssymb, amsfonts, amstext, amsmath}
+\usepackage{array}
+\usepackage[skip=10pt]{caption}
+\usepackage[usenames, dvipsnames]{color}
+\usepackage[pdftex, plainpages=false]{hyperref}
+\usepackage{textcomp}
+
+\usepackage{bibgerm}
+\bibliographystyle{geralpha}
+
+\usepackage{makeidx}
+\usepackage{multicol}
+\makeindex
+
+\pagestyle{myheadings}
+\setlength{\textheight}{1.1\textheight}
+
+\lstset{
+	basicstyle=\scriptsize\ttfamily,
+	commentstyle=\scriptsize\ttfamily\color{Gray},
+	identifierstyle=\scriptsize\ttfamily,
+	keywordstyle=\scriptsize\ttfamily,
+	stringstyle=\scriptsize\ttfamily,
+	tabsize=4,
+	numbers=left,
+	numberstyle=\tiny,
+	numberblanklines=false,
+	frame=single,
+	framesep=3mm,
+	framexleftmargin=7mm,
+	xleftmargin=10mm,
+	linewidth=144mm,
+	captionpos=b,
+}
+
+\usepackage[Export]{adjustbox}
+\adjustboxset*{width=1\linewidth}
+
+
 \hypersetup{
   pdftitle={Conceptual Model},
   pdfauthor={Frederic Nicolas Schneider},
   pdflang={de-DE},
   pdfsubject={Simulation and Reinforcement Learning},
-  hidelinks,
-  pdfcreator={LaTeX via pandoc}}
+}
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+%------------------ Manuelle Silbentrennung ------------------------------------
+\hyphenation{Ele-men-tar-ob-jek-te ab-ge-tas-tet Aus-wer-tung House-holder-Matrix Least-Squares-Al-go-ri-th-men}
+
+
+%------------------ Titelseite -------------------------------------------------
+\begin{document}
 
 \title{Conceptual Model}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
 \subtitle{Simulation and Reinforcement Learning}
+
 \author{Frederic Nicolas Schneider}
-\date{}
 
-\begin{document}
+\supervisor{Prof.~Dr.~Christoph Lürig}
+
+\address{Trier}
+\submitdate{02.05.2023}
+
+%------------------ Projektart -------------------------------------------------
+%\project{Bachelor-Projektarbeit}
+% \project{Bachelor-Abschlussarbeit}
+% \project{Master-Projektstudium}
+%\project{Master-Abschlussarbeit}
+%\project{Seminar}
+%\project{Hausarbeit}
+\project{Simulation and Reinforcement Learning}
+
+\mytitlepage
+
+%------------------ Vorwort, Kurzfassung, Verzeichnisse ------------------------
 \frontmatter
-\maketitle
+% \input{chapters/Vorwort}								% Vorwort (optional)
+% \input{chapters/Kurzfassung}							% Kurzfassung/Abstract
+\tableofcontents										% Inhaltsverzeichnis
+% \listoffigures											% Abbildungsverzeichnis (optional)
+% \listoftables											% Tabellenverzeichnis (optional)
+% \lstlistoflistings										% Listings (optional)
 
+
+%------------------ Kapitel ----------------------------------------------------
 \mainmatter
 \newpage
 
@@ -206,24 +225,98 @@ verlassen haben und welche durchschnittliche Wartezeit vorliegt.
 \hypertarget{vorbedingungen}{%
 \section{Vorbedingungen}\label{vorbedingungen}}
 
+Als Vorbedingung der Simulation gelten die Eingangsparameter, die den
+Fahrstühlen ihre Eigenschaften beschreiben. Mit den Eigenschaften
+repräsentieren die Fahrstühle die Funktionen der Transportation der
+Personen auf verschiedenen Stockwerken. Dabei agieren sie nicht aktiv
+mit den Personen.
+
 \hypertarget{interne-prozesse}{%
 \section{Interne Prozesse}\label{interne-prozesse}}
+
+Die Fahrstühle folgen während der Simulation folgendem Prozessablauf.
+
+\begin{figure}
+\centering
+\includegraphics{../images/Simulationstechnik.png}
+\caption{Prozessablauf eines Fahrstuhls}
+\end{figure}
+
+Zum Beginn wartet ein Fahrstuhl. Hier können zwei Events eintreten. Eine
+Person möchte auf dem aktuellen Stockwerk Einsteigen oder der Fahrstuhl
+wird von einem anderen Stockwerk aus gerufen. Im zweiten Fall fährt der
+Fahrstuhl zum neuen Stockwerk und wartet eine bestimmte Taktzahl
+(standardmäßig ein Takt) ab. In dieser Zeit wird der Einstiegsvorgang
+simuliert, der auch im ersten Fall vorliegt. Dabei erhöht sich die
+Belegung um eins und das gewünschte Stockwerk wird in die Aufgabenliste
+eingereiht. Nun entscheidet sich zunächst durch den Aufzug-Algorithmus
+(oder auch SCAN) entschieden, welches Stockwerk angefahren werden soll.
+Dabei gilt die Zielstockwerke der Insassen und der Personen, die auf die
+Stockwerke verteilt den Aufzug rufen. Jedoch kennt der Fahrstuhl nur die
+Richtung, in die die Personen außerhalb fahren möchten und nicht deren
+Zielstockwerk.
 
 \hypertarget{fehlermuxf6glichkeit}{%
 \section{Fehlermöglichkeit}\label{fehlermuxf6glichkeit}}
 
+Die Situation, dass sich am Ende des Tages noch weitere Personen im Haus
+befinden, kann als Fehler der Simulation auftauchen. Dies geschieht,
+wenn die Fahrstühle zu wenige Personen bedienen konnten. Jedoch lässt
+sich dies auch auf ein zu hohes Personenaufkommen zurückzuführen. Diese
+Situation tritt vor allem dann auf, wenn selbst das optimale Verhalten
+der Fahrstühle nicht ausreicht, um sämtliche Personen zu transportieren.
+
+Daher wird sich für die spätere Optimierung mittels Reinforcement
+Learning auf den Personenandrang zurückgegriffen, die bereits der
+Aufzug-Algorithmus bewältigen konnte.
+
 \hypertarget{nachbedingung}{%
 \section{Nachbedingung}\label{nachbedingung}}
+
+Nach dem Abschluss der Simulation muss als Nachbedingung ein leeres
+Gebäude folgen. Keine Person sollte sich noch darin aufhalten.
 
 \hypertarget{verifikation-und-validierung}{%
 \chapter{Verifikation und
 Validierung}\label{verifikation-und-validierung}}
 
+Um die Simulation abschließend bewerten zur können, benötigt es
+Dokumente und Metriken zur Verifikation und Validierung des Programmes.
+
 \hypertarget{verifikation}{%
 \section{Verifikation}\label{verifikation}}
+
+Auf die Frage, ob die Simulation richtig implementiert wurde, dient
+dieses Conceptual Model als Anforderungen an die Simulation.
 
 \hypertarget{validierung}{%
 \section{Validierung}\label{validierung}}
 
-\backmatter
+Als Methoden der Validierung werden Behavior Validation und Replicative
+Validation angewandt.
+
+Als Behavior Validation wird auf veränderte Parameter ein plausibles
+Verhalten erwartet. Im Falle der Fahrstühle wird bei einem erhöhten
+Personenaufkommen auch eine höhere durchschnittliche Wartezeit erwartet
+und vice versa.
+
+Bei der Replicative Validation werden mittels Experimente die Ergebnisse
+verglichen. So soll bei gleichen Parametern trotz Zufallselementen, wie
+die Zielstockwerke der Personen, das gleiche oder ein ähnliches Ergebnis
+erzielt werden.
+
+
+% %------------------ Literaturverzeichnis & Index -------------------------------
+% \backmatter
+% \bibliography{literatur}								% Literaturverzeichnis (literatur.bib)
+% \printindex												% Index (optional)
+
+
+% %------------------ Anhänge ----------------------------------------------------
+% \begin{appendix}
+% 	\include{chapters/Glossar}							% Glossar (optional)
+% 	\include{chapters/Selbststaendigkeitserklaerung}	% Selbstständigkeitserklärung
+% \end{appendix}
+
+
 \end{document}

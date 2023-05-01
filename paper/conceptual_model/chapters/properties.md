@@ -1,8 +1,8 @@
 # Eigenschaften
 
-[//]: # (Wie sieht die innere Struktur des SUIs aus?)
+<!-- Wie sieht die innere Struktur des SUIs aus? -->
 
-[//]: # (Wie sieht der Fahrstuhl aus)
+<!-- Wie sieht der Fahrstuhl aus -->
 
 ## Innere Struktur des Fahrstuhls
 
@@ -16,9 +16,9 @@ Der Innenraum zeigt, wie viele Personen sich in ihm befinden und wo
 welche Knöpfe in welcher Reihenfolge gedrückt wurden.
 Des Weiteren wird sein Fahrziel hervorgehoben angezeigt.
 
-[//]: # (Welche Zustandsvariablen gibt es?)
+<!-- Welche Zustandsvariablen gibt es? -->
 
-[//]: # (Warten, Hoch, Runter)
+<!-- Warten, Hoch, Runter -->
 
 Es gibt drei Zustände je Fahrstuhl:
 
@@ -31,9 +31,9 @@ Das Warten, bis ein Rufknopf gedrückt wurde
 und bis der Ein- und Aussteigevorgang abgeschlossen ist.
 
 
-[//]: # (Welche äußeren Parameter \(Konstanten\) gibt es?)
+<!-- Welche äußeren Parameter \(Konstanten\) gibt es? -->
 
-[//]: # (Die Menschen)
+<!-- Die Menschen -->
 
 ## Äußere Parameter.
 Die äußeren Parameter, die sich auf das Modell auswirken, 
@@ -42,10 +42,10 @@ Die Fahrstühle kennen lediglich die Anzahl der Personen in ihrem Inneren
 und in welchem Stockwerk eine unbekannte Anzahl an Personen nach 
 oben und / oder nach unten möchten.
 
-[//]: # (Wie sehen die Interfaces an der Modellgrenze aus 
-            \(Ein-Ausgabeparameter\)?)
+<!-- Wie sehen die Interfaces an der Modellgrenze aus 
+            \(Ein-Ausgabeparameter\)? -->
 
-[//]: # (Kapazität, Geschwindigkeit)
+<!-- Kapazität, Geschwindigkeit -->
 
 ## Ein- und Ausgabeparameter
 Um das Modell möglichst flexibel zu gestalten, wird eine Bandbreite von 

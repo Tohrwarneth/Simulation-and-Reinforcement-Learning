@@ -30,23 +30,26 @@ function PrintInnerProgress {
 
 Write-Host "Build"
 
-if (Test-Path -Path ../generated -PathType Leaf)
+if (Test-Path -Path ../generated -PathType Container)
 {
     Remove-ItemSafely ../generated
 }
 
+
 PrintGeneralProgress
 
 # ConecptualModel
+
 $mdFileIdentity = "..\paper\conceptual_model\chapters\identity.md"
 $mdFileProperties = "..\paper\conceptual_model\chapters\properties.md"
 $mdFileBehavior = "..\paper\conceptual_model\chapters\behavior.md"
 $mdFileVerification = "..\paper\conceptual_model\chapters\verification.md"
+$template = "../paper/template/tex/vorlage-project.tex"
 $chapters = $mdFileIdentity, $mdFileProperties, $mdFileBehavior, $mdFileVerification
 $m = (Get-ChildItem 'conceptual_model' | Measure-Object).Count
 $j = 0
 Get-ChildItem 'conceptual_model' | ForEach-Object {
-    & $_.FullName -chapters $chapters
+    & $_.FullName -chapters $chapters -template $template
     $j = $j + 1
     PrintInnerProgress -step $j -max $m -activity "Conceptual Model" -operation "Build Conecptual Model"
 }
