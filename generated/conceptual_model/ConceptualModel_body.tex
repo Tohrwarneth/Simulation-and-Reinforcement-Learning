@@ -175,7 +175,8 @@ gedrückt wurde und bis der Ein- und Aussteigevorgang abgeschlossen ist.
 Die äußeren Parameter, die sich auf das Modell auswirken, sind die zu
 befördernden Personen. Die Fahrstühle kennen lediglich die Anzahl der
 Personen in ihrem Inneren und in welchem Stockwerk eine unbekannte
-Anzahl an Personen nach oben und / oder nach unten möchten.
+Anzahl an Personen nach oben und / oder nach unten möchten. Dabei gilt
+ein exponentielles Wachstum.
 
 \hypertarget{ein--und-ausgabeparameter}{%
 \section{Ein- und Ausgabeparameter}\label{ein--und-ausgabeparameter}}
@@ -194,9 +195,8 @@ Zu den Eingabeparametern der Fahrstühle gehören:
 \item
   Kapazität der Fahrstühle
 \item
-  Geschwindigkeit der Etagenwechsel (in Takten)
-\item
-  Dauer des Ein- und Aussteigevorgangs (in Takten)
+  Geschwindigkeit der Etagenwechsel und Dauer des Ein- und
+  Aussteigevorgangs (in Takten)
 \end{itemize}
 
 Zu den Eingabeparametern des Hauses gehören:
@@ -255,6 +255,12 @@ Dabei gilt die Zielstockwerke der Insassen und der Personen, die auf die
 Stockwerke verteilt den Aufzug rufen. Jedoch kennt der Fahrstuhl nur die
 Richtung, in die die Personen außerhalb fahren möchten und nicht deren
 Zielstockwerk.
+
+\begin{figure}
+\centering
+\includegraphics{../images/Simulation_Person.png}
+\caption{Prozessablauf einer Person}
+\end{figure}
 
 \hypertarget{fehlermuxf6glichkeit}{%
 \section{Fehlermöglichkeit}\label{fehlermuxf6glichkeit}}

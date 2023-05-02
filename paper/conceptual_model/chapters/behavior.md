@@ -33,6 +33,10 @@ Personen, die auf die Stockwerke verteilt den Aufzug rufen. Jedoch kennt
 der Fahrstuhl nur die Richtung, in die die Personen außerhalb fahren 
 möchten und nicht deren Zielstockwerk.
 
+![Prozessablauf einer Person](../images/Simulation_Person.png)
+
+[//]: # (TODO: Prozess Person)
+
 ## Fehlermöglichkeit
 <!-- Fehlermöglichkeit: Was kann schiefgehen in dem Verhalten des SUIs, wie ist darauf zu reagieren? -->
 <!-- Das nicht alle Menschen bis zum Tagesende bedient wurden -->

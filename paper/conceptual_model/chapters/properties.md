@@ -41,6 +41,7 @@ sind die zu befördernden Personen.
 Die Fahrstühle kennen lediglich die Anzahl der Personen in ihrem Inneren 
 und in welchem Stockwerk eine unbekannte Anzahl an Personen nach 
 oben und / oder nach unten möchten.
+Dabei gilt ein exponentielles Wachstum.
 
 <!-- Wie sehen die Interfaces an der Modellgrenze aus 
             \(Ein-Ausgabeparameter\)? -->
@@ -57,8 +58,7 @@ Personen und Haus unterteilt werden.
 Zu den Eingabeparametern der Fahrstühle gehören:
 
 - Kapazität der Fahrstühle
-- Geschwindigkeit der Etagenwechsel (in Takten)
-- Dauer des Ein- und Aussteigevorgangs (in Takten)
+- Geschwindigkeit der Etagenwechsel und Dauer des Ein- und Aussteigevorgangs (in Takten)
 
 Zu den Eingabeparametern des Hauses gehören:
 
