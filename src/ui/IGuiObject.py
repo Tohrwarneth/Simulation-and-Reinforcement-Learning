@@ -8,7 +8,7 @@ class IGuiObject(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def update(self, delta: int) -> None:
+    def update(self, delta: float) -> None:
         pass
 
     @abc.abstractmethod

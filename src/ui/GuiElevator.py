@@ -9,7 +9,7 @@ class GuiElevator(IGuiObject):
         pos = pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2)
         pygame.draw.rect(screen, "#0047FF", pos, 40)
 
-    def update(self, delta: int) -> None:
+    def update(self, delta: float) -> None:
         pass
 
     def render(self) -> None:
@@ -20,7 +20,7 @@ class GuiElevator(IGuiObject):
 
 class Capacity(IGuiObject):
 
-    def init(self) -> None:
+    def init(self, screen:pygame.surface) -> None:
         pass
 
     def update(self, delta: int) -> None:
