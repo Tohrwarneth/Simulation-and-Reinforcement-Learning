@@ -12,7 +12,7 @@ class GuiManager:
     screen: pygame.Surface
     running: bool = True
 
-    def init(self):
+    def __init__(self):
         self.guiObjects = list()
 
         # pygame setup
@@ -24,6 +24,7 @@ class GuiManager:
 
         self.screen.fill("#F6E8C3")
 
+    def initObjects(self):
         for gui in self.guiObjects:
             gui.init(self.screen)
 

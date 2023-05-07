@@ -1,19 +1,36 @@
 import sys
 
+from src.logic.Elevator import Elevator
+from src.ui.GuiElevator import GuiElevator
 from ui.GuiManager import GuiManager
+from logic.LogicManager import LogicManager
 
 
 class Simulation:
     guiActivated: bool = True
     guiManager: GuiManager
+    logicManager: LogicManager
 
     def __int__(self):
         self.init()
 
     def init(self):
-        if (self.guiActivated):
+        gui = self.guiActivated
+        if gui:
             self.guiManager = GuiManager()
-            self.guiManager.init()
+
+        self.logicManager = LogicManager()
+
+        for i in range(0, 3):
+            guiElement = None
+            if gui:
+                guiElement = GuiElevator(i)
+                self.guiManager.addGuiObject(guiElement)
+            elevator: Elevator = Elevator(gui=guiElement)
+            self.logicManager.addObject(elevator)
+
+        if gui:
+            self.guiManager.initObjects()
 
     def run(self):
         running: bool = True
