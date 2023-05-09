@@ -4,7 +4,7 @@ import pygame
 
 class IGuiObject(metaclass=abc.ABCMeta):
     @abc.abstractmethod
-    def init(self, screen:pygame.Surface) -> None:
+    def init(self) -> None:
         pass
 
     @abc.abstractmethod
@@ -12,5 +12,9 @@ class IGuiObject(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def render(self) -> None:
+    def render(self, game_display: pygame.Surface) -> None:
+        pass
+
+    @abc.abstractmethod
+    def update_screen_scale(self):
         pass

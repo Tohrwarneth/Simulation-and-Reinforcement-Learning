@@ -14,7 +14,7 @@ class Glock:
     @classmethod
     def add_delta(cls, delta_time: float):
         cls.time_in_sec += delta_time
-        cls.tact += int(delta_time)
+        cls.tact = int(cls.time_in_sec)
         h, m = cls.get_time()
         if h >= 24:
             cls.end_of_day = True
