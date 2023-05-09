@@ -39,7 +39,7 @@ class GuiManager:
     def addGuiObject(self, object: IGuiObject) -> None:
         self.guiObjects.append(object)
 
-    def frame(self) -> bool:
+    def frame(self, deltaTime: float) -> bool:
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
         for event in pygame.event.get():

@@ -1,8 +1,8 @@
 from src.ui.GuiElevator import GuiElevator
-from .ILogicObject import ILogicObject
+from src.logic.ILogicObject import ILogicObject
 
 
-class Elevator(ILogicObject):
+class Elevator:
     index: int
     capacity: int
     currentFloor: int
