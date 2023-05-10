@@ -8,6 +8,8 @@ from src.glock import Glock
 
 class Conf:
     screen_size: tuple[float] = (1280, 720)
+    screen_origin_size: tuple[float] = (1920, 1080)
+    screen_scale: tuple[float] = (1, 1)
     total_amount_person: int = 1000
     max_floor: int = 15
     show_plots: bool = False

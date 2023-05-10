@@ -32,8 +32,15 @@ class GUIStatus:
         self.target_floor = target_floor
 
     def render(self, game_display: pygame.Surface) -> None:
+        sw, sh = Conf.screen_scale
+
         text_surface: pygame.Surface = Conf.font_small. \
             render(f"{self.currentFloor:01d}", True, "black")
+        text_surface = \
+            pygame.transform.scale(
+                text_surface,
+                (text_surface.get_width() * sw, text_surface.get_height() * sh))
+
         text_rect: pygame.Rect = text_surface.get_rect()
         text_rect.center = self.position
         game_display.blit(text_surface, text_rect)
@@ -47,6 +54,11 @@ class GUIStatus:
                 image = pygame.image.load('images/Pfeil_runter.png')
                 image.convert()
 
+            image = \
+                pygame.transform.scale(
+                    image,
+                    (image.get_width() * sw, image.get_height() * sh))
+
             x, _ = Conf.screen_size
             width = self.position[0]
             offset = x/55
@@ -54,5 +66,7 @@ class GUIStatus:
 
             text_rect: pygame.Rect = image.get_rect()
             text_rect.center = (offset + width, height)
+
+            # TODO: Aufzug State links angeben
 
             game_display.blit(image, text_rect)

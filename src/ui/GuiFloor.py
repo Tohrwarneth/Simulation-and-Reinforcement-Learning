@@ -20,6 +20,7 @@ class GuiFloor:
         self.drawFloor(game_display, 1)
 
     def drawFloor(self, game_display, direction: int):
+        sw, sh = Conf.screen_scale
         for index, floor in enumerate(self.person_floor):
             if floor[direction] > 0:
                 if direction == 0:
@@ -27,6 +28,11 @@ class GuiFloor:
                 else:
                     image_arrow = pygame.image.load('images/Pfeil_runter.png')
                 image_arrow.convert()
+
+                image_arrow = \
+                    pygame.transform.scale(
+                        image_arrow,
+                        (image_arrow.get_width() * 1.5 * sw, image_arrow.get_height() * 1.5 * sh))
 
                 width, height = self.position
                 if direction == 1:

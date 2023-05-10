@@ -70,5 +70,6 @@ class GuiElevator(IGuiObject):
     def update_screen_scale(self):
         self.statusGUI.update_screen_scale()
         self.capacityGUI.update_screen_scale()
+        self.floorGUI.update_screen_scale()
         for job in self.jobsGUI:
             job.update_screen_scale()

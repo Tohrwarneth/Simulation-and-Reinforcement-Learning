@@ -5,6 +5,7 @@ from .IGuiObject import IGuiObject
 from typing import List
 
 from src.conf import Conf
+from src.glock import Glock
 
 
 class GuiManager:
@@ -32,9 +33,9 @@ class GuiManager:
 
         Conf.font = pygame.font.Font('freesansbold.ttf', 32)
         Conf.font_small = pygame.font.Font('freesansbold.ttf', 20)
+        Conf.screen_scale = (screen_size[0] / Conf.screen_origin_size[0]
+                             , screen_size[1] / Conf.screen_origin_size[1])
 
-        self.background_image = pygame.image.load('images/FahrstuhlLayout.png')
-        self.background_image.convert()
         self.update_screen_scale()
 
         self.gameDisplay.fill("pink")
@@ -58,6 +59,8 @@ class GuiManager:
             gui.render(self.gameDisplay)
 
     def update_screen_scale(self):
+        self.background_image = pygame.image.load('images/FahrstuhlLayout.png')
+        self.background_image.convert()
         self.background_image = pygame.transform.scale(
             self.background_image, Conf.screen_size)
 
@@ -78,10 +81,21 @@ class GuiManager:
         # flip() the display to put your work on screen
         pygame.display.flip()
 
-        # limits FPS to 60
-        # dt is delta time in seconds since last frame, used for framerate-
-        # independent physics.
-        self.dt = self.clock.tick(60) / 1000
+        # # limits FPS to 60
+        # # dt is delta time in seconds since last frame, used for framerate-
+        # # independent physics.
+        # self.dt = self.clock.tick(60) / 1000
+
+        while Glock.end_of_day:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                        break
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_SPACE:
+                        break
+                    elif event.key == pygame.K_ESCAPE:
+                        break
+            self.running = False
 
         while self.step_gui:
             for event in pygame.event.get():
@@ -100,18 +114,20 @@ class GuiManager:
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS:
                     Conf.speed_scale *= 2
+                elif event.key == pygame.K_ESCAPE:
+                    self.running = False
                 elif event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS:
                     Conf.speed_scale /= 2
                 elif event.key == pygame.K_r:
                     Conf.speed_scale = 1
                 elif event.key == pygame.K_HASH:
                     Conf.speed_scale = 128
-                elif event.key == pygame.K_ESCAPE:
-                    self.running = False
             if event.type == pygame.VIDEORESIZE:
                 width = event.w
                 height = event.h
                 Conf.screen_size = (width, height)
+                Conf.screen_scale = (width / Conf.screen_origin_size[0]
+                                     , height / Conf.screen_origin_size[1])
                 self.update_screen_scale()
                 self.gameDisplay = pygame.display.set_mode((width, height),
                                                            pygame.RESIZABLE)

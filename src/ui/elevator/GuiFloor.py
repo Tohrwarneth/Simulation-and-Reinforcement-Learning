@@ -22,13 +22,14 @@ class GuiFloor:
         self.drawFloor(game_display, 1)
 
     def drawFloor(self, game_display, direction: int):
+        sw, sh = Conf.screen_scale
         if self.person_number[direction] > 0:
             image_person = pygame.image.load('images/Person.png')
             image_person.convert()
             image_person = \
                 pygame.transform.scale(
                     image_person,
-                    (image_person.get_width() * 1.5, image_person.get_height() * 1.5))
+                    (image_person.get_width() * 1.5 * sw, image_person.get_height() * 1.5 * sh))
 
             x, y = Conf.screen_size
             width = self.position[0]
@@ -46,24 +47,32 @@ class GuiFloor:
             else:
                 image_arrow = pygame.image.load('images/Pfeil_runter.png')
             image_arrow.convert()
+            image_arrow = \
+                pygame.transform.scale(
+                    image_arrow,
+                    (image_arrow.get_width() * sw, image_arrow.get_height() * sh))
 
             if direction == 1:
                 offset_width = -x / 11.5
             else:
                 offset_width = -x / 6.5
-            offset_height = -x/45
+            offset_height = -x / 45
 
             arrow_rect: pygame.Rect = image_arrow.get_rect()
             arrow_rect.center = (offset_width + width, offset_height + height)
 
             text_surface: pygame.Surface = Conf.font_small.render(
                 str(self.person_number[direction]), True, "black")
+            text_surface = \
+                pygame.transform.scale(
+                    text_surface,
+                    (text_surface.get_width() * sw, text_surface.get_height() * sh))
 
             if direction == 1:
                 offset_width = -x / 11.5
             else:
                 offset_width = -x / 6.5
-            offset_height = -x/120
+            offset_height = -x / 120
 
             text_rect: pygame.Rect = text_surface.get_rect()
             text_rect.center = (offset_width + width, offset_height + height)

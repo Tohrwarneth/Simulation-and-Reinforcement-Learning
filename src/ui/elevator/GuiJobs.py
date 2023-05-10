@@ -31,10 +31,16 @@ class GUIJobs:
         self.target_floor = target_floor
 
     def render(self, game_display: pygame.Surface) -> None:
+        sw, sh = Conf.screen_scale
         for index, floor in enumerate(self.jobs):
             text_surface: pygame.Surface = Conf.font_small. \
                 render(f"{floor:01d}", True, "dark red" if floor == self.target_floor else "black")
             text_rect: pygame.Rect = text_surface.get_rect()
+
+            text_surface = \
+                pygame.transform.scale(
+                    text_surface,
+                    (text_surface.get_width() * sw, text_surface.get_height() * sh))
 
             x, y = Conf.screen_size
             width = self.position[0]

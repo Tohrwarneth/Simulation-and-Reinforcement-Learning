@@ -19,9 +19,15 @@ class GuiCapacity:
         pass
 
     def render(self, game_display: pygame.Surface) -> None:
+        sw, sh = Conf.screen_scale
         for i in range(0, self.person_number):
             image = pygame.image.load('images/Person.png')
             image.convert()
+
+            image = \
+                pygame.transform.scale(
+                    image,
+                    (image.get_width() * sw, image.get_height() * sh))
 
             offset = Conf.screen_size[0] / 2.9
             width = self.position[0]
@@ -30,10 +36,10 @@ class GuiCapacity:
                 offset += width / 10 if i % 2 == 0 else (width / -10)
                 height += height / 6 if i > 2 else (height / -12)
 
-            text_rect: pygame.Rect = image.get_rect()
-            text_rect.center = (offset + width * self.index, height)
+            image_rect: pygame.Rect = image.get_rect()
+            image_rect.center = (offset + width * self.index, height)
 
-            game_display.blit(image, text_rect)
+            game_display.blit(image, image_rect)
 
     def update_screen_scale(self):
         screen_size = Conf.screen_size
