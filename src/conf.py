@@ -7,7 +7,7 @@ from src.glock import Glock
 
 
 class Conf:
-    screen_size: tuple[float] = (1920, 1080)
+    screen_size: tuple[float] = (1280, 720)
     total_amount_person: int = 1000
     max_floor: int = 15
     show_plots: bool = False
@@ -25,12 +25,19 @@ class LogData:
 
     def __init__(self):
         self.tact = Glock.tact
-        self.person_per_floor = [(i, 0) for i in range(0, Conf.max_floor)]
+        self.person_per_floor = [0 for i in range(0, Conf.max_floor)]
 
     def get_line(self) -> list[str]:
         line: list[str] = list()
         line += [self.tact]
         line += self.person_per_floor
+        return line
+
+    @classmethod
+    def get_header(cls) -> list[str]:
+        line: list[str] = list()
+        line += ["tact"]
+        line += [f"floor {i}" for i in range(0, Conf.max_floor)]
         return line
 
 
@@ -60,12 +67,15 @@ class Log:
         cls.currentData = LogData()
         cls.allData = list()
 
+        with open(cls.csv, "a", newline='') as csv_file:
+            writer = csv.writer(csv_file, delimiter=',')
+            writer.writerow(LogData.get_header())
+
     @classmethod
     def log(cls):
         if Glock.tact > cls.currentData.tact:
             with open(cls.csv, "a", newline='') as csv_file:
                 writer = csv.writer(csv_file, delimiter=',')
                 writer.writerow(cls.currentData.get_line())
-                # writer.writerow(cls.currentData.get_line())
             cls.allData.append(cls.currentData)
             cls.currentData = LogData()

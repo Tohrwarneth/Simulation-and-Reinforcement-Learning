@@ -35,12 +35,13 @@ class GuiManager:
 
         self.background_image = pygame.image.load('images/FahrstuhlLayout.png')
         self.background_image.convert()
+        self.update_screen_scale()
 
         self.gameDisplay.fill("pink")
         pygame.display.set_caption('Aufzugs Simulator')
 
         gui_glock = GuiGlock()
-        self.addGuiObject(gui_glock)
+        self.add_gui_object(gui_glock)
 
     def initObjects(self):
         for gui in self.guiObjects:
@@ -63,7 +64,7 @@ class GuiManager:
         for gui in self.guiObjects:
             gui.update_screen_scale()
 
-    def addGuiObject(self, object: IGuiObject) -> None:
+    def add_gui_object(self, object: IGuiObject) -> None:
         self.guiObjects.append(object)
 
     def frame(self, delta_time: float) -> bool:
@@ -108,10 +109,10 @@ class GuiManager:
                 elif event.key == pygame.K_ESCAPE:
                     self.running = False
             if event.type == pygame.VIDEORESIZE:
-                # There's some code to add back window content here.
                 width = event.w
                 height = event.h
                 Conf.screen_size = (width, height)
+                self.update_screen_scale()
                 self.gameDisplay = pygame.display.set_mode((width, height),
                                                            pygame.RESIZABLE)
                 self.update_screen_scale()

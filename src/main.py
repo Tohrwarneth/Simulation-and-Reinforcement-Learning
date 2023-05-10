@@ -26,14 +26,14 @@ class Simulation:
         if show_gui:
             self.guiManager = GuiManager(step_gui)
             gui_element = GuiFloor()
-            self.guiManager.addGuiObject(gui_element)
+            self.guiManager.add_gui_object(gui_element)
 
         self.logicManager = LogicManager(gui_floor=gui_element)
 
         for i in range(0, 3):
             if show_gui:
                 gui_element = GuiElevator(i)
-                self.guiManager.addGuiObject(gui_element)
+                self.guiManager.add_gui_object(gui_element)
             elevator: Elevator = Elevator(gui=gui_element)
             self.logicManager.addElevator(elevator)
 

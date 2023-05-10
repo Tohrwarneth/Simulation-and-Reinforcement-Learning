@@ -16,7 +16,7 @@ class PersonManager:
     to_lunch: list[Person] = list()
     to_work1: list[Person] = list()
     to_home: list[Person] = list()
-    person_floor: list[tuple[int, int]]
+    person_floor: list[tuple[int, int]] # hoch, runter
     gui: GuiFloor
 
     def __init__(self):
@@ -39,13 +39,7 @@ class PersonManager:
             plt.show()
             plt.savefig(f'{Conf.plot_path}/Etagenverteilung.png')
 
-        self.person_floor = [(0, 0) for i in range(0, Conf.max_floor)]
-        # TODO: Remove random
-        # random.seed(a=None, version=2)
-        # for i in range(0, Conf.max_floor):
-        #     self.person_floor.append((random.randint(0, 100), random.randint(1, 100)))
-        # self.person_floor[10] = (1, 0)
-        # self.person_floor[5] = (0, 2)
+        self.person_floor = [(1,0) for i in range(0, Conf.max_floor)]
 
     def init(self, gui: GuiFloor = None):
         self.gui = gui
