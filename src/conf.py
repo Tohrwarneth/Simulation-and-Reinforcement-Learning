@@ -57,7 +57,7 @@ class Log:
     csv: str
     currentData: LogData
     allData: list[LogData]
-    log_limits: int = 10
+    log_limits: int = 5
 
     @classmethod
     def init(cls):

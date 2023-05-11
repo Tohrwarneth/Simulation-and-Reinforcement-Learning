@@ -50,7 +50,7 @@ class GuiManager:
 
     def update(self, delta_time: float):
         for gui in self.guiObjects:
-            gui.update(self.dt)
+            gui.update(delta_time)
 
     def render(self):
         self.gameDisplay.blit(self.background_image, (0, 0))

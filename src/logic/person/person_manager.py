@@ -51,8 +51,14 @@ class PersonManager:
         return header
 
     def update(self, tact: int) -> list:
-        log_data = self.person_floor
+        log_data: list = list()
+        log_data += self.person_floor
         if not self.gui == None:
             self.gui.person_floor = self.person_floor
-        log_data += [self.to_building]
+
+        tmp = ""
+        for person in self.to_building:
+            tmp += f"{person}\n"
+        tmp = f"\"{tmp}\""
+        log_data += [tmp]
         return log_data

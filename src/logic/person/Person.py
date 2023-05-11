@@ -30,4 +30,4 @@ class Person:
                     self.targetFloor = 10 if floor >= 10 or floor >= 7 else 5
 
     def __repr__(self):
-        return f"\"{self.index},{self.targetFloor},{self.homeFloor},{self.currentFloor},{self.dayState}\""
+        return f"{self.index},{self.targetFloor},{self.homeFloor},{self.currentFloor},{self.dayState}"

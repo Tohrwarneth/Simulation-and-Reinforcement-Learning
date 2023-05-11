@@ -13,7 +13,8 @@ class GuiFloor:
         pass
 
     def update(self, person_floor: list[tuple[int, int]]) -> None:
-        self.person_number = person_floor
+        # self.person_floor = person_floor
+        pass
 
     def render(self, game_display: pygame.Surface) -> None:
         self.drawFloor(game_display, 0)
