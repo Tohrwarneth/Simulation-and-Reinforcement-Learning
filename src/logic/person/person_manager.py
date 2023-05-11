@@ -3,7 +3,7 @@ import random
 import numpy as np
 import scipy
 
-from src.conf import Conf
+from src.conf import Conf, LogData
 from src.logic.person.Person import Person
 import matplotlib.pyplot as plt
 
@@ -28,7 +28,7 @@ class PersonManager:
         persons = [i for i in range(0, max_floor)]
         for i in range(0, total_person):
             target_floor: int = int(target_floors[i])
-            person = Person(target_floor)
+            person = Person(i, target_floor)
             self.to_building.append(person)
             persons[target_floor] += 1
 
@@ -39,11 +39,20 @@ class PersonManager:
             plt.show()
             plt.savefig(f'{Conf.plot_path}/Etagenverteilung.png')
 
-        self.person_floor = [(1, 1) for i in range(0, Conf.max_floor)]
+        self.person_floor = [(0, 0) for i in range(0, Conf.max_floor)]
 
     def init(self, gui: GuiFloor = None):
         self.gui = gui
 
-    def update(self):
+    @staticmethod
+    def get_log_header() -> list[str]:
+        header: list[str] = [f"floor: {i}" for i in range(0, Conf.max_floor)]
+        header += ["to building"]
+        return header
+
+    def update(self, tact: int) -> list:
+        log_data = self.person_floor
         if not self.gui == None:
             self.gui.person_floor = self.person_floor
+        log_data += [self.to_building]
+        return log_data

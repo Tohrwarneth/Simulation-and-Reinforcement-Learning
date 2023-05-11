@@ -1,13 +1,13 @@
 import sys
 from time import time
 
-from src.conf import Conf, Log
+from src.conf import Conf, Log, LogData
 from src.logic.elevator.Elevator import Elevator
 from logic.LogicManager import LogicManager
 from src.ui.GuiFloor import GuiFloor
 from src.ui.elevator.GuiElevator import GuiElevator
 from ui.GuiManager import GuiManager
-from src.glock import Glock
+from src.clock import Clock
 
 
 class Simulation:
@@ -18,7 +18,6 @@ class Simulation:
     logicManager: LogicManager
 
     def __init__(self, show_gui: bool, step_gui: bool):
-        Log.init()
         self.skipped = Conf.skip == 0
         self.show_gui = show_gui
         self.step_gui = step_gui
@@ -34,34 +33,43 @@ class Simulation:
             if show_gui:
                 gui_element = GuiElevator(i)
                 self.guiManager.add_gui_object(gui_element)
-            elevator: Elevator = Elevator(gui=gui_element)
-            self.logicManager.addElevator(elevator)
+            elevator: Elevator = Elevator(i, gui=gui_element)
+            self.logicManager.add_elevator(elevator)
 
         if show_gui:
             self.guiManager.initObjects()
 
+        LogData.add_header(self.logicManager.get_log_header())
+        Log.init()
+
     def run(self):
-        delta_time: float = 1
+        delta_time: float = 0
+        old_tact: int = 0
         running: bool = True
+        self.logicManager.update(0)
         if not self.skipped:
             Conf.speed_scale = 256
 
+        t_old = time()
         while running:
-            t0 = time()
-            h, _ = Glock.get_time()
+            t_new = time()
+            h, s = Clock.get_time()
             if not self.skipped and h == Conf.skip:
                 Conf.speed_scale = 1
                 self.skipped = True
-            self.logicManager.update()
+
+            for tact in range(old_tact, Clock.tact):
+                log_data: LogData = self.logicManager.update(tact)
+                Log.log(log_data)
 
             if self.show_gui:
                 running = self.guiManager.frame(delta_time)
 
-            t1 = time()
-            delta_time = (t1 - t0) * Conf.speed_scale if self.show_gui else 1
-            Glock.add_delta(delta_time)
-            Log.log()
-            if Glock.end_of_day:
+            delta_time = (t_new - t_old) * Conf.speed_scale if self.show_gui else 1
+            t_old = t_new
+            old_tact = Clock.tact
+            Clock.add_delta(delta_time)
+            if Clock.end_of_day:
                 break
 
         self.shutdown()
@@ -81,7 +89,7 @@ if __name__ == '__main__':
             showGui = value != "false" and value != "False"
         elif param.__contains__("plots="):
             value = param[6:]
-            Conf.show_plots = value != "true" and value != "True"
+            Conf.show_plots = value == "true" or value == "True"
         elif param.__contains__("step="):
             value = param[5:]
             step_gui = value != "true" and value != "True"

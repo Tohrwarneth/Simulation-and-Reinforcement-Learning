@@ -3,12 +3,14 @@ from ..states import DayState
 
 
 class Person:
+    index: int
     homeFloor: int
     targetFloor: int
     currentFloor: int
     dayState: DayState
 
-    def __init__(self, targetFloor: int):
+    def __init__(self, index: int, targetFloor: int):
+        self.index = index
         self.targetFloor = targetFloor
         self.homeFloor = targetFloor
         self.currentFloor = 0
@@ -26,3 +28,6 @@ class Person:
                 elif self.dayState == DayState.PRE_LUNCH:
                     # Gehe Mittagessen
                     self.targetFloor = 10 if floor >= 10 or floor >= 7 else 5
+
+    def __repr__(self):
+        return f"\"{self.index},{self.targetFloor},{self.homeFloor},{self.currentFloor},{self.dayState}\""

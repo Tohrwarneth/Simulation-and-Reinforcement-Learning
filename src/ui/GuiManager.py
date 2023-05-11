@@ -5,7 +5,7 @@ from .IGuiObject import IGuiObject
 from typing import List
 
 from src.conf import Conf
-from src.glock import Glock
+from src.clock import Clock
 
 
 class GuiManager:
@@ -86,7 +86,7 @@ class GuiManager:
         # # independent physics.
         # self.dt = self.clock.tick(60) / 1000
 
-        while Glock.end_of_day:
+        while Clock.end_of_day:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                         break

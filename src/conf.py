@@ -3,7 +3,7 @@ from datetime import datetime
 
 import pygame
 
-from src.glock import Glock
+from src.clock import Clock
 
 
 class Conf:
@@ -23,24 +23,30 @@ class Conf:
 
 class LogData:
     tact: int = 0
-    person_per_floor: list[tuple]
+    header: list[str] = list()
+    data: list
 
-    def __init__(self):
-        self.tact = Glock.tact
-        self.person_per_floor = [0 for i in range(0, Conf.max_floor)]
+    def __init__(self, tact: int):
+        self.tact = tact
+        self.person_per_floor = [(0, 0) for i in range(0, Conf.max_floor)]
 
     def get_line(self) -> list[str]:
-        line: list[str] = list()
-        line += [self.tact]
-        line += self.person_per_floor
+        line: list = [self.tact]
+        line += self.data
         return line
 
     @classmethod
     def get_header(cls) -> list[str]:
-        line: list[str] = list()
-        line += ["tact"]
-        line += [f"floor {i}" for i in range(0, Conf.max_floor)]
+        line = ["tact"]
+        line += cls.header
         return line
+
+    def add_data(self, data):
+        self.data = data
+
+    @classmethod
+    def add_header(cls, header):
+        cls.header = header
 
 
 from pathlib import Path
@@ -66,7 +72,6 @@ class Log:
             os.remove(f"{Conf.log_path}/{logs[0]}")
             logs.remove((logs[0]))
 
-        cls.currentData = LogData()
         cls.allData = list()
 
         with open(cls.csv, "a", newline='') as csv_file:
@@ -74,10 +79,8 @@ class Log:
             writer.writerow(LogData.get_header())
 
     @classmethod
-    def log(cls):
-        if Glock.tact > cls.currentData.tact:
-            with open(cls.csv, "a", newline='') as csv_file:
-                writer = csv.writer(csv_file, delimiter=',')
-                writer.writerow(cls.currentData.get_line())
-            cls.allData.append(cls.currentData)
-            cls.currentData = LogData()
+    def log(cls, data: LogData):
+        with open(cls.csv, "a", newline='') as csv_file:
+            writer = csv.writer(csv_file, delimiter=',')
+            writer.writerow(data.get_line())
+        cls.allData.append(data)

@@ -1,4 +1,4 @@
-class Glock:
+class Clock:
     time_in_sec: float = 0
     tact: int = 0
     end_of_day: bool = False

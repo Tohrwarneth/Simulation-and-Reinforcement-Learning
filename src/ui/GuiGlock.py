@@ -1,7 +1,7 @@
 import pygame
 
 from src.conf import Conf
-from src.glock import Glock
+from src.clock import Clock
 from src.ui.IGuiObject import IGuiObject
 
 
@@ -16,7 +16,7 @@ class GuiGlock(IGuiObject):
         pass
 
     def update(self, delta_time: float) -> None:
-        h, m = Glock.get_time()
+        h, m = Clock.get_time()
         self.text = f"{h:02d}:{m:02d}"
 
     def render(self, game_display: pygame.Surface) -> None:
