@@ -1,5 +1,6 @@
 from pygame import Rect
 
+from src.logic.states import ElevatorState
 from src.ui.IGuiObject import IGuiObject
 import pygame
 
@@ -12,6 +13,7 @@ from src.ui.elevator.GuiStatus import GUIStatus
 class GuiElevator(IGuiObject):
     capacity: int
     index: int
+    state: ElevatorState
     currentFloor: int = 0
     target_floor: int = 0
     person_floor: tuple[int, int]
@@ -42,7 +44,7 @@ class GuiElevator(IGuiObject):
             job.init()
 
     def update(self, delta_time: float) -> None:
-        self.statusGUI.update(self.currentFloor, self.target_floor)
+        self.statusGUI.update(self.currentFloor, self.target_floor, self.state)
         self.capacityGUI.update(delta_time)
         self.floorGUI.update(self.person_floor)
         for job in self.jobsGUI:

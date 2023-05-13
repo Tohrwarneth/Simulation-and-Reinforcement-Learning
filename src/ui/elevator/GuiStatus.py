@@ -1,12 +1,14 @@
 import pygame
 
 from src.conf import Conf
+from src.logic.states import ElevatorState
 
 
 class GUIStatus:
     index: int
     currentFloor: int
     target_floor: int
+    state: ElevatorState
     position: tuple[float, float]
     offset: float
 
@@ -27,9 +29,10 @@ class GUIStatus:
     def init(self) -> None:
         pass
 
-    def update(self, floor: int, target_floor: int) -> None:
+    def update(self, floor: int, target_floor: int, state: ElevatorState) -> None:
         self.currentFloor = floor
         self.target_floor = target_floor
+        self.state = state
 
     def render(self, game_display: pygame.Surface) -> None:
         sw, sh = Conf.screen_scale
@@ -61,12 +64,33 @@ class GUIStatus:
 
             x, _ = Conf.screen_size
             width = self.position[0]
-            offset = x/55
+            offset = x / 55
             height = self.position[1] - 5
 
-            text_rect: pygame.Rect = image.get_rect()
-            text_rect.center = (offset + width, height)
+            image_rect: pygame.Rect = image.get_rect()
+            image_rect.center = (offset + width, height)
+            game_display.blit(image, image_rect)
 
-            # TODO: Aufzug State links angeben
+        if self.state == ElevatorState.WAIT:
+            state_text = 'Warten'
+        elif self.state == ElevatorState.UP:
+            state_text = 'Hoch'
+        elif self.state == ElevatorState.DOWN:
+            state_text = 'Runter'
+        else:
+            state_text = self.state
+        text_surface = Conf.font_small. \
+            render(f"{state_text}", True, "black")
+        text_surface = \
+            pygame.transform.scale(
+                text_surface,
+                (text_surface.get_width() * sw, text_surface.get_height() * sh))
 
-            game_display.blit(image, text_rect)
+        x, _ = Conf.screen_size
+        width = self.position[0]
+        offset = x / 30
+        height = self.position[1]
+
+        text_rect = text_surface.get_rect()
+        text_rect.center = (width - offset, height)
+        game_display.blit(text_surface, text_rect)

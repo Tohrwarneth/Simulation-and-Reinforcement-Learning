@@ -1,6 +1,8 @@
 import sys
 from time import time
 
+import simpy
+
 from src.conf import Conf, Log, LogData
 from src.logic.elevator.Elevator import Elevator
 from logic.LogicManager import LogicManager
@@ -16,24 +18,26 @@ class Simulation:
     skipped: bool
     guiManager: GuiManager
     logicManager: LogicManager
+    env: simpy.Environment
 
     def __init__(self, show_gui: bool, step_gui: bool):
         self.skipped = Conf.skip == 0
         self.show_gui = show_gui
         self.step_gui = step_gui
+        self.env = simpy.Environment()
         gui_element = None
         if show_gui:
             self.guiManager = GuiManager(step_gui)
             gui_element = GuiFloor()
             self.guiManager.add_gui_object(gui_element)
 
-        self.logicManager = LogicManager(gui_floor=gui_element)
+        self.logicManager = LogicManager(self.env, gui=gui_element)
 
         for i in range(0, 3):
             if show_gui:
                 gui_element = GuiElevator(i)
                 self.guiManager.add_gui_object(gui_element)
-            elevator: Elevator = Elevator(i, gui=gui_element)
+            elevator: Elevator = Elevator(i, env=self.env, gui=gui_element)
             self.logicManager.add_elevator(elevator)
 
         if show_gui:

@@ -6,3 +6,9 @@ class DayState(Enum):
     PRE_LUNCH = 2
     POST_LUNCH = 3
     EVENING = 4
+
+
+class ElevatorState(Enum):
+    WAIT = 1
+    UP = 2
+    DOWN = 3

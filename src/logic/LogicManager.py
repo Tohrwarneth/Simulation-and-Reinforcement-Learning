@@ -1,3 +1,5 @@
+import simpy
+
 from .elevator.Elevator import Elevator
 from .person.person_manager import PersonManager
 from src.ui.GuiFloor import GuiFloor
@@ -5,12 +7,14 @@ from src.conf import LogData
 
 
 class LogicManager:
+    env: simpy.Environment
     person_manager: PersonManager
     elevators: list[Elevator]
 
-    def __init__(self, gui_floor: GuiFloor = None):
+    def __init__(self, env: simpy.Environment, gui: GuiFloor = None):
+        self.env = env
         self.person_manager = PersonManager()
-        self.person_manager.init(gui=gui_floor)
+        self.person_manager.init(gui=gui)
         self.elevators = list()
         self.person_floor = self.person_manager.person_floor
 
