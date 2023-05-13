@@ -180,7 +180,7 @@ cython_debug/
 .idea/**/libraries
 
 generated/**/tmp
-src/log
+src/logs
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
