@@ -2,7 +2,7 @@ import pygame
 from src.conf import Conf
 
 
-class GuiFloor:
+class GuiElevatorFloor:
     index: int
     position: tuple[float, float]
     person_number: tuple[int, int] = (0, 0)

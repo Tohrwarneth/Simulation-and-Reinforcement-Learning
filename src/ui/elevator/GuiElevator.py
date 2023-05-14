@@ -5,7 +5,7 @@ from src.ui.IGuiObject import IGuiObject
 import pygame
 
 from src.ui.elevator.GuiCapacity import GuiCapacity
-from src.ui.elevator.GuiFloor import GuiFloor
+from src.ui.elevator.GuiElevatorFloor import GuiElevatorFloor
 from src.ui.elevator.GuiJobs import GUIJobs
 from src.ui.elevator.GuiStatus import GUIStatus
 
@@ -23,14 +23,14 @@ class GuiElevator(IGuiObject):
     statusGUI: GUIStatus
     jobsGUI: list[GUIJobs]
     capacityGUI: GuiCapacity
-    floorGUI: GuiFloor
+    floorGUI: GuiElevatorFloor
 
     def __init__(self, index: int):
         self.index = index
         self.jobs = list()
         self.statusGUI = GUIStatus(index, self.currentFloor)
         self.capacityGUI = GuiCapacity(index)
-        self.floorGUI = GuiFloor(index)
+        self.floorGUI = GuiElevatorFloor(index)
         self.jobsGUI = list()
         self.person_floor = (0, 0)
         for i in range(0, 5):

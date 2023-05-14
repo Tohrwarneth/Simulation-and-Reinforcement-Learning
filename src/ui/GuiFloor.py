@@ -1,10 +1,12 @@
 import pygame
+import simpy
+
 from src.conf import Conf
 
 
 class GuiFloor:
     position: tuple[float, float]
-    person_floor: list[tuple[int, int]]
+    person_floor: list[tuple[simpy.Store, simpy.Store]]
 
     def __init__(self):
         self.update_screen_scale()
@@ -22,8 +24,8 @@ class GuiFloor:
 
     def drawFloor(self, game_display, direction: int):
         sw, sh = Conf.screen_scale
-        for index, floor in enumerate(self.person_floor):
-            if floor[direction] > 0:
+        for index, floor in enumerate(self.person_floor[direction].__reversed__()):
+            if len(floor.items) > 0:
                 if direction == 0:
                     image_arrow = pygame.image.load('images/Pfeil_hoch.png')
                 else:

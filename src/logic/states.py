@@ -6,6 +6,7 @@ class DayState(Enum):
     PRE_LUNCH = 2
     POST_LUNCH = 3
     EVENING = 4
+    AT_HOME = 5
 
 
 class ElevatorState(Enum):

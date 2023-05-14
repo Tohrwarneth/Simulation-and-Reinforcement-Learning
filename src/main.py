@@ -37,7 +37,7 @@ class Simulation:
             if show_gui:
                 gui_element = GuiElevator(i)
                 self.guiManager.add_gui_object(gui_element)
-            elevator: Elevator = Elevator(i, env=self.env, gui=gui_element)
+            elevator: Elevator = Elevator(self.logicManager, i, env=self.env, gui=gui_element)
             self.logicManager.add_elevator(elevator)
 
         if show_gui:
@@ -79,6 +79,7 @@ class Simulation:
         self.shutdown()
 
     def shutdown(self):
+        self.logicManager.eod()
         if self.show_gui:
             self.guiManager.shutdown()
 
