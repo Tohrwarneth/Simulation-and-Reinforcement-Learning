@@ -29,6 +29,7 @@ class PersonManager:
     rng: numpy.random.Generator
 
     def __init__(self, env: simpy.Environment):
+        self.rng = default_rng()
         total_person = Conf.total_amount_person
         max_floor = Conf.max_floor
         target_floors = scipy.stats.uniform.rvs(loc=1, scale=max_floor - 2, size=total_person)
@@ -80,11 +81,10 @@ class PersonManager:
         self.person_floor_up[0].put(person)
 
     def spawn(self):
-        rng = default_rng()
         k = (Clock.get_peak() / 2.0) ** 2
         if not k == 0:
             theta = Clock.get_peak() / k
-            gamma = rng.gamma(k, theta)
+            gamma = self.rng.gamma(k, theta)
         else:
             gamma = 0
         self.gamma.append(gamma)

@@ -69,9 +69,12 @@ class LogicManager:
             return
 
     def eod(self):
+        gamma = self.person_manager.gamma
+        print(sum(gamma[0:650]))
+        print(sum(gamma[650:800]))
         # Draw Spawn Gamma
         if Conf.show_plots:
-            plt.plot([j for j in range(0, 24 * 60)], self.person_manager.gamma, linewidth=2, color='r')
+            plt.plot([j for j in range(0, 24 * 60)], gamma, linewidth=2, color='r')
             plt.xlabel('Zeit ins Sekunden')
             plt.ylabel('Gamma')
             plt.show()
