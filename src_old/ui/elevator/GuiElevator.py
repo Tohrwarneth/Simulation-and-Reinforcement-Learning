@@ -1,17 +1,17 @@
 from pygame import Rect
 
-from src.logic.states import ElevatorState
-from src.ui.IGuiObject import IGuiObject
+from src_old.logic.states import ElevatorState
+from src_old.ui.IGuiObject import IGuiObject
 import pygame
 
-from src.ui.elevator.GuiCapacity import GuiCapacity
-from src.ui.elevator.GuiElevatorFloor import GuiElevatorFloor
-from src.ui.elevator.GuiJobs import GUIJobs
-from src.ui.elevator.GuiStatus import GUIStatus
+from src_old.ui.elevator.GuiCapacity import GuiCapacity
+from src_old.ui.elevator.GuiElevatorFloor import GuiElevatorFloor
+from src_old.ui.elevator.GuiJobs import GUIJobs
+from src_old.ui.elevator.GuiStatus import GUIStatus
 
 
 class GuiElevator(IGuiObject):
-    capacity: int
+    passengers: int
     index: int
     state: ElevatorState
     currentFloor: int = 0
@@ -33,6 +33,7 @@ class GuiElevator(IGuiObject):
         self.floorGUI = GuiElevatorFloor(index)
         self.jobsGUI = list()
         self.person_floor = (0, 0)
+        self.state = ElevatorState.WAIT
         for i in range(0, 5):
             self.jobsGUI.append(GUIJobs(index, i))
 
@@ -45,6 +46,7 @@ class GuiElevator(IGuiObject):
 
     def update(self, delta_time: float) -> None:
         self.statusGUI.update(self.currentFloor, self.target_floor, self.state)
+        self.capacityGUI.person_number = self.passengers
         self.capacityGUI.update(delta_time)
         self.floorGUI.update(self.person_floor)
         for job in self.jobsGUI:

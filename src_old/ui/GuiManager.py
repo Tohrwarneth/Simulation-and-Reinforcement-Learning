@@ -4,8 +4,8 @@ from .GuiGlock import GuiGlock
 from .IGuiObject import IGuiObject
 from typing import List
 
-from src.conf import Conf
-from src.clock import Clock
+from src_old.conf import Conf
+from src_old.clock import Clock
 
 
 class GuiManager:
@@ -70,12 +70,12 @@ class GuiManager:
     def add_gui_object(self, object: IGuiObject) -> None:
         self.guiObjects.append(object)
 
-    def frame(self, delta_time: float) -> bool:
+    def frame(self) -> bool:
         # poll for events
         # pygame.QUIT event means the user clicked X to close your window
         self.handle_input()
 
-        self.update(delta_time)
+        self.update(Clock.delta_time)
 
         self.render()
         # flip() the display to put your work on screen

@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/../Florian Sim/.idea/Florian Sim.iml" filepath="$PROJECT_DIR$/../Florian Sim/.idea/Florian Sim.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Simulation_ReinforcementLearning.iml" filepath="$PROJECT_DIR$/.idea/Simulation_ReinforcementLearning.iml" />
     </modules>
   </component>

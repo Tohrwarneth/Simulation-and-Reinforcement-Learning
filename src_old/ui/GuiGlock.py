@@ -1,8 +1,8 @@
 import pygame
 
-from src.conf import Conf
-from src.clock import Clock
-from src.ui.IGuiObject import IGuiObject
+from src_old.conf import Conf
+from src_old.clock import Clock
+from src_old.ui.IGuiObject import IGuiObject
 
 
 class GuiGlock(IGuiObject):

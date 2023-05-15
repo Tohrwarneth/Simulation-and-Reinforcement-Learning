@@ -1,7 +1,7 @@
 import pygame
 import simpy
 
-from src.conf import Conf
+from src_old.conf import Conf
 
 
 class GuiFloor:
@@ -15,7 +15,6 @@ class GuiFloor:
         pass
 
     def update(self, person_floor: list[tuple[int, int]]) -> None:
-        # self.person_floor = person_floor
         pass
 
     def render(self, game_display: pygame.Surface) -> None:

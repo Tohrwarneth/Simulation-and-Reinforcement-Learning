@@ -1,5 +1,5 @@
 import pygame
-from src.conf import Conf
+from src_old.conf import Conf
 
 
 class GuiElevatorFloor:

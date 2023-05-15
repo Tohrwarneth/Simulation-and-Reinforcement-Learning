@@ -1,7 +1,7 @@
 import pygame
 
-from src.conf import Conf
-from src.logic.states import ElevatorState
+from src_old.conf import Conf
+from src_old.logic.states import ElevatorState
 
 
 class GUIStatus:

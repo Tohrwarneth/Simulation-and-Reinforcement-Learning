@@ -3,28 +3,31 @@ from time import time
 
 import simpy
 
-from src.conf import Conf, Log, LogData
-from src.logic.elevator.Elevator import Elevator
+from src_old.conf import Conf, Log, LogData
+from src_old.logic.elevator.Elevator import Elevator
 from logic.LogicManager import LogicManager
-from src.ui.GuiFloor import GuiFloor
-from src.ui.elevator.GuiElevator import GuiElevator
+from src_old.ui.GuiFloor import GuiFloor
+from src_old.ui.elevator.GuiElevator import GuiElevator
 from ui.GuiManager import GuiManager
-from src.clock import Clock
+from src_old.clock import Clock
 
 
 class Simulation:
     show_gui: bool = True
     step_gui: bool = False
     skipped: bool
+    running: bool = True
     guiManager: GuiManager
     logicManager: LogicManager
     env: simpy.Environment
 
     def __init__(self, show_gui: bool, step_gui: bool):
+        self.running = True
         self.skipped = Conf.skip == 0
         self.show_gui = show_gui
         self.step_gui = step_gui
         self.env = simpy.Environment()
+
         gui_element = None
         if show_gui:
             self.guiManager = GuiManager(step_gui)
@@ -45,38 +48,43 @@ class Simulation:
 
         LogData.add_header(self.logicManager.get_log_header())
         Log.init()
+        Clock.env = self.env
+        self.env.process(self.run())
 
     def run(self):
-        delta_time: float = 0
         old_tact: int = 0
-        running: bool = True
-        self.logicManager.update(0)
         if not self.skipped:
             Conf.speed_scale = 256
 
         t_old = time()
-        while running:
+        while self.running:
             t_new = time()
-            h, s = Clock.get_time()
+            h, m = Clock.get_time()
             if not self.skipped and h == Conf.skip:
                 Conf.speed_scale = 1
                 self.skipped = True
 
-            for tact in range(old_tact, Clock.tact):
-                log_data: LogData = self.logicManager.update(tact)
-                Log.log(log_data)
-
+            log = self.logicManager.update()
+            if not old_tact == int(self.env.now):
+                Log.log(log)
             if self.show_gui:
-                running = self.guiManager.frame(delta_time)
+                self.running = self.guiManager.frame()
 
-            delta_time = (t_new - t_old) * Conf.speed_scale if self.show_gui else 1
+            # delta_time = (t_new - t_old) * Conf.speed_scale if self.show_gui else 1
+            self.delta_time = 0.01 * Conf.speed_scale if self.show_gui else 1
             t_old = t_new
-            old_tact = Clock.tact
-            Clock.add_delta(delta_time)
+            Clock.add_delta(self.delta_time)
             if Clock.end_of_day:
                 break
+            old_tact = Clock.tact
+            yield self.env.timeout(Clock.delta_time)
 
         self.shutdown()
+
+    def draw_gui_frame(self):
+        while self.running:
+            self.running = self.guiManager.frame()
+            yield self.env.timeout(Clock.delta_time)
 
     def shutdown(self):
         self.logicManager.eod()
@@ -105,5 +113,5 @@ if __name__ == '__main__':
     if not showGui and step_gui:
         step_gui = False
     simulation = Simulation(showGui, step_gui)
-
-    simulation.run()
+    simulation.env.run(until=24 * 60)
+    simulation.shutdown()

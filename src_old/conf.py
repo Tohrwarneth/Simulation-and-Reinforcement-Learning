@@ -2,15 +2,15 @@ import csv
 from datetime import datetime
 
 import pygame
-from pathlib import Path
-import os
+
+from src_old.clock import Clock
 
 
 class Conf:
     screen_size: tuple[float] = (1280, 720)
     screen_origin_size: tuple[float] = (1920, 1080)
     screen_scale: tuple[float] = (1, 1)
-    total_amount_person: int = 100
+    total_amount_person: int = 250
     max_floor: int = 15
     show_plots: bool = False
     plot_path: str = "../paper/simulation/images"
@@ -19,8 +19,6 @@ class Conf:
     font_small: pygame.font
     skip: int = 0  # bis zur wievielten Stunde vorgespult werden soll
     speed_scale: int = 1
-    peakTimes = [(8 * 60, 1), (13 * 60, 1), (17 * 60, 1)]
-    deltaTime: float = 0.1
 
 
 class LogData:
@@ -49,6 +47,10 @@ class LogData:
     @classmethod
     def add_header(cls, header):
         cls.header = header
+
+
+from pathlib import Path
+import os
 
 
 class Log:
