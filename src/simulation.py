@@ -1,10 +1,10 @@
 import numpy as np
 import simpy
 
-from src.conf import Conf
+from src.utils import Conf
 from src.logic.elevator import Elevator
 from src.logic.person_manager import PersonManager
-from src.ui.ui_manager import UIManager
+from src.ui.gui_manager import GuiManager
 
 
 class Simulation:
@@ -22,12 +22,12 @@ class Simulation:
                                             self.QueDownward)
 
         self.elevatorList = [
-            Elevator(capacity=eleCap, speed=eleSpeed, waitingTime=eleWaitingTime, enviroment=self.env,
+            Elevator(i, capacity=eleCap, speed=eleSpeed, waitingTime=eleWaitingTime, enviroment=self.env,
                      QueUpward=self.QueUpward, QueDownward=self.QueDownward)
-            for _ in range(3)]
+            for i in range(3)]
         if visualize:
-            self.ui_manager = UIManager(self.env, self.elevatorList, self.QueUpward,
-                                        self.QueUpward)
+            self.ui_manager = GuiManager(self.env, self.elevatorList, self.QueUpward,
+                                         self.QueUpward)
             self.env.process(self.ui_manager.draw())
 
     def getState(self):

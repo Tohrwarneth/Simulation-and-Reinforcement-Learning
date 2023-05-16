@@ -27,6 +27,7 @@ class GuiManager:
         pygame.init()
         self.gameDisplay = pygame.display.set_mode(screen_size, pygame.RESIZABLE, vsync=1)
 
+
         self.clock = pygame.time.Clock()
         self.running = True
         self.dt = 0

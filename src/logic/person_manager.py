@@ -52,7 +52,7 @@ class PersonManager:
                     self.persons.remove(p)
                     continue
                 # Persons is already waiting in Que
-                if (p.startWaitingtime != None):
+                if (p.startWaitingTime != None):
                     continue
                 # task
                 time, floor = p.schedule[0]
@@ -60,12 +60,12 @@ class PersonManager:
                     if (floor - p.location > 0):
 
                         self.QueUpward[p.location].append(p)
-                        p.startWaitingtime = self.env.now
+                        p.startWaitingTime = self.env.now
                         # print(f"Time: {self.env.now} Person {p.id} was added to the UpwardQue on floor {p.location}")  # only prints in debug mode
                     elif (floor - p.location < 0):
                         # if (p not in self.QueDownward[p.location]):
                         self.QueDownward[p.location].append(p)
-                        p.startWaitingtime = self.env.now
+                        p.startWaitingTime = self.env.now
                         # print(f"Time: {self.env.now} Person {p.id} was added to the DownwardQue on floor {p.location}")  # only prints in debug mode
 
                     else:

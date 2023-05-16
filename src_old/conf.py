@@ -9,7 +9,7 @@ from src_old.clock import Clock
 class Conf:
     screen_size: tuple[float] = (1280, 720)
     screen_origin_size: tuple[float] = (1920, 1080)
-    screen_scale: tuple[float] = (1, 1)
+    screen_scale: tuple[float, float] = (1, 1)
     total_amount_person: int = 250
     max_floor: int = 15
     show_plots: bool = False

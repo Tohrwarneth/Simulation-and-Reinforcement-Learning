@@ -7,9 +7,9 @@ import os
 
 
 class Conf:
-    screen_size: tuple[float] = (1280, 720)
+    screenSize: tuple[float] = (1280, 720)
     screen_origin_size: tuple[float] = (1920, 1080)
-    screen_scale: tuple[float] = (1, 1)
+    screen_scale: tuple[float, float] = (1, 1)
     total_amount_person: int = 100
     max_floor: int = 15
     show_plots: bool = False
@@ -17,10 +17,19 @@ class Conf:
     log_path: str = "logs"
     font: pygame.font
     font_small: pygame.font
-    skip: int = 0  # bis zur wievielten Stunde vorgespult werden soll
-    speed_scale: int = 1
-    peakTimes = [(8 * 60, 1), (13 * 60, 1), (17 * 60, 1)]
     deltaTime: float = 0.1
+
+
+class Clock:
+    tact: int
+    time_in_min: float
+    skip: int = 0  # bis zur wievielten Stunde vorgespult werden soll
+    peakTimes = [(8 * 60, 1), (13 * 60, 1), (17 * 60, 1)]
+    speed_scale: int = 1
+
+    def add_time(self, min: float):
+        self.time_in_min += min
+        tact = int(self.time_in_min)
 
 
 class LogData:

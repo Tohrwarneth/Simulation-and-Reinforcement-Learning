@@ -1,13 +1,24 @@
-from src import Conf
+from src.utils import Conf
+from src.enums import ElevatorState
+from src.logic.person import Person
 
 
 class Elevator:
+    index: int
+    passengers: list[Person]
+    state: ElevatorState = ElevatorState.WAIT
+    position: int
+    direction: int
+    target: int
+    # TODO: zu job Ziel fahren und wenn auf dem Weg jmd. ist und Platz ist, einpacken.
+    #  Wenn nix zu tun, schau zuerst in deine ursprüngliche Richtung weiter, wenn da nix ist, dann unter dir.
 
-    def __init__(self, enviroment, QueUpward, QueDownward, capacity, speed=1, waitingTime=1, startPos=0):
+    def __init__(self, index: int, enviroment, QueUpward, QueDownward, capacity, speed=1, waitingTime=1, startPos=0):
+        self.index = index
         # private var
         self.env = enviroment
-        self.QueDown = QueDownward
-        self.QueUp = QueUpward
+        self.call_down = QueDownward
+        self.call_up = QueUpward
         self.waitingList = []
         self.passengers = []
         self.capacity = capacity
@@ -25,7 +36,7 @@ class Elevator:
         '''
         result = False
         for p in self.passengers:
-            if (p.schedule[0][1] == self.position):
+            if p.schedule[0][1] == self.position:
                 result = True
 
         return result
@@ -42,10 +53,10 @@ class Elevator:
         for p in self.passengers:
             if (p.schedule[0][1] == self.position):  # first task, location TODO use dict or docu better
                 p.schedule.pop(0)  # schedule task finished
-                self.waitingList.append(self.env.now - p.startWaitingtime)
+                self.waitingList.append(self.env.now - p.startWaitingTime)
 
                 # Personscontroller can see that the person is no longer waiting
-                p.startWaitingtime = None
+                p.startWaitingTime = None
                 p.location = self.position
                 self.passengers.remove(p)
 
@@ -56,49 +67,49 @@ class Elevator:
         '''
 
         if self.direction == 0:
-            while len(self.passengers) < self.capacity and (self.QueUp[self.position] or self.QueDown[self.position]):
-                if self.QueUp[self.position]:
-                    p = self.QueUp[self.position].pop(0)
+            while len(self.passengers) < self.capacity and (self.call_up[self.position] or self.call_down[self.position]):
+                if self.call_up[self.position]:
+                    p = self.call_up[self.position].pop(0)
                     self.passengers.append(p)
 
-                if self.QueDown[self.position]:
-                    p = self.QueDown[self.position].pop(0)
+                if self.call_down[self.position]:
+                    p = self.call_down[self.position].pop(0)
                     self.passengers.append(p)
         elif self.direction == 1:
-            while len(self.passengers) < self.capacity and self.QueUp[self.position]:
-                p = self.QueUp[self.position].pop(0)
+            while len(self.passengers) < self.capacity and self.call_up[self.position]:
+                p = self.call_up[self.position].pop(0)
                 self.passengers.append(p)
-            while len(self.passengers) < self.capacity and self.QueDown[self.position]:
-                p = self.QueDown[self.position].pop(0)
+            while len(self.passengers) < self.capacity and self.call_down[self.position]:
+                p = self.call_down[self.position].pop(0)
                 self.passengers.append(p)
         else:
-            while len(self.passengers) < self.capacity and self.QueDown[self.position]:
-                p = self.QueDown[self.position].pop(0)
+            while len(self.passengers) < self.capacity and self.call_down[self.position]:
+                p = self.call_down[self.position].pop(0)
                 self.passengers.append(p)
-            while len(self.passengers) < self.capacity and self.QueUp[self.position]:
-                p = self.QueUp[self.position].pop(0)
+            while len(self.passengers) < self.capacity and self.call_up[self.position]:
+                p = self.call_up[self.position].pop(0)
                 self.passengers.append(p)
 
     def isFloorRequested(self):
         '''
         checks if the Floor at the current position is requested
         '''
-        return (self.QueDown[self.position]
-                or self.QueUp[self.position]
+        return (self.call_down[self.position]
+                or self.call_up[self.position]
                 or any(p.schedule[0][1] == self.position for p in self.passengers))
 
     def isFloorRequestedUpwards(self):
         '''
         Returns: is a person waiting on the current floor to go upwards
         '''
-        return (self.QueUp[self.position]
+        return (self.call_up[self.position]
                 or any(p.schedule[0][1] == self.position for p in self.passengers))
 
     def isFloorRequestedDownwards(self):
         '''
         Returns: is a person waiting on the current floor to go downwards
         '''
-        return (self.QueDown[self.position]
+        return (self.call_down[self.position]
                 or any(p.schedule[0][1] == self.position for p in self.passengers))
 
     def isFloorAboveRequested(self):
@@ -109,8 +120,8 @@ class Elevator:
         if any(p.schedule[0][1] > self.position for p in self.passengers):
             result = True
 
-        for i in range(self.position + 1, len(self.QueUp)):
-            if (self.QueUp[i] or self.QueDown[i]):
+        for i in range(self.position + 1, len(self.call_up)):
+            if (self.call_up[i] or self.call_down[i]):
                 result = True
 
         return result
@@ -124,8 +135,8 @@ class Elevator:
         if any(p.schedule[0][1] > self.position for p in self.passengers):
             result = True
 
-        for i in range(self.position + 1, len(self.QueUp)):
-            if (self.QueUp[i]):
+        for i in range(self.position + 1, len(self.call_up)):
+            if (self.call_up[i]):
                 result = True
 
         return result
@@ -139,7 +150,7 @@ class Elevator:
             result = True
 
         for i in range(self.position):  # TODO numOfFloors as attribute
-            if self.QueDown[i] or self.QueUp[i]:
+            if self.call_down[i] or self.call_up[i]:
                 result = True
 
         return result
@@ -154,7 +165,7 @@ class Elevator:
             result = True
 
         for i in range(self.position):  # TODO numOfFloors as attribute
-            if (self.QueDown[i]):
+            if (self.call_down[i]):
                 result = True
 
         return result
