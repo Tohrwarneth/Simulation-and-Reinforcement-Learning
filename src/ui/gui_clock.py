@@ -15,13 +15,13 @@ class GuiClock:
         # TODO: Hack entfernen!
         # sec = Clock.tact
         sec = env.now
-        m = int(sec / 60)
-        h = int(m / 60)
+        m = int(sec % 60)
+        h = int(sec / 60)
         self.text = f"{h:02d}:{m:02d}"
 
     def render(self, game_display: pygame.Surface) -> None:
-        self.update()
-        sw, sh = Conf.screen_scale
+        # self.update()
+        sw, sh = Conf.screenScale
         text_surface: pygame.Surface = Conf.font.render(self.text, True, "black")
 
         text_surface = \
@@ -33,7 +33,7 @@ class GuiClock:
         text_rect.center = self.position
         game_display.blit(text_surface, text_rect)
 
-        scale_surface = Conf.font.render(f"Geschwindigkeit: {Clock.speed_scale}", True, "black")
+        scale_surface = Conf.font.render(f"Geschwindigkeit: {Clock.speedScale}", True, "black")
         scale_surface = \
             pygame.transform.scale(
                 scale_surface,

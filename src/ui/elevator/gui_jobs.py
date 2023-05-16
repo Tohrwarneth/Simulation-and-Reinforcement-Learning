@@ -4,7 +4,6 @@ from src.logic.person import Person
 from src.utils import Conf
 
 
-# TODO: Rework
 class GUIJobs:
     elevatorIndex: int
     index: int
@@ -23,10 +22,10 @@ class GUIJobs:
         self.target_floor = target_floor
 
     def render(self, game_display: pygame.Surface) -> None:
-        sw, sh = Conf.screen_scale
+        sw, sh = Conf.screenScale
         for index, person in enumerate(self.jobs):
             floor: int = person.schedule[0][1]
-            text_surface: pygame.Surface = Conf.font_small. \
+            text_surface: pygame.Surface = Conf.fontSmall. \
                 render(f"{floor:01d}", True, "dark red" if floor == self.target_floor else "black")
             text_rect: pygame.Rect = text_surface.get_rect()
 

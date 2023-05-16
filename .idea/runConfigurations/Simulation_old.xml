@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Simulation ohne GUI" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="Simulation old" type="PythonConfigurationType" factoryName="Python">
     <module name="Simulation_ReinforcementLearning" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
@@ -13,7 +13,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/src_old/main.py" />
-    <option name="PARAMETERS" value="ui=false plots=false" />
+    <option name="PARAMETERS" value="ui=true skip=6" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />

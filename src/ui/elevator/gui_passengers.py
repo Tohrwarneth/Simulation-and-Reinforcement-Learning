@@ -17,7 +17,7 @@ class GuiPassengers:
         self.number_passengers = number_passengers
 
     def render(self, game_display: pygame.Surface) -> None:
-        sw, sh = Conf.screen_scale
+        sw, sh = Conf.screenScale
         for i in range(0, self.number_passengers):
             image = pygame.image.load('images/Person.png')
             image.convert()

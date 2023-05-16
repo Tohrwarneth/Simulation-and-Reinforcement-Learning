@@ -1,32 +1,34 @@
-from src.utils import Conf
+from src.utils import Conf, Clock
 from src.enums import ElevatorState
 from src.logic.person import Person
 
 
 class Elevator:
+    nextElevatorIndex: int = 0
     index: int
     passengers: list[Person]
     state: ElevatorState = ElevatorState.WAIT
     position: int
     direction: int
     target: int
+
     # TODO: zu job Ziel fahren und wenn auf dem Weg jmd. ist und Platz ist, einpacken.
     #  Wenn nix zu tun, schau zuerst in deine ursprüngliche Richtung weiter, wenn da nix ist, dann unter dir.
 
-    def __init__(self, index: int, enviroment, QueUpward, QueDownward, capacity, speed=1, waitingTime=1, startPos=0):
-        self.index = index
+    def __init__(self, QueUpward, QueDownward, capacity, speed=1, waitingTime=1, startPos=0):
+        self.index = self.nextElevatorIndex
+        Elevator.nextElevatorIndex += 1
+        self.target = 0
         # private var
-        self.env = enviroment
         self.call_down = QueDownward
         self.call_up = QueUpward
-        self.waitingList = []
+        self.waitingList: list[int] = []
         self.passengers = []
         self.capacity = capacity
         self.speed = speed
         self.direction = 0
         self.position = startPos
         self.waitingTime = waitingTime
-        self.env.process(self.operate())
 
     def isPassengerLeaving(self):
         '''
@@ -53,7 +55,7 @@ class Elevator:
         for p in self.passengers:
             if (p.schedule[0][1] == self.position):  # first task, location TODO use dict or docu better
                 p.schedule.pop(0)  # schedule task finished
-                self.waitingList.append(self.env.now - p.startWaitingTime)
+                self.waitingList.append(Clock.tact - p.startWaitingTime)
 
                 # Personscontroller can see that the person is no longer waiting
                 p.startWaitingTime = None
@@ -65,9 +67,9 @@ class Elevator:
         adds passengers till capacity is reached or no people on the floor
         people going in the same direction as the elevator a prioritized
         '''
-
         if self.direction == 0:
-            while len(self.passengers) < self.capacity and (self.call_up[self.position] or self.call_down[self.position]):
+            while len(self.passengers) < self.capacity and (
+                    self.call_up[self.position] or self.call_down[self.position]):
                 if self.call_up[self.position]:
                     p = self.call_up[self.position].pop(0)
                     self.passengers.append(p)
@@ -136,7 +138,7 @@ class Elevator:
             result = True
 
         for i in range(self.position + 1, len(self.call_up)):
-            if (self.call_up[i]):
+            if self.call_up[i]:
                 result = True
 
         return result
@@ -165,56 +167,52 @@ class Elevator:
             result = True
 
         for i in range(self.position):  # TODO numOfFloors as attribute
-            if (self.call_down[i]):
+            if self.call_down[i]:
                 result = True
 
         return result
 
     def operate(self):
-        while True:
-            # Elevator going Up
-            if self.isFloorAboveRequested():
+        # Elevator going Up
+        if self.isFloorAboveRequested():
+            self.direction = 1
+
+            # yield self.env.timeout(1 / self.speed)  # speed = Floors/ min
+            self.position += self.direction
+
+            if self.isFloorRequestedDownwards():
+                # Elevator Waiting
+                self.direction = 0
+                # yield self.env.timeout(self.waitingTime)
                 self.direction = 1
 
-                while self.direction == 1:
-
-                    yield self.env.timeout(1 / self.speed)  # speed = Floors/ min
-                    self.position += self.direction
-
-                    if (self.isFloorRequestedDownwards()):
-                        # Elevator Waiting
-                        self.direction = 0
-                        yield self.env.timeout(self.waitingTime)
-                        self.direction = 1
-
-                        self.personsLeaving()
-                        self.personsEntering()
-
-                    if not self.isFloorAboveRequested():
-                        # TODO check direction of Request + ERROR sometimes elevator goes up to 15
-                        self.direction = 0
-
-            # Elevator going Down
-            elif self.isFloorBelowRequested():
-                self.direction = -1
-                while self.direction == -1:
-                    # Elevator going Down
-                    yield self.env.timeout(1 / self.speed)  # speed = Floors/ min
-                    self.position += self.direction
-                    if self.isFloorRequestedUpwards():
-                        # Elevator Waiting
-                        self.direction = 0
-                        yield self.env.timeout(self.waitingTime)
-                        self.direction = -1
-
-                        # removes and adds passengers
-                        self.personsLeaving()
-                        self.personsEntering()
-                    if not self.isFloorBelowRequested():
-                        self.direction = 0
-
-            # Elevator is idle
-            elif self.direction == 0 and self.isFloorRequested():
-                yield self.env.timeout(self.waitingTime)
+                self.personsLeaving()
                 self.personsEntering()
-            yield self.env.timeout(Conf.deltaTime)
+
+            if not self.isFloorAboveRequested():
+                # TODO check direction of Request + ERROR sometimes elevator goes up to 15
+                self.direction = 0
+
+        # Elevator going Down
+        elif self.isFloorBelowRequested():
+            self.direction = -1
+            # Elevator going Down
+            # yield self.env.timeout(1 / self.speed)  # speed = Floors/ min
+            self.position += self.direction
+            if self.isFloorRequestedUpwards():
+                # Elevator Waiting
+                self.direction = 0
+                # yield self.env.timeout(self.waitingTime)
+                self.direction = -1
+
+                # removes and adds passengers
+                self.personsLeaving()
+                self.personsEntering()
+            if not self.isFloorBelowRequested():
+                self.direction = 0
+
+        # Elevator is idle
+        elif self.direction == 0 and self.isFloorRequested():
+            self.personsEntering()
+
+        self.target = self.position + self.direction

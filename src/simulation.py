@@ -1,7 +1,10 @@
+import sys
+from time import time
+
 import numpy as np
 import simpy
 
-from src.utils import Conf
+from src.utils import Conf, Clock
 from src.logic.elevator import Elevator
 from src.logic.person_manager import PersonManager
 from src.ui.gui_manager import GuiManager
@@ -9,34 +12,58 @@ from src.ui.gui_manager import GuiManager
 
 class Simulation:
     def __init__(self, eleCap=5, eleSpeed=1,
-                 eleWaitingTime=1, visualize=True):
+                 eleWaitingTime=1, show_gui=True):
         # private var
-        self.env = simpy.Environment()
-        self.QueUpward = [[] for _ in range(Conf.max_floor)]
-        self.QueDownward = [[] for _ in range(Conf.max_floor)]
+        self.showGui = show_gui
+        self.callUp = [[] for _ in range(Conf.maxFloor)]
+        self.callDown = [[] for _ in range(Conf.maxFloor)]
 
         self.stateList = []  # Zustand jeden Takt
         self.log = {"avgWaitingTime": 0, "states": []}
 
-        self.person_manager = PersonManager(self.env, self.QueUpward,
-                                            self.QueDownward)
+        self.personManager = PersonManager(self.callUp,
+                                           self.callDown)
 
         self.elevatorList = [
-            Elevator(i, capacity=eleCap, speed=eleSpeed, waitingTime=eleWaitingTime, enviroment=self.env,
-                     QueUpward=self.QueUpward, QueDownward=self.QueDownward)
-            for i in range(3)]
-        if visualize:
-            self.ui_manager = GuiManager(self.env, self.elevatorList, self.QueUpward,
-                                         self.QueUpward)
-            self.env.process(self.ui_manager.draw())
+            Elevator(capacity=eleCap, speed=eleSpeed, waitingTime=eleWaitingTime,
+                     QueUpward=self.callUp, QueDownward=self.callDown)
+            for _ in range(3)]
+        if show_gui:
+            self.ui_manager = GuiManager(self.elevatorList, self.callUp,
+                                         self.callUp)
+
+    def run(self):
+
+        t_old: float = time()
+        while Clock.running:
+            t_new: float = time()
+            for _ in range(Clock.tactBuffer):
+                self.personManager.manage()
+                for elevator in self.elevatorList:
+                    elevator.operate()
+
+            if self.showGui:
+                self.ui_manager.draw()
+                Clock.tact += 1
+
+            Clock.tactBuffer = 0
+
+            delta_time: float = (t_new - t_old) * Clock.speedScale if self.showGui else 1
+            Clock.add_time(delta_time)
+
+        self.shutdown()
+
+    def shutdown(self):
+        data = S.getData()
+        print(data)
 
     def getState(self):
         # TODO
         state = []
         return state
 
-    def getData(self, time):
-        self.env.run(time)
+    def getData(self):
+        # TODO: Logs
         data = self.log
         waitingList = []
         for i in range(len(self.elevatorList)):
@@ -47,8 +74,20 @@ class Simulation:
 
 
 if __name__ == "__main__":
-    minToSim = 24 * 60
+    showGui: bool = False
+    step_gui: bool = False
+    for param in sys.argv:
+        if param.__contains__("ui="):
+            value = param[3:]
+            showGui = value != "false" and value != "False"
+        elif param.__contains__("plots="):
+            value = param[6:]
+            Conf.showPlots = value == "true" or value == "True"
+        elif param.__contains__("step="):
+            value = param[5:]
+            step_gui = value != "true" and value != "True"
+        elif param.__contains__("skip="):
+            value = param[5:]
+            Conf.skip = int(value)
 
-    S = Simulation(visualize=False)
-    data = S.getData(minToSim)
-    print(data)
+    S = Simulation(show_gui=showGui)

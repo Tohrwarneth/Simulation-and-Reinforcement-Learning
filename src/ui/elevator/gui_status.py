@@ -22,9 +22,9 @@ class GUIStatus:
         self.state = state
 
     def render(self, game_display: pygame.Surface) -> None:
-        (sw, sh) = Conf.screen_scale
+        (sw, sh) = Conf.screenScale
 
-        text_surface: pygame.Surface = Conf.font_small. \
+        text_surface: pygame.Surface = Conf.fontSmall. \
             render(f"{self.currentFloor:01d}", True, "black")
         text_surface = \
             pygame.transform.scale(
@@ -67,7 +67,7 @@ class GUIStatus:
             state_text = 'Runter'
         else:
             state_text = self.state
-        text_surface = Conf.font_small. \
+        text_surface = Conf.fontSmall. \
             render(f"{state_text}", True, "black")
         text_surface = \
             pygame.transform.scale(
