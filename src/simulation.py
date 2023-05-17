@@ -63,6 +63,7 @@ class Simulation:
         print(data)
 
     def end_of_day_log(self):
+        # TODO: EOD Log verbessern für Reinforcement und einmal für Log Ordner
         Logger.new_tact()
         log = self.personManager.end_of_day()
         for elevator in self.elevatorList:
