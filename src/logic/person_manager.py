@@ -14,7 +14,8 @@ class PersonManager:
         self.callUp: list[list[Person]] = call_up
         self.callDown: list[list[Person]] = call_down
 
-        self.persons = []
+        self.persons: list = []
+        self.atHome: list = []
         self.create_persons()
 
     def create_persons(self):
@@ -52,10 +53,13 @@ class PersonManager:
         '''
         log: dict = dict()
         for p in self.persons:
+            # TODO: Leute richtig nach Hause schicken bzw. Schedule Abarbeitung überprüfen
+            #       Leute gehen nach Hause, obwohl sie noch auf den Etagen sind
 
             # person has no tasks left on schedule -> can go home
             if not p.schedule:
                 self.persons.remove(p)
+                self.atHome.append(p)
                 continue
             # Persons is already waiting in Que
             if p.startWaitingTime != None:
@@ -78,14 +82,21 @@ class PersonManager:
                     # throw exception
                     p.schedule.pop()
 
+        remaining_in_building = 0
+        for p in self.persons:
+            if p.startWaitingTime != None:
+                remaining_in_building += 1
+
+        log['remaining people in building'] = f"{remaining_in_building}/{Conf.totalAmountPerson}"
         log["call up"] = self.callUp
         log["call down"] = self.callDown
         Logger.add_data(log)
 
     def end_of_day(self) -> dict:
         remaining_in_building = 0
-        for p in self.persons:
-            if p.startWaitingTime != None:
+        for p in self.persons + self.atHome:
+            # if p.startWaitingTime != None:
+            if p.schedule or p.location != 0:
                 remaining_in_building += 1
 
         log = {'remaining people in building': f"{remaining_in_building}/{Conf.totalAmountPerson}"}
