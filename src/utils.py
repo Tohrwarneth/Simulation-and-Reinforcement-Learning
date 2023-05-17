@@ -25,7 +25,7 @@ class Clock:
     tact: int = 0
     tactBuffer: int = 1
     timeInMin: float = 0
-    skip: int = 0  # bis zur wievielten Stunde vorgespult werden soll
+    skip: int | None = None  # bis zur wievielten Stunde vorgespult werden soll
     peakTimes = [(8 * 60, 1), (13 * 60, 1), (17 * 60, 1)]
     breakDuration = 30
     speedScale: int = 1

@@ -34,10 +34,16 @@ class Simulation:
 
         Logger.init()
 
+        if Clock.skip:
+            Clock.speedScale = 265
+
         t_old: float = time()
         while Clock.running:
             t_new: float = time()
             for _ in range(Clock.tactBuffer):
+                if Clock.skip and Clock.tact / 60 >= Clock.skip:
+                    Clock.skip = None
+                    Clock.speedScale = 1.0
                 Logger.new_tact()
                 self.personManager.manage()
                 for elevator in self.elevatorList:
@@ -94,6 +100,6 @@ if __name__ == "__main__":
             step_gui = value != "true" and value != "True"
         elif param.__contains__("skip="):
             value = param[5:]
-            Conf.skip = int(value)
+            Clock.skip = int(value)
 
     S = Simulation(show_gui=showGui)

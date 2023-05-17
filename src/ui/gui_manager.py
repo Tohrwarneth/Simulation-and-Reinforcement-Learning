@@ -56,9 +56,16 @@ class GuiManager:
                     Clock.pause = not Clock.pause
                 # press UP to double the speed
                 if event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS:
+                    if Clock.skip:
+                        Clock.skip = None
+                        Clock.speedScale = 1.0
                     Clock.speedScale *= 2
+                    Clock.skip = None
                 # press Down to half the speed
                 if event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS:
+                    if Clock.skip:
+                        Clock.skip = None
+                        Clock.speedScale = 1.0
                     Clock.speedScale /= 2
             if event.type == pygame.VIDEORESIZE:
                 width = event.w
