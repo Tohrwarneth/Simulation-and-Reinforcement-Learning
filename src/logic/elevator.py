@@ -225,3 +225,10 @@ class Elevator:
         log[f"({self.index}) number of passangers"] = len(self.passengers)
         log[f"({self.index}) passangers"] = self.passengers
         Logger.add_data(log)
+
+    def end_of_day(self):
+        log: dict = dict()
+        log[f"({self.index}) position"] = self.position
+        log[f"({self.index}) number of passangers"] = len(self.passengers)
+        log[f"({self.index}) passangers"] = self.passengers
+        return log

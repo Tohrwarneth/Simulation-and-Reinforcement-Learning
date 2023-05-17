@@ -58,25 +58,24 @@ class Simulation:
         self.shutdown()
 
     def shutdown(self):
-        log = self.personManager.end_of_day()
-        data = self.end_of_day_log(log)
+        Clock.end_of_day = True
+        data = self.end_of_day_log()
         print(data)
 
-    def getState(self):
-        # TODO
-        state = []
-        return state
-
-    def end_of_day_log(self, log):
-        # TODO: Logs
-        data = self.log | log
+    def end_of_day_log(self):
+        Logger.new_tact()
+        log = self.personManager.end_of_day()
+        for elevator in self.elevatorList:
+            log = log | elevator.end_of_day()
 
         waitingList = []
         for i in range(len(self.elevatorList)):
             waitingList.extend(self.elevatorList[i].waitingList)
-        data["avgWaitingTime"] = np.mean(waitingList)
-        data["states"] = self.stateList
-        return data
+        log["avgWaitingTime"] = np.mean(waitingList)
+
+        Logger.add_data(log)
+        Logger.log()
+        return log
 
 
 if __name__ == "__main__":

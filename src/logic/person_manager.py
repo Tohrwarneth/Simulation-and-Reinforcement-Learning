@@ -82,22 +82,27 @@ class PersonManager:
                     # throw exception
                     p.schedule.pop()
 
-        remaining_in_building = 0
-        for p in self.persons:
-            if p.startWaitingTime != None:
-                remaining_in_building += 1
-
-        log['remaining people in building'] = f"{remaining_in_building}/{Conf.totalAmountPerson}"
+        log['people in building'] = f"{self.getRemainingPeople()}/{Conf.totalAmountPerson}"
+        log['people in motion'] = f"{self.getPeopleInMotion()}/{Conf.totalAmountPerson}"
         log["call up"] = self.callUp
         log["call down"] = self.callDown
         Logger.add_data(log)
 
-    def end_of_day(self) -> dict:
+    def getRemainingPeople(self) -> int:
         remaining_in_building = 0
         for p in self.persons + self.atHome:
-            # if p.startWaitingTime != None:
             if p.schedule or p.location != 0:
                 remaining_in_building += 1
+        return remaining_in_building
 
-        log = {'remaining people in building': f"{remaining_in_building}/{Conf.totalAmountPerson}"}
+    def getPeopleInMotion(self) -> int:
+        in_motion = 0
+        for p in self.persons:
+            # if p.startWaitingTime != None:
+            if p.startWaitingTime:
+                in_motion += 1
+        return in_motion
+
+    def end_of_day(self) -> dict:
+        log = {'remaining people in building': f"{self.getRemainingPeople()}/{Conf.totalAmountPerson}"}
         return log

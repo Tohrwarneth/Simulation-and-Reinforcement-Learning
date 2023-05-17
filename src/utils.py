@@ -21,6 +21,7 @@ class Conf:
 
 
 class Clock:
+    end_of_day: bool = False
     tact: int = 0
     tactBuffer: int = 1
     timeInMin: float = 0
@@ -53,6 +54,7 @@ class LogData:
 
 class Logger:
     csv: str
+    eod_file: str  # End Of Day
     currentData: LogData | None = None
     allData: list[LogData]
     log_limits: int = 5
@@ -63,11 +65,11 @@ class Logger:
         date_time = now.strftime("%d.%m.%Y-%H.%M.%S")
         Path(f"{Conf.logPath}/{date_time}").mkdir(parents=True, exist_ok=True)
         cls.csv = f"{Conf.logPath}/{date_time}/run.csv"
+        cls.eod_file = f"{Conf.logPath}/eod.csv"
 
         logs = [name for name in os.listdir(Conf.logPath)
                 if os.path.isdir(os.path.join(Conf.logPath, name))]
-        while len(logs) >= cls.log_limits:
-            # os.rmdir(f"{Conf.logPath}/{logs[0]}")
+        while len(logs) > cls.log_limits:
             shutil.rmtree(f"{Conf.logPath}/{logs[0]}", ignore_errors=True)
             logs.pop(0)
 
@@ -75,12 +77,10 @@ class Logger:
 
     @classmethod
     def log(cls):
-        with open(cls.csv, "a", newline='') as csv_file:
-            data_dict = cls.currentData.data
-            w = csv.DictWriter(csv_file, data_dict.keys(), delimiter=',')
-            if len(cls.allData) == 0:
-                w.writeheader()
-            w.writerow(data_dict)
+        if Clock.end_of_day:
+            cls.write_file(cls.eod_file, eod=True)
+        else:
+            cls.write_file(cls.csv)
         cls.allData.append(cls.currentData)
         cls.currentData = None
 
@@ -91,3 +91,12 @@ class Logger:
     @classmethod
     def add_data(cls, data):
         cls.currentData.add_data(data)
+
+    @classmethod
+    def write_file(cls, file: str, eod: bool = False):
+        with open(file, "a", newline='') as csv_file:
+            data_dict = cls.currentData.data
+            w = csv.DictWriter(csv_file, data_dict.keys(), delimiter=',')
+            if len(cls.allData) == 0:
+                w.writeheader()
+            w.writerow(data_dict)
