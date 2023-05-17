@@ -1,4 +1,5 @@
 import csv
+import shutil
 from datetime import datetime
 
 import pygame
@@ -17,13 +18,12 @@ class Conf:
     logPath: str = "logs"
     font: pygame.font
     fontSmall: pygame.font
-    deltaTime: float = 0.1
 
 
 class Clock:
     tact: int = 0
     tactBuffer: int = 1
-    timeInMin: float
+    timeInMin: float = 0
     skip: int = 0  # bis zur wievielten Stunde vorgespult werden soll
     peakTimes = [(8 * 60, 1), (13 * 60, 1), (17 * 60, 1)]
     breakDuration = 30
@@ -34,66 +34,60 @@ class Clock:
     @classmethod
     def add_time(cls, passed_time: float):
         cls.timeInMin += passed_time
-        if cls.timeInMin == 24 * 60:
+        cls.tactBuffer = int(cls.timeInMin) - cls.tact
+        if cls.timeInMin > 24 * 60:
             cls.running = False
 
 
 class LogData:
     tact: int = 0
-    header: list[str] = list()
-    data: list
+    data: dict
 
     def __init__(self, tact: int):
         self.tact = tact
-        self.person_per_floor = [(0, 0) for i in range(0, Conf.maxFloor)]
+        self.data = {'tact': tact}
 
-    def get_line(self) -> list[str]:
-        line: list = [self.tact]
-        line += self.data
-        return line
-
-    @classmethod
-    def get_header(cls) -> list[str]:
-        line = ["tact"]
-        line += cls.header
-        return line
-
-    def add_data(self, data):
-        self.data = data
-
-    @classmethod
-    def add_header(cls, header):
-        cls.header = header
+    def add_data(self, data: dict):
+        self.data = self.data | data
 
 
-class Log:
+class Logger:
     csv: str
-    currentData: LogData
+    currentData: LogData | None = None
     allData: list[LogData]
     log_limits: int = 5
 
     @classmethod
     def init(cls):
-        Path(Conf.logPath).mkdir(parents=True, exist_ok=True)
         now = datetime.now()  # current date and time
         date_time = now.strftime("%d.%m.%Y-%H.%M.%S")
-        cls.csv = f"{Conf.logPath}/{date_time}.csv"
+        Path(f"{Conf.logPath}/{date_time}").mkdir(parents=True, exist_ok=True)
+        cls.csv = f"{Conf.logPath}/{date_time}/run.csv"
 
         logs = [name for name in os.listdir(Conf.logPath)
-                if os.path.isfile(os.path.join(Conf.logPath, name))]
+                if os.path.isdir(os.path.join(Conf.logPath, name))]
         while len(logs) >= cls.log_limits:
-            os.remove(f"{Conf.logPath}/{logs[0]}")
-            logs.remove((logs[0]))
+            # os.rmdir(f"{Conf.logPath}/{logs[0]}")
+            shutil.rmtree(f"{Conf.logPath}/{logs[0]}", ignore_errors=True)
+            logs.pop(0)
 
         cls.allData = list()
 
+    @classmethod
+    def log(cls):
         with open(cls.csv, "a", newline='') as csv_file:
-            writer = csv.writer(csv_file, delimiter=',')
-            writer.writerow(LogData.get_header())
+            data_dict = cls.currentData.data
+            w = csv.DictWriter(csv_file, data_dict.keys(), delimiter=',')
+            if len(cls.allData) == 0:
+                w.writeheader()
+            w.writerow(data_dict)
+        cls.allData.append(cls.currentData)
+        cls.currentData = None
 
     @classmethod
-    def log(cls, data: LogData):
-        with open(cls.csv, "a", newline='') as csv_file:
-            writer = csv.writer(csv_file, delimiter=',')
-            writer.writerow(data.get_line())
-        cls.allData.append(data)
+    def new_tact(cls):
+        cls.currentData = LogData(Clock.tact)
+
+    @classmethod
+    def add_data(cls, data):
+        cls.currentData.add_data(data)

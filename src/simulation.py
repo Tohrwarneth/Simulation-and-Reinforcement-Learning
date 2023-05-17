@@ -1,10 +1,7 @@
 import sys
 from time import time
-
 import numpy as np
-import simpy
-
-from src.utils import Conf, Clock
+from src.utils import Conf, Clock, Logger
 from src.logic.elevator import Elevator
 from src.logic.person_manager import PersonManager
 from src.ui.gui_manager import GuiManager
@@ -31,30 +28,38 @@ class Simulation:
         if show_gui:
             self.ui_manager = GuiManager(self.elevatorList, self.callUp,
                                          self.callUp)
+        self.run()
 
     def run(self):
+
+        Logger.init()
 
         t_old: float = time()
         while Clock.running:
             t_new: float = time()
             for _ in range(Clock.tactBuffer):
+                Logger.new_tact()
                 self.personManager.manage()
                 for elevator in self.elevatorList:
                     elevator.operate()
+                Clock.tact += 1
+                Logger.log()
 
             if self.showGui:
                 self.ui_manager.draw()
-                Clock.tact += 1
 
             Clock.tactBuffer = 0
 
             delta_time: float = (t_new - t_old) * Clock.speedScale if self.showGui else 1
-            Clock.add_time(delta_time)
+            t_old = t_new
+            if not Clock.pause:
+                Clock.add_time(delta_time)
 
         self.shutdown()
 
     def shutdown(self):
-        data = S.getData()
+        log = self.personManager.end_of_day()
+        data = self.end_of_day_log(log)
         print(data)
 
     def getState(self):
@@ -62,9 +67,10 @@ class Simulation:
         state = []
         return state
 
-    def getData(self):
+    def end_of_day_log(self, log):
         # TODO: Logs
-        data = self.log
+        data = self.log | log
+
         waitingList = []
         for i in range(len(self.elevatorList)):
             waitingList.extend(self.elevatorList[i].waitingList)

@@ -4,7 +4,7 @@ import numpy as np
 import scipy
 from numpy.random import default_rng
 
-from src.utils import Conf, Clock
+from src.utils import Conf, Clock, Logger
 from src.logic.person import Person
 
 
@@ -50,6 +50,7 @@ class PersonManager:
         adds persons to the queues at the time of their task + sets startWaitingTime
         removes persons if they have no tasks left
         '''
+        log: dict = dict()
         for p in self.persons:
 
             # person has no tasks left on schedule -> can go home
@@ -76,3 +77,16 @@ class PersonManager:
                     # print("ERROR: Same location as task location")  # only prints in debug mode
                     # throw exception
                     p.schedule.pop()
+
+        log["call up"] = self.callUp
+        log["call down"] = self.callDown
+        Logger.add_data(log)
+
+    def end_of_day(self) -> dict:
+        remaining_in_building = 0
+        for p in self.persons:
+            if p.startWaitingTime != None:
+                remaining_in_building += 1
+
+        log = {'remaining people in building': f"{remaining_in_building}/{Conf.totalAmountPerson}"}
+        return log

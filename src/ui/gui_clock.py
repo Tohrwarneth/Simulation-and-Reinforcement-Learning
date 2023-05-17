@@ -11,16 +11,14 @@ class GuiClock:
         self.position: tuple[float, float] = (0, 0)
         self.update_screen_scale()
 
-    def update(self, env: Environment) -> None:
-        # TODO: Hack entfernen!
-        # sec = Clock.tact
-        sec = env.now
+    def update(self) -> None:
+        sec = Clock.tact
         m = int(sec % 60)
         h = int(sec / 60)
         self.text = f"{h:02d}:{m:02d}"
 
     def render(self, game_display: pygame.Surface) -> None:
-        # self.update()
+        self.update()
         sw, sh = Conf.screenScale
         text_surface: pygame.Surface = Conf.font.render(self.text, True, "black")
 

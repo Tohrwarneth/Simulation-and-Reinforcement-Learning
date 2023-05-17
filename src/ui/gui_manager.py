@@ -49,7 +49,7 @@ class GuiManager:
         # pygame.QUIT event means the user clicked X to close your window
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                running = False
+                Clock.running = False
             if event.type == pygame.KEYDOWN:
                 # space to pause
                 if event.key == pygame.K_SPACE:
@@ -73,7 +73,6 @@ class GuiManager:
 
         self.screen.blit(self.background_image, (0, 0))
 
-        self.clock.update(self.env)
         self.clock.render(self.screen)
 
         self.floor.render(self.screen)
@@ -83,7 +82,6 @@ class GuiManager:
 
         # flip() the display to put your work on screen
         pygame.display.flip()
-        # clock.tick(60)  # limits FPS to 60
 
     def update_screen_scale(self):
         self.background_image = pygame.image.load('images/FahrstuhlLayout.png')

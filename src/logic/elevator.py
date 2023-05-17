@@ -1,4 +1,4 @@
-from src.utils import Conf, Clock
+from src.utils import Conf, Clock, Logger
 from src.enums import ElevatorState
 from src.logic.person import Person
 
@@ -173,6 +173,7 @@ class Elevator:
         return result
 
     def operate(self):
+        log: dict = dict()
         # Elevator going Up
         if self.isFloorAboveRequested():
             self.direction = 1
@@ -216,3 +217,11 @@ class Elevator:
             self.personsEntering()
 
         self.target = self.position + self.direction
+
+        log[f"({self.index}) position"] = self.position
+        log[f"({self.index}) target"] = self.target
+        log[f"({self.index}) direction"] = self.direction
+        log[f"({self.index}) state"] = self.state
+        log[f"({self.index}) number of passangers"] = len(self.passengers)
+        log[f"({self.index}) passangers"] = self.passengers
+        Logger.add_data(log)
