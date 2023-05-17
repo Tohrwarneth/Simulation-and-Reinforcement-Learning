@@ -12,7 +12,6 @@ class GUIStatus:
         self.state = state
 
         self.position: tuple[float, float] = (0, 0)
-        self.offset: float = 0  # TODO: Offset wird nicht genutzt. Warum?
 
         self.update_screen_scale()
 
@@ -25,11 +24,7 @@ class GUIStatus:
         (sw, sh) = Conf.screenScale
 
         text_surface: pygame.Surface = Conf.fontSmall. \
-            render(f"{self.currentFloor:01d}", True, "black")
-        text_surface = \
-            pygame.transform.scale(
-                text_surface,
-                (text_surface.get_width() * sw, text_surface.get_height() * sh))
+            render(f"{self.currentFloor + 1:01d}", True, "black")
 
         text_rect: pygame.Rect = text_surface.get_rect()
         text_rect.center = self.position
@@ -52,7 +47,7 @@ class GUIStatus:
 
             x, _ = Conf.screenSize
             width = self.position[0]
-            offset = x / 55
+            offset = x / 50
             height = self.position[1] - 5
 
             image_rect: pygame.Rect = image.get_rect()
@@ -67,25 +62,32 @@ class GUIStatus:
             state_text = 'Runter'
         else:
             state_text = self.state
-        text_surface = Conf.fontSmall. \
+        state_surface = Conf.fontSmall. \
             render(f"{state_text}", True, "black")
-        text_surface = \
-            pygame.transform.scale(
-                text_surface,
-                (text_surface.get_width() * sw, text_surface.get_height() * sh))
 
         x, _ = Conf.screenSize
         width = self.position[0]
         offset = x / 30
         height = self.position[1]
 
+        state_rect = state_surface.get_rect()
+        state_rect.center = (width - offset, height)
+        game_display.blit(state_surface, state_rect)
+
+        text_surface = Conf.fontSmall. \
+            render(f"Ziel: {self.targetFloor}", True, "black")
+
+        width = self.position[0]
+        offset = x / 20
+        height = self.position[1]
+
         text_rect = text_surface.get_rect()
-        text_rect.center = (width - offset, height)
+        text_rect.center = (width + offset, height)
         game_display.blit(text_surface, text_rect)
 
     def update_screen_scale(self):
         screen_size = Conf.screenSize
-        self.offset = screen_size[0] / 2.858
-        width = self.offset + (screen_size[0] / 3.55) * self.index
+        offset = screen_size[0] / 2.858
+        width = offset + (screen_size[0] / 3.55) * self.index
         height = (screen_size[1] / 2.62)
         self.position = (width, height)

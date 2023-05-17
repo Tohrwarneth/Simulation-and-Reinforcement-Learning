@@ -26,7 +26,8 @@ class GuiElevatorFloor:
 
     def drawFloor(self, game_display, direction: Direction):
         sw, sh = Conf.screenScale
-        if len(self.call[direction.value][self.currentFloor]) > 0:
+        floor: list[Person] = self.call[direction.value][self.currentFloor]
+        if len(floor) > 0:
             image_person = pygame.image.load('images/Person.png')
             image_person.convert()
             image_person = \
@@ -65,11 +66,7 @@ class GuiElevatorFloor:
             arrow_rect.center = (offset_width + width, offset_height + height)
 
             text_surface: pygame.Surface = Conf.fontSmall.render(
-                str(len(self.call[direction.value])), True, "black")
-            text_surface = \
-                pygame.transform.scale(
-                    text_surface,
-                    (text_surface.get_width() * sw, text_surface.get_height() * sh))
+                str(len(floor)), True, "black")
 
             if direction == 1:
                 offset_width = -x / 11.5

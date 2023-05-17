@@ -7,26 +7,25 @@ class Elevator:
     nextElevatorIndex: int = 0
     index: int
     passengers: list[Person]
-    state: ElevatorState = ElevatorState.WAIT
+    state: ElevatorState
     position: int
-    direction: int
     target: int
 
     # TODO: zu job Ziel fahren und wenn auf dem Weg jmd. ist und Platz ist, einpacken.
     #  Wenn nix zu tun, schau zuerst in deine ursprüngliche Richtung weiter, wenn da nix ist, dann unter dir.
 
-    def __init__(self, QueUpward, QueDownward, capacity, speed=1, waitingTime=1, startPos=0):
+    def __init__(self, call_up, call_down, capacity, speed=1, waitingTime=1, startPos=0):
         self.index = self.nextElevatorIndex
         Elevator.nextElevatorIndex += 1
         self.target = 0
+        self.state = ElevatorState.WAIT
         # private var
-        self.call_down = QueDownward
-        self.call_up = QueUpward
+        self.call_down = call_down
+        self.call_up = call_up
         self.waitingList: list[int] = []
         self.passengers = []
         self.capacity = capacity
         self.speed = speed
-        self.direction = 0
         self.position = startPos
         self.waitingTime = waitingTime
 
@@ -53,7 +52,7 @@ class Elevator:
 
         '''
         for p in self.passengers:
-            if (p.schedule[0][1] == self.position):  # first task, location TODO use dict or docu better
+            if p.schedule[0][1] == self.position:  # first task, location TODO use dict or docu better
                 p.schedule.pop(0)  # schedule task finished
                 self.waitingList.append(Clock.tact - p.startWaitingTime)
 
@@ -67,23 +66,28 @@ class Elevator:
         adds passengers till capacity is reached or no people on the floor
         people going in the same direction as the elevator a prioritized
         '''
-        if self.direction == 0:
-            while len(self.passengers) < self.capacity and (
-                    self.call_up[self.position] or self.call_down[self.position]):
+        person_in_floor: bool = self.call_up[self.position] or self.call_down[self.position]
+        if self.state == ElevatorState.WAIT:
+            while len(self.passengers) < self.capacity and person_in_floor:
                 if self.call_up[self.position]:
                     p = self.call_up[self.position].pop(0)
                     self.passengers.append(p)
 
+
                 if self.call_down[self.position]:
                     p = self.call_down[self.position].pop(0)
                     self.passengers.append(p)
-        elif self.direction == 1:
-            while len(self.passengers) < self.capacity and self.call_up[self.position]:
-                p = self.call_up[self.position].pop(0)
-                self.passengers.append(p)
-            while len(self.passengers) < self.capacity and self.call_down[self.position]:
-                p = self.call_down[self.position].pop(0)
-                self.passengers.append(p)
+
+                person_in_floor = self.call_up[self.position] or self.call_down[self.position]
+        elif self.state == ElevatorState.UP:
+            if person_in_floor and len(self.passengers) < self.capacity:
+                self.state = ElevatorState.WAIT
+            # while len(self.passengers) < self.capacity and self.call_up[self.position]:
+            #     p = self.call_up[self.position].pop(0)
+            #     self.passengers.append(p)
+            # while len(self.passengers) < self.capacity and self.call_down[self.position]:
+            #     p = self.call_down[self.position].pop(0)
+            #     self.passengers.append(p)
         else:
             while len(self.passengers) < self.capacity and self.call_down[self.position]:
                 p = self.call_down[self.position].pop(0)
@@ -123,22 +127,7 @@ class Elevator:
             result = True
 
         for i in range(self.position + 1, len(self.call_up)):
-            if (self.call_up[i] or self.call_down[i]):
-                result = True
-
-        return result
-
-    # TODO currently not used
-    def isFloorAboveRequestedUp(self):
-        '''
-        checks if a Floor above current position is requested
-        '''
-        result = False
-        if any(p.schedule[0][1] > self.position for p in self.passengers):
-            result = True
-
-        for i in range(self.position + 1, len(self.call_up)):
-            if self.call_up[i]:
+            if self.call_up[i] or self.call_down[i]:
                 result = True
 
         return result
@@ -157,70 +146,51 @@ class Elevator:
 
         return result
 
-    # TODO currently not used
-    def isFloorBelowRequestedDown(self):
-        '''
-        checks if a Floor below current position is Requested
-        '''
-        result = False
-        if any(p.schedule[0][1] < self.position for p in self.passengers):
-            result = True
-
-        for i in range(self.position):  # TODO numOfFloors as attribute
-            if self.call_down[i]:
-                result = True
-
-        return result
-
     def operate(self):
         log: dict = dict()
         # Elevator going Up
         if self.isFloorAboveRequested():
-            self.direction = 1
+            self.state = ElevatorState.UP
 
-            # yield self.env.timeout(1 / self.speed)  # speed = Floors/ min
-            self.position += self.direction
+            self.position += self.state.value
 
             if self.isFloorRequestedDownwards():
                 # Elevator Waiting
-                self.direction = 0
-                # yield self.env.timeout(self.waitingTime)
-                self.direction = 1
+                self.state = ElevatorState.WAIT
+                self.state = ElevatorState.UP
 
                 self.personsLeaving()
                 self.personsEntering()
 
             if not self.isFloorAboveRequested():
                 # TODO check direction of Request + ERROR sometimes elevator goes up to 15
-                self.direction = 0
+                self.state = ElevatorState.WAIT
 
         # Elevator going Down
         elif self.isFloorBelowRequested():
-            self.direction = -1
+            self.state = ElevatorState.DOWN
             # Elevator going Down
             # yield self.env.timeout(1 / self.speed)  # speed = Floors/ min
-            self.position += self.direction
+            self.position += self.state.value
             if self.isFloorRequestedUpwards():
                 # Elevator Waiting
-                self.direction = 0
-                # yield self.env.timeout(self.waitingTime)
-                self.direction = -1
+                self.state = ElevatorState.WAIT
+                self.state = ElevatorState.DOWN
 
                 # removes and adds passengers
                 self.personsLeaving()
                 self.personsEntering()
             if not self.isFloorBelowRequested():
-                self.direction = 0
+                self.state = ElevatorState.WAIT
 
         # Elevator is idle
-        elif self.direction == 0 and self.isFloorRequested():
+        elif self.state == ElevatorState.WAIT and self.isFloorRequested():
             self.personsEntering()
 
-        self.target = self.position + self.direction
+        self.target = self.position + self.state.value
 
         log[f"({self.index}) position"] = self.position
         log[f"({self.index}) target"] = self.target
-        log[f"({self.index}) direction"] = self.direction
         log[f"({self.index}) state"] = self.state
         log[f"({self.index}) number of passangers"] = len(self.passengers)
         log[f"({self.index}) passangers"] = self.passengers

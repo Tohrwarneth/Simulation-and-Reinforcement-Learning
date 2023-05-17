@@ -14,8 +14,8 @@ class Direction(Enum):
 
 class ElevatorState(Enum):
     UP = 1
-    DOWN = 2
-    WAIT = 3
+    WAIT = 0
+    DOWN = -1
 
     def __eq__(self, other):
         if isinstance(other, ElevatorState):

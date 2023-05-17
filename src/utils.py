@@ -16,12 +16,15 @@ class Conf:
     showPlots: bool = False
     plotPath: str = "../paper/simulation/images"
     logPath: str = "logs"
-    font: pygame.font
+    fontSizeLarge: int = 30
+    fontSizeSmall: int = 20
+    fontLarge: pygame.font
     fontSmall: pygame.font
 
 
 class Clock:
     end_of_day: bool = False
+    deltaTime: float = 0.0
     tact: int = 0
     tactBuffer: int = 1
     timeInMin: float = 0
@@ -29,6 +32,7 @@ class Clock:
     peakTimes = [(8 * 60, 1), (13 * 60, 1), (17 * 60, 1)]
     breakDuration = 30
     speedScale: int = 1
+    speedPrePaused: int = 1
     running: bool = True
     pause: bool = False
 

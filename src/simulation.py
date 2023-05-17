@@ -21,13 +21,15 @@ class Simulation:
         self.personManager = PersonManager(self.callUp,
                                            self.callDown)
 
-        self.elevatorList = [
-            Elevator(capacity=eleCap, speed=eleSpeed, waitingTime=eleWaitingTime,
-                     QueUpward=self.callUp, QueDownward=self.callDown)
-            for _ in range(3)]
+        self.elevatorList = list()
+        for _ in range(3):
+            elevator = Elevator(capacity=eleCap, speed=eleSpeed, waitingTime=eleWaitingTime,
+                                call_up=self.callUp, call_down=self.callDown)
+            self.elevatorList.append(elevator)
+
         if show_gui:
             self.ui_manager = GuiManager(self.elevatorList, self.callUp,
-                                         self.callUp)
+                                         self.callDown)
         self.run()
 
     def run(self):
@@ -56,10 +58,10 @@ class Simulation:
 
             Clock.tactBuffer = 0
 
-            delta_time: float = (t_new - t_old) * Clock.speedScale if self.showGui else 1
+            Clock.deltaTime = (t_new - t_old) * Clock.speedScale if self.showGui else 1
             t_old = t_new
             if not Clock.pause:
-                Clock.add_time(delta_time)
+                Clock.add_time(Clock.deltaTime)
 
         self.shutdown()
 
@@ -78,7 +80,10 @@ class Simulation:
         waitingList = []
         for i in range(len(self.elevatorList)):
             waitingList.extend(self.elevatorList[i].waitingList)
-        log["avgWaitingTime"] = np.mean(waitingList)
+        if waitingList:
+            log["avgWaitingTime"] = np.mean(waitingList)
+        else:
+            log["avgWaitingTime"] = None
 
         Logger.add_data(log)
         Logger.log()

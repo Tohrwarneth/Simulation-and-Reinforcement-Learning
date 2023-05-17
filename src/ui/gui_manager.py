@@ -15,18 +15,19 @@ class GuiManager:
     env: simpy.Environment
     elevatorList: list[Elevator]
     numOfElevators: int
-    queUpward: list[list]
-    queDownward: list[list]
+    callUp: list[list]
+    callDown: list[list]
+    speedPrePaused: float
 
     def __init__(self, elevator_list: list[Elevator],
-                 que_upward: list[list], que_downward: list[list]):
+                 call_up: list[list], call_down: list[list]):
         self.elevatorList = elevator_list
         self.numOfElevators = len(elevator_list)
-        self.queUpward = que_upward
-        self.queDownward = que_downward
+        self.callUp = call_up
+        self.callDown = call_down
 
         self.clock = GuiClock()
-        self.floor = GuiFloor(call_up=self.queUpward, call_down=self.queDownward)
+        self.floor = GuiFloor(call_up=self.callUp, call_down=self.callDown)
         self.elevatorGuiList = list()
         for i in range(self.numOfElevators):
             self.elevatorGuiList.append(GuiElevator(self.elevatorList[i]))
@@ -34,8 +35,6 @@ class GuiManager:
         pygame.init()
         self.screen = pygame.display.set_mode(Conf.screenSize, pygame.RESIZABLE)
 
-        Conf.font = pygame.font.Font(pygame.font.get_default_font(), 20)  # 30
-        Conf.fontSmall = pygame.font.Font(pygame.font.get_default_font(), 14)  # 20
         Conf.screenScale = (Conf.screenSize[0] / Conf.screenOriginSize[0]
                             , Conf.screenSize[1] / Conf.screenOriginSize[1])
 
@@ -51,22 +50,40 @@ class GuiManager:
             if event.type == pygame.QUIT:
                 Clock.running = False
             if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    Clock.running = False
                 # space to pause
                 if event.key == pygame.K_SPACE:
                     Clock.pause = not Clock.pause
+                    if Clock.pause:
+                        Clock.speedPrePaused = Clock.speedScale
+                        Clock.speedScale = 1.0
+                    else:
+                        Clock.speedScale = Clock.speedPrePaused
                 # press UP to double the speed
                 if event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS:
-                    if Clock.skip:
-                        Clock.skip = None
-                        Clock.speedScale = 1.0
-                    Clock.speedScale *= 2
-                    Clock.skip = None
+                    if Clock.pause:
+                        Clock.speedPrePaused *= 2
+                        if Clock.skip:
+                            Clock.skip = None
+                            Clock.speedPrePaused = 1.0
+                    else:
+                        if Clock.skip:
+                            Clock.skip = None
+                            Clock.speedScale = 1.0
+                        Clock.speedScale *= 2
                 # press Down to half the speed
                 if event.key == pygame.K_MINUS or event.key == pygame.K_KP_MINUS:
-                    if Clock.skip:
-                        Clock.skip = None
-                        Clock.speedScale = 1.0
-                    Clock.speedScale /= 2
+                    if Clock.pause:
+                        Clock.speedPrePaused /= 2
+                        if Clock.skip:
+                            Clock.skip = None
+                            Clock.speedPrePaused = 1.0
+                    else:
+                        if Clock.skip:
+                            Clock.skip = None
+                            Clock.speedScale = 1.0
+                        Clock.speedScale /= 2
             if event.type == pygame.VIDEORESIZE:
                 width = event.w
                 height = event.h
@@ -91,6 +108,10 @@ class GuiManager:
         pygame.display.flip()
 
     def update_screen_scale(self):
+        sw, sh = Conf.screenScale
+        Conf.fontLarge = pygame.font.Font(pygame.font.get_default_font(), int(Conf.fontSizeLarge * sh))  # 30
+        Conf.fontSmall = pygame.font.Font(pygame.font.get_default_font(), int(Conf.fontSizeSmall * sh))  # 20
+
         self.background_image = pygame.image.load('images/FahrstuhlLayout.png')
         self.background_image.convert()
         self.background_image = pygame.transform.scale(
@@ -98,3 +119,5 @@ class GuiManager:
 
         self.clock.update_screen_scale()
         self.floor.update_screen_scale()
+        for elevator in self.elevatorGuiList:
+            elevator.update_screen_scale()

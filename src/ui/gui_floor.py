@@ -2,7 +2,7 @@ import pygame
 
 from src.enums import Direction
 from src.logic.person import Person
-from src_old.conf import Conf
+from src.utils import Conf
 
 
 class GuiFloor:
@@ -18,7 +18,7 @@ class GuiFloor:
         self.draw_floor(game_display, Direction.DOWN)
 
     def draw_floor(self, game_display, direction: Direction):
-        (sw, sh) = Conf.screen_scale
+        (sw, sh) = Conf.screenScale
         for index, floor in enumerate(reversed(self.call[direction.value])):
             if len(floor) > 0:
                 if direction.value == 0:
@@ -41,11 +41,26 @@ class GuiFloor:
 
                 arrow_rect: pygame.Rect = image_arrow.get_rect()
                 arrow_rect.center = (offset_width + width, offset_height + height)
-
                 game_display.blit(image_arrow, arrow_rect)
 
+            if not (index == 14 and direction == direction.DOWN):
+                text_surface: pygame.Surface = Conf.fontSmall. \
+                    render(f"{len(floor):01d}", True, "black")
+                text_rect: pygame.Rect = text_surface.get_rect()
+
+                width, height = self.position
+                offset_width = Conf.screenSize[0] / 30
+                if direction == 1:
+                    offset_width += width / 5
+                else:
+                    offset_width += width / 30
+                offset_height = height / 3.15 * index
+
+                text_rect.center = (offset_width + width, offset_height + height)
+                game_display.blit(text_surface, text_rect)
+
     def update_screen_scale(self):
-        screen_size = Conf.screen_size
+        screen_size = Conf.screenSize
         width = screen_size[0] / 12
         height = screen_size[1] / 6.5
         self.position = (width, height)

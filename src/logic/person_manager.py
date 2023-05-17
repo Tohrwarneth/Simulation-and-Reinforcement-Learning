@@ -70,32 +70,29 @@ class PersonManager:
                 if floor - p.location > 0:
                     self.callUp[p.location].append(p)
                     p.startWaitingTime = Clock.tact
-                    # print(f"Time: {self.env.now} Person {p.id} was added to the UpwardQue on floor {p.location}")  # only prints in debug mode
                 elif floor - p.location < 0:
                     # if (p not in self.QueDownward[p.location]):
                     self.callDown[p.location].append(p)
                     p.startWaitingTime = Clock.tact
-                    # print(f"Time: {self.env.now} Person {p.id} was added to the DownwardQue on floor {p.location}")  # only prints in debug mode
-
                 else:
-                    # print("ERROR: Same location as task location")  # only prints in debug mode
+                    # print(p)  # only prints in debug mode
                     # throw exception
                     p.schedule.pop()
 
-        log['people in building'] = f"{self.getRemainingPeople()}/{Conf.totalAmountPerson}"
-        log['people in motion'] = f"{self.getPeopleInMotion()}/{Conf.totalAmountPerson}"
+        log['people in building'] = f"{self.get_remaining_people()}/{Conf.totalAmountPerson}"
+        log['people in motion'] = f"{self.get_people_in_motion()}/{Conf.totalAmountPerson}"
         log["call up"] = self.callUp
         log["call down"] = self.callDown
         Logger.add_data(log)
 
-    def getRemainingPeople(self) -> int:
+    def get_remaining_people(self) -> int:
         remaining_in_building = 0
         for p in self.persons + self.atHome:
             if p.schedule or p.location != 0:
                 remaining_in_building += 1
         return remaining_in_building
 
-    def getPeopleInMotion(self) -> int:
+    def get_people_in_motion(self) -> int:
         in_motion = 0
         for p in self.persons:
             # if p.startWaitingTime != None:
@@ -104,5 +101,5 @@ class PersonManager:
         return in_motion
 
     def end_of_day(self) -> dict:
-        log = {'remaining people in building': f"{self.getRemainingPeople()}/{Conf.totalAmountPerson}"}
+        log = {'remaining people in building': f"{self.get_remaining_people()}/{Conf.totalAmountPerson}"}
         return log
