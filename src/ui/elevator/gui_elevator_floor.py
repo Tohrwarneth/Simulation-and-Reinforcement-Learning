@@ -26,7 +26,10 @@ class GuiElevatorFloor:
 
     def drawFloor(self, game_display, direction: Direction):
         sw, sh = Conf.screenScale
-        floor: list[Person] = self.call[direction.value][self.currentFloor]
+        try:
+            floor: list[Person] = self.call[direction.value][self.currentFloor]
+        except:
+            print('Yelp')
         if len(floor) > 0:
             image_person = pygame.image.load('images/Person.png')
             image_person.convert()

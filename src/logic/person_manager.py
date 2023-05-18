@@ -2,6 +2,7 @@ import random
 
 import numpy as np
 import scipy
+from matplotlib import pyplot as plt
 from numpy.random import default_rng
 
 from src.utils import Conf, Clock, Logger
@@ -25,7 +26,7 @@ class PersonManager:
         rng = default_rng()
         total_person = Conf.totalAmountPerson
         max_floor = Conf.maxFloor
-        home_floors = scipy.stats.uniform.rvs(loc=1, scale=max_floor - 2, size=total_person)
+        home_floors = scipy.stats.uniform.rvs(loc=1, scale=max_floor - 1, size=total_person)
 
         schedule_times: list[np.ndarray] = list()
         for j, (mean, std) in enumerate(Clock.peakTimes):

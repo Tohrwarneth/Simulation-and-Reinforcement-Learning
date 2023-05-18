@@ -25,7 +25,7 @@ class GUIJobs:
         for index, person in enumerate(self.passengers):
             floor: int = person.schedule[0][1]
             text_surface: pygame.Surface = Conf.fontSmall. \
-                render(f"{floor:01d}", True, "dark red" if floor == self.target_floor else "black")
+                render(f"{floor + 1:01d}", True, "dark red" if floor == self.target_floor else "black")
             text_rect: pygame.Rect = text_surface.get_rect()
 
             x, y = Conf.screenSize

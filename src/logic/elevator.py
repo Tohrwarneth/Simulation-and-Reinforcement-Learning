@@ -1,5 +1,5 @@
 from src.utils import Conf, Clock, Logger
-from src.enums import ElevatorState
+from src.enums import ElevatorState, Direction
 from src.logic.person import Person
 
 
@@ -8,6 +8,7 @@ class Elevator:
     index: int
     passengers: list[Person]
     state: ElevatorState
+    nextState: ElevatorState  # Für die GUI
     position: int
     target: int
 
@@ -19,9 +20,11 @@ class Elevator:
         Elevator.nextElevatorIndex += 1
         self.target = 0
         self.state = ElevatorState.WAIT
+        self.nextState = ElevatorState.WAIT
+        self.direction = Direction.UP
         # private var
-        self.call_down = call_down
-        self.call_up = call_up
+        self.callDown = call_down
+        self.callUp = call_up
         self.waitingList: list[int] = []
         self.passengers = []
         self.capacity = capacity
@@ -29,18 +32,18 @@ class Elevator:
         self.position = startPos
         self.waitingTime = waitingTime
 
-    def isPassengerLeaving(self):
-        '''
-        checks if a passenger wants to leave on the current floor
-        Returns:
-
-        '''
-        result = False
-        for p in self.passengers:
-            if p.schedule[0][1] == self.position:
-                result = True
-
-        return result
+    # def isPassengerLeaving(self):
+    #     '''
+    #     checks if a passenger wants to leave on the current floor
+    #     Returns:
+    #
+    #     '''
+    #     result = False
+    #     for p in self.passengers:
+    #         if p.schedule[0][1] == self.position:
+    #             result = True
+    #
+    #     return result
 
     def personsLeaving(self):
         '''
@@ -52,7 +55,7 @@ class Elevator:
 
         '''
         for p in self.passengers:
-            if p.schedule[0][1] == self.position:  # first task, location TODO use dict or docu better
+            if p.schedule[0][1] == self.position:  # first task, location
                 p.schedule.pop(0)  # schedule task finished
                 self.waitingList.append(Clock.tact - p.startWaitingTime)
 
@@ -66,128 +69,193 @@ class Elevator:
         adds passengers till capacity is reached or no people on the floor
         people going in the same direction as the elevator a prioritized
         '''
-        person_in_floor: bool = self.call_up[self.position] or self.call_down[self.position]
         if self.state == ElevatorState.WAIT:
-            while len(self.passengers) < self.capacity and person_in_floor:
-                if self.call_up[self.position]:
-                    p = self.call_up[self.position].pop(0)
-                    self.passengers.append(p)
+            call: list[Person]
 
+            if self.direction == Direction.UP:
+                call = self.callUp[self.position]
+            else:
+                call = self.callDown[self.position]
 
-                if self.call_down[self.position]:
-                    p = self.call_down[self.position].pop(0)
-                    self.passengers.append(p)
-
-                person_in_floor = self.call_up[self.position] or self.call_down[self.position]
-        elif self.state == ElevatorState.UP:
-            if person_in_floor and len(self.passengers) < self.capacity:
-                self.state = ElevatorState.WAIT
-            # while len(self.passengers) < self.capacity and self.call_up[self.position]:
-            #     p = self.call_up[self.position].pop(0)
-            #     self.passengers.append(p)
-            # while len(self.passengers) < self.capacity and self.call_down[self.position]:
-            #     p = self.call_down[self.position].pop(0)
-            #     self.passengers.append(p)
-        else:
-            while len(self.passengers) < self.capacity and self.call_down[self.position]:
-                p = self.call_down[self.position].pop(0)
-                self.passengers.append(p)
-            while len(self.passengers) < self.capacity and self.call_up[self.position]:
-                p = self.call_up[self.position].pop(0)
+            while len(self.passengers) < self.capacity and call:
+                p = call.pop(0)
                 self.passengers.append(p)
 
     def isFloorRequested(self):
         '''
         checks if the Floor at the current position is requested
         '''
-        return (self.call_down[self.position]
-                or self.call_up[self.position]
-                or any(p.schedule[0][1] == self.position for p in self.passengers))
+        call: list[Person]
+        if self.direction == Direction.UP:
+            call = self.callUp[self.position]
+        else:
+            call = self.callDown[self.position]
+        return call or any(p.schedule[0][1] == self.position for p in self.passengers)
 
-    def isFloorRequestedUpwards(self):
-        '''
-        Returns: is a person waiting on the current floor to go upwards
-        '''
-        return (self.call_up[self.position]
-                or any(p.schedule[0][1] == self.position for p in self.passengers))
+    """
+    # def isFloorRequestedUpwards(self):
+    #     '''
+    #     Returns: is a person waiting on the current floor to go upwards
+    #     '''
+    #     return (self.callUp[self.position]
+    #             or any(p.schedule[0][1] == self.position for p in self.passengers))
+    #
+    # def isFloorRequestedDownwards(self):
+    #     '''
+    #     Returns: is a person waiting on the current floor to go downwards
+    #     '''
+    #     return (self.callDown[self.position]
+    #             or any(p.schedule[0][1] == self.position for p in self.passengers))
+    #
+    # def isFloorAboveRequested(self):
+    #     '''
+    #     checks if a Floor above current position is requested
+    #     '''
+    #     result = False
+    #     if any(p.schedule[0][1] > self.position for p in self.passengers):
+    #         result = True
+    #
+    #     for i in range(self.position + 1, len(self.callUp)):
+    #         if self.callUp[i] or self.callDown[i]:
+    #             result = True
+    #
+    #     return result
+    #
+    # def isFloorBelowRequested(self):
+    #     '''
+    #     checks if a Floor below current position is Requested
+    #     '''
+    #     result = False
+    #     if any(p.schedule[0][1] < self.position for p in self.passengers):
+    #         result = True
+    #
+    #     for i in range(self.position):  # TODO numOfFloors as attribute
+    #         if self.callDown[i] or self.callUp[i]:
+    #             result = True
+    #
+    #     return result
+    """
 
-    def isFloorRequestedDownwards(self):
-        '''
-        Returns: is a person waiting on the current floor to go downwards
-        '''
-        return (self.call_down[self.position]
-                or any(p.schedule[0][1] == self.position for p in self.passengers))
+    def search_for_call(self) -> int | None:
+        """
+        Sucht den nächsten angeforderten Stock von aktueller Position aus.
+        Wenn Gebäudegrenze erreicht wurde, wird die Richtung umgedreht.
+        :return: Angefordertes Stockwerk oder None, wenn nichts gefunden
+        """
+        call: list[Person]
+        search_range: tuple[range | reversed, range | reversed] | None = None
+        searched_one_way: bool = False
 
-    def isFloorAboveRequested(self):
-        '''
-        checks if a Floor above current position is requested
-        '''
-        result = False
-        if any(p.schedule[0][1] > self.position for p in self.passengers):
-            result = True
+        for _ in range(2):
+            # 4 Fälle pro Richtung:
+            #
+            # wenn auf dem Weg nach oben: schauen, ob von pos bis 15 jemand nach oben will.
+            # wenn auf dem Weg nach oben: schauen, ob von 15 bis pose jemand nach unten will.
+            # wenn auf dem Weg nach oben: schauen, ob von pos bis 0 jemand nach unten will.
+            # wenn auf dem Weg nach oben: schauen, ob von 0 bis pos jemand nach oben will.
+            #
+            # wenn auf dem Weg nach unten: schauen, ob von pos bis 0 jemand nach unten will.
+            # wenn auf dem Weg nach unten: schauen, ob von 0 bis pos jemand nach oben will.
+            # wenn auf dem Weg nach unten: schauen, ob von pos bis 15 jemand nach oben will.
+            # wenn auf dem Weg nach unten: schauen, ob von 15 bis 0 jemand nach unten will
 
-        for i in range(self.position + 1, len(self.call_up)):
-            if self.call_up[i] or self.call_down[i]:
-                result = True
+            if self.position == Conf.maxFloor - 1:
+                searched_one_way = True
+            elif self.position == 0:
+                searched_one_way = True
 
-        return result
+            search_range = (range(self.position, Conf.maxFloor), range(0, self.position + 1))
+            if self.direction == Direction.UP:
+                for i in search_range[0]:  # pos -> 14
+                    if self.callUp[i]:
+                        return i
+                for i in reversed(search_range[0]):  # 14 -> pos
+                    if self.callDown[i]:
+                        return i
+                # Nach unten schauen und ggf. Richtung wechseln
+                for i in reversed(search_range[1]):  # pos -> 0
+                    if self.callDown[i]:
+                        self.direction = Direction.DOWN
+                        return i
+                for i in search_range[1]:  # 0 -> pos
+                    if self.callUp[i]:
+                        self.direction = Direction.DOWN
+                        return i
+            else:
+                for i in reversed(search_range[1]):  # pos -> 0
+                    # TODO: Wenn 2. Stock letzter und direction == DOWN, dann kommt er hierrein, obwohl er nach oben muss
+                    if self.callDown[i]:
+                        return i
+                for i in search_range[1]:  # 0 -> pos
+                    if self.callUp[i]:
+                        return i
 
-    def isFloorBelowRequested(self):
-        '''
-        checks if a Floor below current position is Requested
-        '''
-        result = False
-        if any(p.schedule[0][1] < self.position for p in self.passengers):
-            result = True
+                for i in search_range[0]:  # pos -> 14
+                    if self.callUp[i]:
+                        self.direction = Direction.UP
+                        return i
+                for i in reversed(search_range[0]):  # 14 -> pos
+                    if self.callDown[i]:
+                        self.direction = Direction.UP
+                        return i
 
-        for i in range(self.position):  # TODO numOfFloors as attribute
-            if self.call_down[i] or self.call_up[i]:
-                result = True
-
-        return result
+            if searched_one_way:
+                break
+            else:
+                self.direction = Direction.UP if self.direction == Direction.DOWN else Direction.DOWN
+                searched_one_way = True
+        return None
 
     def operate(self):
+        self.state = self.nextState
+
+        if self.position == Conf.maxFloor - 1:
+            self.direction = Direction.DOWN
+        elif self.position == 0:
+            self.direction = Direction.UP
+
         log: dict = dict()
-        # Elevator going Up
-        if self.isFloorAboveRequested():
-            self.state = ElevatorState.UP
-
-            self.position += self.state.value
-
-            if self.isFloorRequestedDownwards():
-                # Elevator Waiting
-                self.state = ElevatorState.WAIT
-                self.state = ElevatorState.UP
-
+        if (self.target == self.position and len(self.passengers)) or (  # Auftrag erfüllt
+                self.isFloorRequested() and len(self.passengers) < self.capacity):
+            #       Aufzug wird beim Vorbeifahren angefordert und hat noch Platz
+            if self.state != ElevatorState.WAIT:
+                self.nextState = ElevatorState.WAIT
+                # Wenn gerade erst auf dem Stockwerk angekommen, einen Takt warten
+            else:
+                # Elevator is idle
                 self.personsLeaving()
                 self.personsEntering()
-
-            if not self.isFloorAboveRequested():
-                # TODO check direction of Request + ERROR sometimes elevator goes up to 15
-                self.state = ElevatorState.WAIT
-
-        # Elevator going Down
-        elif self.isFloorBelowRequested():
-            self.state = ElevatorState.DOWN
-            # Elevator going Down
-            # yield self.env.timeout(1 / self.speed)  # speed = Floors/ min
-            self.position += self.state.value
-            if self.isFloorRequestedUpwards():
-                # Elevator Waiting
-                self.state = ElevatorState.WAIT
-                self.state = ElevatorState.DOWN
-
-                # removes and adds passengers
-                self.personsLeaving()
-                self.personsEntering()
-            if not self.isFloorBelowRequested():
-                self.state = ElevatorState.WAIT
-
-        # Elevator is idle
-        elif self.state == ElevatorState.WAIT and self.isFloorRequested():
-            self.personsEntering()
-
-        self.target = self.position + self.state.value
+                target_floor = Conf.maxFloor - 1 if self.direction == Direction.UP else 0
+                for p in self.passengers:
+                    if self.direction == Direction.UP:
+                        floor = p.schedule[0][1]
+                        if floor <= target_floor:
+                            self.nextState = ElevatorState.UP
+                            target_floor = floor
+                    else:
+                        floor = p.schedule[0][1]
+                        if floor >= target_floor:
+                            self.nextState = ElevatorState.DOWN
+                            target_floor = floor
+                if self.nextState != ElevatorState.WAIT:
+                    self.target = target_floor
+        else:  # self.state != ElevatorState.WAIT:
+            if len(self.passengers) == 0 and self.position == self.target:  # and self.state == ElevatorState.WAIT:
+                target_floor = self.search_for_call()
+                # TODO: Wenn auf selbe Etage, dann nimmt nicht mit, da Direction falsch
+                if target_floor != None:
+                    self.target = target_floor
+                    if self.target == self.position:
+                        self.nextState = ElevatorState.WAIT
+                    else:
+                        self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN
+                else:
+                    self.nextState = ElevatorState.WAIT
+            if self.position != self.target:
+                if (self.position + self.state.value != Conf.maxFloor) or (
+                        self.position + self.state.value != -1
+                ):
+                    self.position += self.state.value
 
         log[f"({self.index}) position"] = self.position
         log[f"({self.index}) target"] = self.target
@@ -202,3 +270,6 @@ class Elevator:
         log[f"({self.index}) number of passangers"] = len(self.passengers)
         log[f"({self.index}) passangers"] = self.passengers
         return log
+
+    def __repr__(self):
+        return f"index: {self.index}, position: {self.position}, target: {self.target}, passengers: {len(self.passengers)}, state: {self.state}, next state: {self.nextState}"
