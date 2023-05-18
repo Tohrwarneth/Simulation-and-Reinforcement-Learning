@@ -1,6 +1,8 @@
 import sys
 from time import time
 import numpy as np
+from matplotlib import pyplot as plt
+
 from src.utils import Conf, Clock, Logger
 from src.logic.elevator import Elevator
 from src.logic.person_manager import PersonManager
@@ -69,6 +71,8 @@ class Simulation:
         Clock.end_of_day = True
         data = self.end_of_day_log()
         print(data)
+        if Conf.showPlots:
+            self.draw_data()
 
     def end_of_day_log(self):
         # TODO: EOD Log verbessern für Reinforcement und einmal für Log Ordner
@@ -88,6 +92,37 @@ class Simulation:
         Logger.add_data(log)
         Logger.log()
         return log
+
+    def draw_data(self):
+        # gamma
+        # Histogramm erstellen
+        fig, ax = plt.subplots(layout='constrained')
+        plt.hist(self.personManager.scheduleTimes, bins=24 * 60, density=True, alpha=0.7)
+        # Achsenbeschriftungen
+        plt.xlabel('Zeit [Minuten]')
+        plt.ylabel('Dichte')
+        min_to_hour = lambda x: np.divide(x, 60)
+        secax = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax.set_xlabel('Zeit [Stunden]')
+        # Titel des Plots
+        plt.title('Gamma-Verteilung')
+        # Diagramm anzeigen
+        Logger.log('Gamma-Verteilung')
+        plt.show()
+
+        # Etagen
+        floors = list()
+        for f in self.personManager.homeFloors:
+            floors.append(int(f) + 1)
+        # Histogramm erstellen
+        plt.hist(floors, bins=Conf.maxFloor, density=True, alpha=0.7)
+        # Achsenbeschriftungen
+        plt.xlabel('Stockwerk')
+        plt.ylabel('Dichte')
+        # Titel des Plots
+        plt.title('Stockwerk-Verteilung')
+        # Diagramm anzeigen
+        plt.show()
 
 
 if __name__ == "__main__":

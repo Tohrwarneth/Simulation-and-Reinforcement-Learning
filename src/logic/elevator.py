@@ -171,6 +171,8 @@ class Elevator:
                         return i
                 for i in reversed(search_range[0]):  # 14 -> pos
                     if self.callDown[i]:
+                        if self.position == i:
+                            self.direction = Direction.DOWN
                         return i
                 # Nach unten schauen und ggf. Richtung wechseln
                 for i in reversed(search_range[1]):  # pos -> 0
@@ -188,8 +190,10 @@ class Elevator:
                         return i
                 for i in search_range[1]:  # 0 -> pos
                     if self.callUp[i]:
+                        if self.position == i:
+                            self.direction = Direction.UP
                         return i
-
+                # Nach oben schauen und ggf. Richtung wechseln
                 for i in search_range[0]:  # pos -> 14
                     if self.callUp[i]:
                         self.direction = Direction.UP
@@ -239,7 +243,7 @@ class Elevator:
                             target_floor = floor
                 if self.nextState != ElevatorState.WAIT:
                     self.target = target_floor
-        else:  # self.state != ElevatorState.WAIT:
+        else:
             if len(self.passengers) == 0 and self.position == self.target:  # and self.state == ElevatorState.WAIT:
                 target_floor = self.search_for_call()
                 # TODO: Wenn auf selbe Etage, dann nimmt nicht mit, da Direction falsch
@@ -252,10 +256,13 @@ class Elevator:
                 else:
                     self.nextState = ElevatorState.WAIT
             if self.position != self.target:
-                if (self.position + self.state.value != Conf.maxFloor) or (
-                        self.position + self.state.value != -1
-                ):
-                    self.position += self.state.value
+                if len(self.passengers) > 0:
+                    self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN
+                self.position += self.state.value
+                if self.position == Conf.maxFloor:
+                    self.position = Conf.maxFloor - 1
+                if self.position == -1:
+                    self.position = 0
 
         log[f"({self.index}) position"] = self.position
         log[f"({self.index}) target"] = self.target

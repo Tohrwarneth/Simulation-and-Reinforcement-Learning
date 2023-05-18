@@ -10,6 +10,8 @@ from src.logic.person import Person
 
 
 class PersonManager:
+    scheduleTimes: np.ndarray
+    homeFloors: list[float]
 
     def __init__(self, call_up: list[list[Person]], call_down: list[list[Person]]):
         self.callUp: list[list[Person]] = call_up
@@ -26,23 +28,24 @@ class PersonManager:
         rng = default_rng()
         total_person = Conf.totalAmountPerson
         max_floor = Conf.maxFloor
-        home_floors = scipy.stats.uniform.rvs(loc=1, scale=max_floor - 1, size=total_person)
+        self.homeFloors = scipy.stats.uniform.rvs(loc=1, scale=max_floor - 1, size=total_person)
 
-        schedule_times: list[np.ndarray] = list()
+        self.scheduleTimes: list[np.ndarray] = list()
         for j, (mean, std) in enumerate(Clock.peakTimes):
             k = (mean / std) ** 2
             theta = std ** 2 / mean
             times: np.ndarray = rng.gamma(k, theta, size=total_person)
-            schedule_times.append(times)
+            self.scheduleTimes.append(times)
 
         for i in range(0, total_person):
-            home_floor: int = int(home_floors[i])
+            home_floor: int = int(self.homeFloors[i])
             mensa_floor: int = 10 if home_floor > 7 else 5
             schedule: list[tuple[int, int]] = list()
-            schedule.append((schedule_times[0][i], home_floor))
-            schedule.append((schedule_times[1][i], mensa_floor))
-            schedule.append((schedule_times[1][i] + Clock.breakDuration, home_floor))
-            schedule.append((schedule_times[2][i], 0))
+            schedule.append((self.scheduleTimes[0][i], home_floor))
+            if home_floor != 10 or home_floor != 5:
+                schedule.append((self.scheduleTimes[1][i], mensa_floor))
+                schedule.append((self.scheduleTimes[1][i] + Clock.breakDuration, home_floor))
+            schedule.append((self.scheduleTimes[2][i], 0))
 
             person = Person(schedule=schedule)
             self.persons.append(person)
@@ -54,11 +57,9 @@ class PersonManager:
         '''
         log: dict = dict()
         for p in self.persons:
-            # TODO: Leute richtig nach Hause schicken bzw. Schedule Abarbeitung überprüfen
-            #       Leute gehen nach Hause, obwohl sie noch auf den Etagen sind
-
             # person has no tasks left on schedule -> can go home
             if not p.schedule:
+                p.location = 0
                 self.persons.remove(p)
                 self.atHome.append(p)
                 continue

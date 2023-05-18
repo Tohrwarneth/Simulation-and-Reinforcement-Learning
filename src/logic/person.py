@@ -10,4 +10,4 @@ class Person:
         self.startWaitingTime: int | None = None  # set when Queued Up, None if Person is not waiting
 
     def __repr__(self):
-        return f"{self.index}., loc: {self.location}, schedule: {self.schedule}"
+        return f"{self.index}., location: {self.location}, schedule: {self.schedule}"

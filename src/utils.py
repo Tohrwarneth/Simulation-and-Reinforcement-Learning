@@ -2,6 +2,7 @@ import csv
 import shutil
 from datetime import datetime
 
+import matplotlib.pyplot as plt
 import pygame
 from pathlib import Path
 import os
@@ -29,7 +30,7 @@ class Clock:
     tactBuffer: int = 1
     timeInMin: float = 0
     skip: int | None = None  # bis zur wievielten Stunde vorgespult werden soll
-    peakTimes = [(8 * 60, 3), (12 * 60, 3), (17 * 60, 2)]
+    peakTimes = [(8 * 60, 10), (12 * 60, 10), (17 * 60, 10)]
     breakDuration = 30
     speedScale: int = 1
     speedPrePaused: int = 1
@@ -62,13 +63,14 @@ class Logger:
     currentData: LogData | None = None
     allData: list[LogData]
     log_limits: int = 5
+    dateTime: str
 
     @classmethod
     def init(cls):
         now = datetime.now()  # current date and time
-        date_time = now.strftime("%d.%m.%Y-%H.%M.%S")
-        Path(f"{Conf.logPath}/{date_time}").mkdir(parents=True, exist_ok=True)
-        cls.csv = f"{Conf.logPath}/{date_time}/run.csv"
+        cls.dateTime = now.strftime("%d.%m.%Y-%H.%M.%S")
+        Path(f"{Conf.logPath}/{cls.dateTime}").mkdir(parents=True, exist_ok=True)
+        cls.csv = f"{Conf.logPath}/{cls.dateTime}/run.csv"
         cls.eod_file = f"{Conf.logPath}/eod.csv"
 
         logs = [name for name in os.listdir(Conf.logPath)
@@ -80,13 +82,16 @@ class Logger:
         cls.allData = list()
 
     @classmethod
-    def log(cls):
-        if Clock.end_of_day:
-            cls.write_file(cls.eod_file, eod=True)
-        else:
-            cls.write_file(cls.csv)
-        cls.allData.append(cls.currentData)
-        cls.currentData = None
+    def log(cls, plot_name: str = None):
+        if not plot_name:
+            if Clock.end_of_day:
+                cls.write_file(cls.eod_file, eod=True)
+            else:
+                cls.write_file(cls.csv)
+            cls.allData.append(cls.currentData)
+            cls.currentData = None
+        if plot_name:
+            plt.savefig(f"{Conf.logPath}/{cls.dateTime}/{plot_name}", dpi=300)
 
     @classmethod
     def new_tact(cls):
