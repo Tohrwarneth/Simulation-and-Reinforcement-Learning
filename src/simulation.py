@@ -10,10 +10,13 @@ from src.ui.gui_manager import GuiManager
 
 
 class Simulation:
+    avgWaitingTime: list[float]
+
     def __init__(self, eleCap=5, eleSpeed=1,
                  eleWaitingTime=1, show_gui=True):
         # private var
         self.showGui = show_gui
+        self.avgWaitingTime = list()
         self.callUp = [[] for _ in range(Conf.maxFloor)]
         self.callDown = [[] for _ in range(Conf.maxFloor)]
 
@@ -50,13 +53,16 @@ class Simulation:
                     Clock.speedScale = 1.0
                 Logger.new_tact()
                 self.personManager.manage()
+                waiting_time = list()
                 for elevator in self.elevatorList:
                     elevator.operate()
+                    waiting_time = waiting_time + elevator.waitingList
+                self.avgWaitingTime.append(np.mean(waiting_time))
                 Clock.tact += 1
                 Logger.log()
 
             if self.showGui:
-                self.ui_manager.draw()
+                self.ui_manager.render()
 
             Clock.tactBuffer = 0
 
@@ -72,7 +78,7 @@ class Simulation:
         data = self.end_of_day_log()
         print(data)
         if Conf.showPlots:
-            self.draw_data()
+            self.draw_data(data)
 
     def end_of_day_log(self):
         # TODO: EOD Log verbessern für Reinforcement und einmal für Log Ordner
@@ -83,6 +89,7 @@ class Simulation:
 
         waitingList = []
         for i in range(len(self.elevatorList)):
+            log[f"waitingTime{i}"] = self.elevatorList[i].waitingList
             waitingList.extend(self.elevatorList[i].waitingList)
         if waitingList:
             log["avgWaitingTime"] = np.mean(waitingList)
@@ -93,7 +100,7 @@ class Simulation:
         Logger.log()
         return log
 
-    def draw_data(self):
+    def draw_data(self, data: dict):
         # gamma
         # Histogramm erstellen
         fig, ax = plt.subplots(layout='constrained')
@@ -117,11 +124,28 @@ class Simulation:
         # Histogramm erstellen
         plt.hist(floors, bins=Conf.maxFloor, density=True, alpha=0.7)
         # Achsenbeschriftungen
-        plt.xlabel('Stockwerk')
+        plt.xlabel('Etagen')
         plt.ylabel('Dichte')
         # Titel des Plots
         plt.title('Stockwerk-Verteilung')
         # Diagramm anzeigen
+        Logger.log(plot_name='Etagen-Verteilung')
+        plt.show()
+
+        # Wartezeit
+        y_all = range(len(self.avgWaitingTime))
+        # Histogramm erstellen
+        plt.hist(self.avgWaitingTime, bins=y_all, density=True, alpha=0.7)
+        # Achsenbeschriftungen
+        # fig, ax = plt.subplots(layout='constrained')
+        plt.xlabel('Zeit [Minuten]')
+        # secax = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        # secax.set_xlabel('Zeit [Stunden]')
+        plt.ylabel('Wartezeit [Minuten]')
+        # Titel des Plots
+        plt.title('Durchschnittliche Wartezeiten')
+        # Diagramm anzeigen
+        Logger.log(plot_name='Durchschnittliche-Wartezeit')
         plt.show()
 
 

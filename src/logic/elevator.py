@@ -185,7 +185,6 @@ class Elevator:
                         return i
             else:
                 for i in reversed(search_range[1]):  # pos -> 0
-                    # TODO: Wenn 2. Stock letzter und direction == DOWN, dann kommt er hierrein, obwohl er nach oben muss
                     if self.callDown[i]:
                         return i
                 for i in search_range[1]:  # 0 -> pos

@@ -1,37 +1,55 @@
 import pygame
-
 from src.enums import Direction
 from src.logic.person import Person
 from src.utils import Conf
 
 
 class GuiElevatorFloor:
+    """
+    GUI Representation of People on current floor of an elevator
+    """
     index: int
+    call: tuple[list[list[Person]], list[list[Person]]]
+    currentFloor: int
+    position: tuple[float, float]
 
     def __init__(self, index: int, current_floor: int, call_up: list[list], call_down: list[list]):
         self.index = index
-        self.call: tuple[list[list[Person]], list[list[Person]]] = (call_up, call_down)
+        self.call = (call_up, call_down)
         self.currentFloor = current_floor
 
-        self.position: tuple[float, float] = (0, 0)
+        self.position = (0, 0)
 
         self.update_screen_scale()
 
-    def update(self, current_floor: int):
+    def update(self, current_floor: int) -> None:
+        """
+        Update non referenced variable
+        :param current_floor: current floor of the elevator
+        :return: None
+        """
         self.currentFloor = current_floor
 
     def render(self, game_display: pygame.Surface) -> None:
-        self.drawFloor(game_display, Direction.UP)
-        self.drawFloor(game_display, Direction.DOWN)
+        """
+        Rendering GUI
+        :param game_display: master surface
+        :return: None
+        """
+        self.render_floor(game_display, Direction.UP)
+        self.render_floor(game_display, Direction.DOWN)
 
-    def drawFloor(self, game_display, direction: Direction):
+    def render_floor(self, game_display, direction: Direction) -> None:
+        """
+        Rendering up/down call of current floor
+        :param game_display: master surface
+        :param direction: up or down call
+        :return: None
+        """
         sw, sh = Conf.screenScale
-        try:
-            floor: list[Person] = self.call[direction.value][self.currentFloor]
-        except:
-            print('Yelp')
+        floor: list[Person] = self.call[direction.value][self.currentFloor]
         if len(floor) > 0:
-            image_person = pygame.image.load('images/Person.png')
+            image_person: pygame.Surface = pygame.image.load('images/Person.png')
             image_person.convert()
             image_person = \
                 pygame.transform.scale(
@@ -39,20 +57,20 @@ class GuiElevatorFloor:
                     (image_person.get_width() * 1.5 * sw, image_person.get_height() * 1.5 * sh))
 
             x, y = Conf.screenSize
-            width = self.position[0]
+            width: float = self.position[0]
             if direction == 1:
-                offset_width = -x / 10
+                offset_width: float = -x / 10
             else:
-                offset_width = -x / 6
+                offset_width: float = -x / 6
             height = self.position[1]
 
             person_rect: pygame.Rect = image_person.get_rect()
             person_rect.center = (offset_width + width, height)
 
             if direction == 0:
-                image_arrow = pygame.image.load('images/Pfeil_hoch.png')
+                image_arrow: pygame.Surface = pygame.image.load('images/Pfeil_hoch.png')
             else:
-                image_arrow = pygame.image.load('images/Pfeil_runter.png')
+                image_arrow: pygame.Surface = pygame.image.load('images/Pfeil_runter.png')
             image_arrow.convert()
             image_arrow = \
                 pygame.transform.scale(
@@ -84,9 +102,13 @@ class GuiElevatorFloor:
             game_display.blit(image_arrow, arrow_rect)
             game_display.blit(image_person, person_rect)
 
-    def update_screen_scale(self):
-        screen_size = Conf.screenSize
-        offset = screen_size[0] / 2.858
-        width = offset + (screen_size[0] / 3.55) * self.index
-        height = (screen_size[1] / 2)
+    def update_screen_scale(self) -> None:
+        """
+        Update position and font according to the new resolution
+        :return: None
+        """
+        screen_size: tuple[float, float] = Conf.screenSize
+        offset: float = screen_size[0] / 2.858
+        width: float = offset + (screen_size[0] / 3.55) * self.index
+        height: float = (screen_size[1] / 2)
         self.position = (width, height)
