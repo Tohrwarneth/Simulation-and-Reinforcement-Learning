@@ -27,7 +27,7 @@ class GUIJobs:
     def update(self, target_floor: int) -> None:
         """
         Update non referenced variable
-        :param current_floor: current floor of the elevator
+        :param target_floor: current floor of the elevator
         :return: None
         """
         self.targetFloor = target_floor

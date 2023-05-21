@@ -1,8 +1,5 @@
-import random
-
 import numpy as np
 import scipy
-from matplotlib import pyplot as plt
 from numpy.random import default_rng
 
 from src.utils import Conf, Clock, Logger
@@ -10,26 +7,39 @@ from src.logic.person import Person
 
 
 class PersonManager:
+    """
+    Manages the people in the building
+    """
+    # create persons
     scheduleTimes: np.ndarray
     homeFloors: list[float]
+    #
+    # managing
+    persons: list[Person]
+    atHome: list[Person]
+    callUp: list[list[Person]]
+    callDown: list[list[Person]]
 
     def __init__(self, call_up: list[list[Person]], call_down: list[list[Person]]):
-        self.callUp: list[list[Person]] = call_up
-        self.callDown: list[list[Person]] = call_down
+        self.callUp = call_up
+        self.callDown = call_down
 
-        self.persons: list = []
-        self.atHome: list = []
+        self.persons = list()
+        self.atHome = list()
         self.create_persons()
 
-    def create_persons(self):
-        '''
-        Generates Persons based on peakTimes distribution
-        '''
-        rng = default_rng()
+    def create_persons(self) -> None:
+        """
+        Generates people according to the config class
+        :return: None
+        """
         total_person = Conf.totalAmountPerson
-        max_floor = Conf.maxFloor
-        self.homeFloors = scipy.stats.uniform.rvs(loc=1, scale=max_floor - 1, size=total_person)
 
+        # Uniformly distributed home floors of people
+        rng = default_rng()
+        self.homeFloors = scipy.stats.uniform.rvs(loc=1, scale=Conf.maxFloor - 1, size=total_person)
+
+        # Gamma distributed schedule times
         self.scheduleTimes: list[np.ndarray] = list()
         for j, (mean, std) in enumerate(Clock.peakTimes):
             k = (mean / std) ** 2
@@ -37,6 +47,7 @@ class PersonManager:
             times: np.ndarray = rng.gamma(k, theta, size=total_person)
             self.scheduleTimes.append(times)
 
+        # Initialize Persons
         for i in range(0, total_person):
             home_floor: int = int(self.homeFloors[i])
             mensa_floor: int = 10 if home_floor > 7 else 5
@@ -50,36 +61,33 @@ class PersonManager:
             person = Person(schedule=schedule)
             self.persons.append(person)
 
-    def manage(self):
-        '''
-        adds persons to the queues at the time of their task + sets startWaitingTime
-        removes persons if they have no tasks left
-        '''
+    def manage(self) -> None:
+        """
+        manage persons each tact
+        :return: None
+        """
         log: dict = dict()
-        for p in self.persons:
-            # person has no tasks left on schedule -> can go home
-            if not p.schedule:
-                p.location = 0
-                self.persons.remove(p)
-                self.atHome.append(p)
+        for person in self.persons:
+            if person.waitingStartTime != None:
                 continue
-            # Persons is already waiting in Que
-            if p.startWaitingTime != None:
+            elif not person.schedule:
+                # if no schedule left, person has left the building
+                person.position = 0
+                self.persons.remove(person)
+                self.atHome.append(person)
                 continue
-            # task
-            time, floor = p.schedule[0]
-            if Clock.tact >= time:
-                if floor - p.location > 0:
-                    self.callUp[p.location].append(p)
-                    p.startWaitingTime = Clock.tact
-                elif floor - p.location < 0:
-                    # if (p not in self.QueDownward[p.location]):
-                    self.callDown[p.location].append(p)
-                    p.startWaitingTime = Clock.tact
-                else:
-                    # print(p)  # only prints in debug mode
-                    # throw exception
-                    p.schedule.pop()
+            else:
+                # check if time to travel
+                time_in_sec, target_floor = person.schedule[0]
+                if Clock.tact >= time_in_sec:
+                    if target_floor - person.position > 0:
+                        self.callUp[person.position].append(person)
+                    elif target_floor - person.position < 0:
+                        self.callDown[person.position].append(person)
+                    else:
+                        person.schedule.pop(0)
+                        continue
+                    person.waitingStartTime = Clock.tact
 
         log['people in building'] = f"{self.get_remaining_people()}/{Conf.totalAmountPerson}"
         log['people in motion'] = f"{self.get_people_in_motion()}/{Conf.totalAmountPerson}"
@@ -88,20 +96,35 @@ class PersonManager:
         Logger.add_data(log)
 
     def get_remaining_people(self) -> int:
+        """
+        Returns the number of remaining people in the building
+        :return: number of remaining people
+        """
         remaining_in_building = 0
-        for p in self.persons + self.atHome:
-            if p.schedule or p.location != 0:
+        for person in self.persons + self.atHome:
+            if person.schedule or person.position != 0:
                 remaining_in_building += 1
         return remaining_in_building
 
     def get_people_in_motion(self) -> int:
+        """
+        Return the number of people who are moving between floors or waiting for an elevator
+        :return: number of people moving
+        """
         in_motion = 0
-        for p in self.persons:
-            # if p.startWaitingTime != None:
-            if p.startWaitingTime:
+        for person in self.persons:
+            if person.waitingStartTime:
                 in_motion += 1
         return in_motion
 
     def end_of_day(self) -> dict:
-        log = {'remaining people in building': f"{self.get_remaining_people()}/{Conf.totalAmountPerson}"}
+        """
+        returns final log in dictionary
+        :return: log dictionary
+        """
+        for person in self.persons + self.atHome:
+            if person.schedule or person.position != 0:
+                print(person)
+        log = {'remaining': f"{self.get_remaining_people()}/{Conf.totalAmountPerson}",
+               'inMotion': f"{self.get_people_in_motion()}/{Conf.totalAmountPerson}"}
         return log

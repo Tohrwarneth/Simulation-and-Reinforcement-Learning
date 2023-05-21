@@ -3,6 +3,7 @@ from time import time
 import numpy as np
 from matplotlib import pyplot as plt
 
+from src.logic.person import Person
 from src.utils import Conf, Clock, Logger
 from src.logic.elevator import Elevator
 from src.logic.person_manager import PersonManager
@@ -10,35 +11,40 @@ from src.ui.gui_manager import GuiManager
 
 
 class Simulation:
-    avgWaitingTime: list[float]
+    avgWaitingTime: list[np.ndarray]
+    callUp: list[list[Person]]
+    callDown: list[list[Person]]
 
-    def __init__(self, eleCap=5, eleSpeed=1,
-                 eleWaitingTime=1, show_gui=True):
-        # private var
+    personManager: PersonManager
+    elevators: list[Elevator]
+
+    showGui: bool
+
+    def __init__(self, show_gui=True, elevator_position: tuple[int, int, int] = (0, 0, 0)):
         self.showGui = show_gui
         self.avgWaitingTime = list()
-        self.callUp = [[] for _ in range(Conf.maxFloor)]
-        self.callDown = [[] for _ in range(Conf.maxFloor)]
-
-        self.stateList = []  # Zustand jeden Takt
-        self.log = {"avgWaitingTime": 0, "states": []}
+        self.callUp = [list() for _ in range(Conf.maxFloor)]
+        self.callDown = [list() for _ in range(Conf.maxFloor)]
 
         self.personManager = PersonManager(self.callUp,
                                            self.callDown)
 
-        self.elevatorList = list()
-        for _ in range(3):
-            elevator = Elevator(capacity=eleCap, speed=eleSpeed, waitingTime=eleWaitingTime,
-                                call_up=self.callUp, call_down=self.callDown)
-            self.elevatorList.append(elevator)
+        self.elevators = list()
+        for i in range(3):
+            elevator = Elevator(call_up=self.callUp, call_down=self.callDown,
+                                start_position=elevator_position[i])
+            self.elevators.append(elevator)
 
         if show_gui:
-            self.ui_manager = GuiManager(self.elevatorList, self.callUp,
+            self.ui_manager = GuiManager(self.elevators, self.callUp,
                                          self.callDown)
         self.run()
 
-    def run(self):
-
+    def run(self) -> None:
+        """
+        Update and render loop of the simulation.
+        :return: None
+        """
         Logger.init()
 
         if Clock.skip:
@@ -53,11 +59,19 @@ class Simulation:
                     Clock.speedScale = 1.0
                 Logger.new_tact()
                 self.personManager.manage()
-                waiting_time = list()
-                for elevator in self.elevatorList:
-                    elevator.operate()
-                    waiting_time = waiting_time + elevator.waitingList
-                self.avgWaitingTime.append(np.mean(waiting_time))
+                #
+                # calculate average waiting time
+                elevator_waiting_time: list[tuple[int, int]] = list()
+                for elevator in self.elevators:
+                    elevator.manage()
+                    elevator_waiting_time = elevator_waiting_time + elevator.waitingTimes
+                if not elevator_waiting_time:
+                    elevator_waiting_time.append((Clock.tact, 0))
+                avg_waiting_time = np.mean(elevator_waiting_time, axis=0)[1]
+                avg_waiting_time = np.nan_to_num(avg_waiting_time, nan=0.0)
+                self.avgWaitingTime.append(avg_waiting_time)
+
+                Logger.add_data({'avgWaitingTime': avg_waiting_time})
                 Clock.tact += 1
                 Logger.log()
 
@@ -76,23 +90,23 @@ class Simulation:
     def shutdown(self):
         Clock.end_of_day = True
         data = self.end_of_day_log()
-        print(data)
+        print("Average Waiting Time:", f"{data['avgWaitingTime']:.2f}", " | Remaining Persons:", data["remaining"])
         if Conf.showPlots:
             self.draw_data(data)
 
     def end_of_day_log(self):
-        # TODO: EOD Log verbessern für Reinforcement und einmal für Log Ordner
+        # TODO: End of day
         Logger.new_tact()
         log = self.personManager.end_of_day()
-        for elevator in self.elevatorList:
+        for elevator in self.elevators:
             log = log | elevator.end_of_day()
 
-        waitingList = []
-        for i in range(len(self.elevatorList)):
-            log[f"waitingTime{i}"] = self.elevatorList[i].waitingList
-            waitingList.extend(self.elevatorList[i].waitingList)
-        if waitingList:
-            log["avgWaitingTime"] = np.mean(waitingList)
+        elevator_waiting_time = []
+        for i in range(len(self.elevators)):
+            log[f"waitingTime{i}"] = self.elevators[i].waitingTimes
+            elevator_waiting_time.extend(self.elevators[i].waitingTimes)
+        if elevator_waiting_time:
+            log["avgWaitingTime"] = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
         else:
             log["avgWaitingTime"] = None
 
@@ -100,29 +114,35 @@ class Simulation:
         Logger.log()
         return log
 
-    def draw_data(self, data: dict):
+    def draw_data(self, data: dict) -> None:
+        """
+        Drawing data to plots
+        :param data: dictionary of log data
+        :return: None
+        """
         # gamma
-        # Histogramm erstellen
+        #
         fig, ax = plt.subplots(layout='constrained')
-        plt.hist(self.personManager.scheduleTimes, bins=24 * 60, density=True, alpha=0.7)
-        # Achsenbeschriftungen
+        plt.hist(self.personManager.scheduleTimes, bins=24 * 60, density=True)
+
         plt.xlabel('Zeit [Minuten]')
         plt.ylabel('Dichte')
         min_to_hour = lambda x: np.divide(x, 60)
         secax = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
         secax.set_xlabel('Zeit [Stunden]')
-        # Titel des Plots
+
         plt.title('Gamma-Verteilung')
-        # Diagramm anzeigen
+
         Logger.log('Gamma-Verteilung')
         plt.show()
 
-        # Etagen
+        # floors
+        #
         floors = list()
         for f in self.personManager.homeFloors:
             floors.append(int(f) + 1)
         # Histogramm erstellen
-        plt.hist(floors, bins=Conf.maxFloor, density=True, alpha=0.7)
+        plt.hist(floors, bins=[i for i in range(1, Conf.maxFloor + 1)], density=True, alpha=0.8)
         # Achsenbeschriftungen
         plt.xlabel('Etagen')
         plt.ylabel('Dichte')
@@ -132,19 +152,18 @@ class Simulation:
         Logger.log(plot_name='Etagen-Verteilung')
         plt.show()
 
-        # Wartezeit
-        y_all = range(len(self.avgWaitingTime))
-        # Histogramm erstellen
-        plt.hist(self.avgWaitingTime, bins=y_all, density=True, alpha=0.7)
-        # Achsenbeschriftungen
-        # fig, ax = plt.subplots(layout='constrained')
+        # average waiting time
+        #
+        fig, ax = plt.subplots(layout='constrained')
+        plt.plot([i for i in range(24 * 60)], self.avgWaitingTime)
+
         plt.xlabel('Zeit [Minuten]')
-        # secax = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
-        # secax.set_xlabel('Zeit [Stunden]')
+        secax = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax.set_xlabel('Zeit [Stunden]')
         plt.ylabel('Wartezeit [Minuten]')
-        # Titel des Plots
+
         plt.title('Durchschnittliche Wartezeiten')
-        # Diagramm anzeigen
+
         Logger.log(plot_name='Durchschnittliche-Wartezeit')
         plt.show()
 
@@ -159,9 +178,6 @@ if __name__ == "__main__":
         elif param.__contains__("plots="):
             value = param[6:]
             Conf.showPlots = value == "true" or value == "True"
-        elif param.__contains__("step="):
-            value = param[5:]
-            step_gui = value != "true" and value != "True"
         elif param.__contains__("skip="):
             value = param[5:]
             Clock.skip = int(value)

@@ -9,14 +9,26 @@ import os
 
 
 class Conf:
+    # Elevator
+    capacity = 5
+    speed = 1
+    enterLeavingTime = 1
+    #
+    # Resolution
     screenSize: tuple[float, float] = (1280, 720)
     screenOriginSize: tuple[float, float] = (1920, 1080)
     screenScale: tuple[float, float] = (1, 1)
+    #
+    # Building
     totalAmountPerson: int = 100
     maxFloor: int = 15
+    #
+    # Logs
     showPlots: bool = False
     plotPath: str = "../paper/simulation/images"
     logPath: str = "logs"
+    #
+    # GUI
     fontSizeLarge: int = 30
     fontSizeSmall: int = 20
     fontLarge: pygame.font
