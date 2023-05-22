@@ -180,7 +180,7 @@ cython_debug/
 .idea/**/libraries
 
 generated/**/tmp
-src/logs
+src/logs/*
 !src/logs/eod.csv
 paper/**/*.dtmp
 paper/**/*.bkp

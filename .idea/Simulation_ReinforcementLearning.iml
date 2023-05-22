@@ -4,6 +4,8 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/src/logs" />
       <excludeFolder url="file://$MODULE_DIR$/src_old/logs" />
+      <excludeFolder url="file://$MODULE_DIR$/generated/conceptual_model/tmp" />
+      <excludeFolder url="file://$MODULE_DIR$/generated/simulation/tmp" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
