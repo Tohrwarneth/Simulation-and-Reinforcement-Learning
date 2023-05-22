@@ -122,14 +122,14 @@ class Simulation:
         """
         # gamma
         #
-        fig, ax = plt.subplots(layout='constrained')
+        fig, axs = plt.subplots(layout='constrained')
         plt.hist(self.personManager.scheduleTimes, bins=24 * 60, density=True)
 
         plt.xlabel('Zeit [Minuten]')
         plt.ylabel('Dichte')
         min_to_hour = lambda x: np.divide(x, 60)
-        secax = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
-        secax.set_xlabel('Zeit [Stunden]')
+        secax1 = axs.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax1.set_xlabel('Zeit [Stunden]')
 
         plt.title('Gamma-Verteilung')
 
@@ -154,15 +154,21 @@ class Simulation:
 
         # average waiting time
         #
-        fig, ax = plt.subplots(layout='constrained')
-        plt.plot([i for i in range(24 * 60)], self.avgWaitingTime)
-
+        fig, axs = plt.subplots(2, layout='constrained')
+        axs[1].plot([i for i in range(24 * 60)], self.avgWaitingTime)
         plt.xlabel('Zeit [Minuten]')
-        secax = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
-        secax.set_xlabel('Zeit [Stunden]')
+        secax1 = axs[1].secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax1.set_xlabel('Zeit [Stunden]')
         plt.ylabel('Wartezeit [Minuten]')
 
-        plt.title('Durchschnittliche Wartezeiten')
+        axs[0].plot([i for i in range(24 * 60)], self.personManager.numberInMotion)
+        plt.xlabel('Zeit [Minuten]')
+        secax2 = axs[0].secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax2.set_xlabel('Zeit [Stunden]')
+        plt.ylabel('Wartezeit [Minuten]')
+
+        fig.suptitle('Durchschnittliche Wartezeiten')
+        plt.title('Reisende Personen')
 
         Logger.log(plot_name='Durchschnittliche-Wartezeit')
         plt.show()

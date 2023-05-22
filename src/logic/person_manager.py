@@ -19,13 +19,15 @@ class PersonManager:
     atHome: list[Person]
     callUp: list[list[Person]]
     callDown: list[list[Person]]
+    numberInMotion: list[tuple[int, int]]
 
     def __init__(self, call_up: list[list[Person]], call_down: list[list[Person]]):
-        self.callUp = call_up
-        self.callDown = call_down
-
         self.persons = list()
         self.atHome = list()
+        self.callUp = call_up
+        self.callDown = call_down
+        self.numberInMotion = list()
+
         self.create_persons()
 
     def create_persons(self) -> None:
@@ -90,7 +92,9 @@ class PersonManager:
                     person.waitingStartTime = Clock.tact
 
         log['people in building'] = f"{self.get_remaining_people()}/{Conf.totalAmountPerson}"
-        log['people in motion'] = f"{self.get_people_in_motion()}/{Conf.totalAmountPerson}"
+        in_motion: int = self.get_people_in_motion()
+        self.numberInMotion.append(in_motion)
+        log['people in motion'] = f"{in_motion}/{Conf.totalAmountPerson}"
         log["call up"] = self.callUp
         log["call down"] = self.callDown
         Logger.add_data(log)

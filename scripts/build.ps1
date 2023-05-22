@@ -57,7 +57,7 @@ Get-ChildItem 'conceptual_model' | ForEach-Object {
 
 PrintGeneralProgress
 
-# ConecptualModel
+# Simulation
 
 $mdFileIdentity = "..\paper\conceptual_model\chapters\identity.md"
 $mdFileProperties = "..\paper\conceptual_model\chapters\properties.md"
