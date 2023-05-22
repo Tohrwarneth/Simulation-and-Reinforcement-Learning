@@ -88,14 +88,18 @@ class Simulation:
 
         self.shutdown()
 
-    def shutdown(self):
+    def shutdown(self) -> None:
+        """
+        Called after simulation finished
+        :return: None
+        """
         Clock.end_of_day = True
         data = self.end_of_day_log()
         print("Average Waiting Time:", f"{data['avgWaitingTime']:.2f}", " | Remaining Persons:", data["remaining"])
-        if Conf.showPlots:
+        if Conf.generatesPlots:
             self.draw_data(data)
 
-    def end_of_day_log(self):
+    def end_of_day_log(self) -> dict:
         # TODO: End of day
         Logger.new_tact()
         log = self.personManager.end_of_day()
@@ -123,62 +127,59 @@ class Simulation:
         """
         # gamma
         #
-        fig, axs = plt.subplots(layout='constrained')
+        fig, ax = plt.subplots(layout='constrained')
         plt.hist(self.personManager.scheduleTimes, bins=24 * 60, density=True)
 
         plt.xlabel('Zeit [Minuten]')
         plt.ylabel('Dichte')
         min_to_hour = lambda x: np.divide(x, 60)
-        secax1 = axs.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax1 = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
         secax1.set_xlabel('Zeit [Stunden]')
 
         plt.title('Gamma-Verteilung')
 
         Logger.log('Gamma-Verteilung')
-        plt.show()
+        if Conf.showPlots:
+            plt.show()
 
         # floors
         #
         floors = list()
         for f in self.personManager.homeFloors:
             floors.append(int(f) + 1)
-        # Histogramm erstellen
+
         plt.hist(floors, bins=[i for i in range(1, Conf.maxFloor + 1)], density=True, alpha=0.8)
-        # Achsenbeschriftungen
+
         plt.xlabel('Etagen')
         plt.ylabel('Dichte')
-        # Titel des Plots
+
         plt.title('Stockwerk-Verteilung')
-        # Diagramm anzeigen
+
         Logger.log(plot_name='Etagen-Verteilung')
-        plt.show()
+        if Conf.showPlots:
+            plt.show()
 
         # average waiting time
         #
         waiting_motion = list()
         for i in range(24 * 60):
             waiting_motion.append((self.personManager.numberInMotion[i], self.avgWaitingTime[i]))
-        fig, axs = plt.subplots(2, layout='constrained')
-        axs[1].plot([i for i in range(24 * 60)], waiting_motion)
+        fig, ax = plt.subplots(layout='constrained')
+        ax.plot([i for i in range(24 * 60)], waiting_motion)
         plt.xlabel('Zeit [Minuten]')
-        secax1 = axs[1].secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax1 = ax.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
         secax1.set_xlabel('Zeit [Stunden]')
         plt.ylabel('Wartezeit [Minuten]')
 
-        axs[0].plot([i for i in range(24 * 60)], self.personManager.numberInMotion)
-        plt.xlabel('Zeit [Minuten]')
-        secax2 = axs[0].secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
-        secax2.set_xlabel('Zeit [Stunden]')
-        plt.ylabel('Wartezeit [Minuten]')
+        plt.title('Reisende Personen / Durchschnittliche Wartezeit')
 
-        fig.suptitle('Durchschnittliche Wartezeiten')
-        plt.title('Reisende Personen')
-
-        red_patch = pat.Patch(color='orange', label='Durchschnittliche Wartezeit')
-        axs[1].legend(handles=[red_patch])
+        avg_waiting_patch = pat.Patch(color='orange', label='\u2300 Wartezeit')
+        moving_patch = pat.Patch(color='blue', label='Reisende Personen')
+        ax.legend(handles=[moving_patch, avg_waiting_patch], loc="upper left")
 
         Logger.log(plot_name='Durchschnittliche-Wartezeit')
-        plt.show()
+        if Conf.showPlots:
+            plt.show()
 
 
 if __name__ == "__main__":
@@ -190,7 +191,10 @@ if __name__ == "__main__":
             showGui = value != "false" and value != "False"
         elif param.__contains__("plots="):
             value = param[6:]
-            Conf.showPlots = value == "true" or value == "True"
+            Conf.generatesPlots = value == "true" or value == "True"
+        elif param.__contains__("showPlots="):
+            value = param[10:]
+            Conf.showPlots = (value == "true" or value == "True") and Conf.generatesPlots
         elif param.__contains__("skip="):
             value = param[5:]
             Clock.skip = int(value)

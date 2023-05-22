@@ -24,6 +24,7 @@ class Conf:
     maxFloor: int = 15
     #
     # Logs
+    generatesPlots: bool = False
     showPlots: bool = False
     plotPath: str = "../paper/simulation/images"
     logPath: str = "logs"
