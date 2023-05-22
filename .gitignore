@@ -181,7 +181,7 @@ cython_debug/
 
 generated/**/tmp
 src/logs
-src_old/logs
+!src/logs/eod.csv
 
 # Gradle and Maven with auto-import
 # When using Gradle or Maven with auto-import, you should exclude module files,
