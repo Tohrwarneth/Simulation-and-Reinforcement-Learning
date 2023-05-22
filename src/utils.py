@@ -85,6 +85,7 @@ class Logger:
         Path(f"{Conf.logPath}/{cls.dateTime}").mkdir(parents=True, exist_ok=True)
         cls.csv = f"{Conf.logPath}/{cls.dateTime}/run.csv"
         cls.eod_file = f"{Conf.logPath}/eod.csv"
+        # cls.eod_file = f"{Conf.logPath}/{cls.dateTime}/eod.csv"
 
         logs = [name for name in os.listdir(Conf.logPath)
                 if os.path.isdir(os.path.join(Conf.logPath, name))]
