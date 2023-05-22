@@ -2,6 +2,7 @@ import sys
 from time import time
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib import patches as pat
 
 from src.logic.person import Person
 from src.utils import Conf, Clock, Logger
@@ -154,8 +155,11 @@ class Simulation:
 
         # average waiting time
         #
+        waiting_motion = list()
+        for i in range(24 * 60):
+            waiting_motion.append((self.personManager.numberInMotion[i], self.avgWaitingTime[i]))
         fig, axs = plt.subplots(2, layout='constrained')
-        axs[1].plot([i for i in range(24 * 60)], self.avgWaitingTime)
+        axs[1].plot([i for i in range(24 * 60)], waiting_motion)
         plt.xlabel('Zeit [Minuten]')
         secax1 = axs[1].secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
         secax1.set_xlabel('Zeit [Stunden]')
@@ -169,6 +173,9 @@ class Simulation:
 
         fig.suptitle('Durchschnittliche Wartezeiten')
         plt.title('Reisende Personen')
+
+        red_patch = pat.Patch(color='orange', label='Durchschnittliche Wartezeit')
+        axs[1].legend(handles=[red_patch])
 
         Logger.log(plot_name='Durchschnittliche-Wartezeit')
         plt.show()
