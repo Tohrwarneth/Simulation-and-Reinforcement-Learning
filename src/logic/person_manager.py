@@ -65,7 +65,7 @@ class PersonManager:
 
     def manage(self) -> None:
         """
-        manage persons each tact
+        Manage persons each tact
         :return: None
         """
         log: dict = dict()
@@ -123,7 +123,7 @@ class PersonManager:
 
     def end_of_day(self) -> dict:
         """
-        returns final log in dictionary
+        Returns final log in dictionary
         :return: log dictionary
         """
         for person in self.persons + self.atHome:

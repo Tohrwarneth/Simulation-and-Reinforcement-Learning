@@ -23,8 +23,6 @@ class Elevator:
     #
     # Variables described in config class
     capacity: int
-    speed: int
-    enterLeavingTime: int
 
     def __init__(self, call_up, call_down, start_position=0):
         self.index = self.nextElevatorIndex
@@ -41,8 +39,6 @@ class Elevator:
         self.waitingTimes = list()
         #
         self.capacity = Conf.capacity
-        self.speed = Conf.speed
-        self.enterLeavingTime = Conf.enterLeavingTime
 
     def leaving_passengers(self) -> None:
         """
@@ -244,7 +240,7 @@ class Elevator:
 
     def end_of_day(self) -> dict:
         """
-        returns final log in dictionary
+        Returns final log in dictionary
         :return: log dictionary
         """
         log: dict = dict()

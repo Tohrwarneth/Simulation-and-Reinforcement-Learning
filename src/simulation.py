@@ -97,10 +97,13 @@ class Simulation:
         data = self.end_of_day_log()
         print("Average Waiting Time:", f"{data['avgWaitingTime']:.2f}", " | Remaining Persons:", data["remaining"])
         if Conf.generatesPlots:
-            self.draw_data(data)
+            self.draw_data()
 
     def end_of_day_log(self) -> dict:
-        # TODO: End of day
+        """
+        Returns final log in dictionary
+        :return: log dictionary
+        """
         Logger.new_tact()
         log = self.personManager.end_of_day()
         for elevator in self.elevators:
@@ -119,10 +122,9 @@ class Simulation:
         Logger.log()
         return log
 
-    def draw_data(self, data: dict) -> None:
+    def draw_data(self) -> None:
         """
         Drawing data to plots
-        :param data: dictionary of log data
         :return: None
         """
         # gamma
@@ -161,25 +163,20 @@ class Simulation:
 
         # average waiting time
         #
-        # waiting_motion = list()
-        # for i in range(24 * 60):
-        #     waiting_motion.append((self.personManager.numberInMotion[i], self.avgWaitingTime[i]))
-        fig, axs = plt.subplots(2, layout='constrained', sharex=True)
+        fig, axs = plt.subplots(2, layout='constrained', sharex='row')
         axs[0].plot([i for i in range(24 * 60)], self.personManager.numberInMotion)
-        plt.xlabel('Zeit [Minuten]')
+        axs[0].set_xlabel('Zeit [Minuten]')
         axs[0].set_ylabel('Personen')
-        fig.suptitle('Reisende Personen / Durchschnittliche Wartezeit')
+        secax0 = axs[0].secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax0.set_xlabel('Zeit [Stunden]')
+        fig.suptitle('Reisende Personen')
 
         axs[1].plot([i for i in range(24 * 60)], self.avgWaitingTime)
         plt.xlabel('Zeit [Minuten]')
         secax1 = axs[1].secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
         secax1.set_xlabel('Zeit [Stunden]')
         plt.ylabel('Wartezeit [Minuten]')
-        # plt.title('Durchschnittliche Wartezeit')
-
-        # avg_waiting_patch = pat.Patch(color='orange', label='\u2300 Wartezeit')
-        # moving_patch = pat.Patch(color='blue', label='Reisende Personen')
-        # axs.legend(handles=[moving_patch, avg_waiting_patch], loc="upper left")
+        plt.title('Durchschnittliche Wartezeit')
 
         Logger.log(plot_name='Durchschnittliche-Wartezeit')
         if Conf.showPlots:

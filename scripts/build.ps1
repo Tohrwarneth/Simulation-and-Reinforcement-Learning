@@ -1,7 +1,8 @@
 $n = 3
 $i = 0
 
-function PrintGeneralProgress {
+function PrintGeneralProgress
+{
     $i++
     $OuterLoopProgressParameters = @{
         id = 0
@@ -14,8 +15,9 @@ function PrintGeneralProgress {
     Write-Progress @OuterLoopProgressParameters
 }
 
-function PrintInnerProgress {
-    param([int]$id=1, [int] $step=0, [int] $max=1, [string] $activity="Build", [string] $operation="")
+function PrintInnerProgress
+{
+    param([int]$id = 1, [int] $step = 0, [int] $max = 1, [string] $activity = "Build", [string] $operation = "")
     $j++
     $InnerLoopProgressParameters = @{
         ParentId = 0
@@ -59,11 +61,11 @@ PrintGeneralProgress
 
 # Simulation
 
-$mdFileIdentity = "..\paper\conceptual_model\chapters\identity.md"
-$mdFileProperties = "..\paper\conceptual_model\chapters\properties.md"
-$mdFileBehavior = "..\paper\conceptual_model\chapters\behavior.md"
-$mdFileVerification = "..\paper\conceptual_model\chapters\verification.md"
-$chapters = $mdFileIdentity, $mdFileProperties, $mdFileBehavior, $mdFileVerification
+$mdFileSimOverview = "..\paper\simulation\chapters\overview.md"
+$mdFileSimPerson = "..\paper\simulation\chapters\person.md"
+$mdFileSimElevator = "..\paper\simulation\chapters\elevator.md"
+$chapters = $mdFileIdentity, $mdFileProperties, $mdFileBehavior, $mdFileVerification, `
+            $mdFileSimOverview, $mdFileSimPerson, $mdFileSimElevator
 $m = (Get-ChildItem 'conceptual_model' | Measure-Object).Count
 $j = 0
 Write-Output "`tBuild Simulation"
