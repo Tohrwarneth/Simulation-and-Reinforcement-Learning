@@ -232,6 +232,7 @@ class Elevator:
             for person in self.passengers:
                 if person.schedule[0][1] == self.position:
                     person.schedule.pop(0)
+                    assert person.waitingStartTime
                     self.waitingTimes.append((Clock.tact, Clock.tact - person.waitingStartTime))
 
                     person.waitingStartTime = None
