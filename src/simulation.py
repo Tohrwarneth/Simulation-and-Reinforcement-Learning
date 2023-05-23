@@ -53,7 +53,7 @@ class Simulation:
             Clock.speedScale = 265
 
         t_old: float = time()
-        while Clock.running:
+        while Clock.running or Clock.tactBuffer > 0:
             t_new: float = time()
             for _ in range(Clock.tactBuffer):
                 if Clock.skip and Clock.tact / 60 >= Clock.skip:
@@ -105,7 +105,7 @@ class Simulation:
         Called after simulation finished
         :return: None
         """
-        Clock.end_of_day = True
+        Clock.endOfDay = True
         data = self.end_of_day_log()
         print(f"Average Waiting Time: {data['avgWaitingTime']:.2f} | "
               f"Remaining Persons: {data['remaining']}")

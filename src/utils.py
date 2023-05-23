@@ -48,7 +48,7 @@ class Clock:
     breakDuration = 30
     #
     # Model
-    end_of_day: bool = False
+    endOfDay: bool = False
     running: bool = True
     pause: bool = False
     tact: int = 0
@@ -71,6 +71,7 @@ class Clock:
         cls.tactBuffer = int(cls.timeInMin) - cls.tact
         if cls.timeInMin > 24 * 60:
             cls.running = False
+            cls.tactBuffer = 24 * 60 - cls.tact
 
 
 class LogData:
@@ -134,7 +135,7 @@ class Logger:
         :return: None
         """
         if not plot_name:
-            if Clock.end_of_day:
+            if Clock.endOfDay:
                 cls.write_file(cls.eod_file, eod=True)
                 cls.write_file(cls.eod_session_file, eod=True)
             else:

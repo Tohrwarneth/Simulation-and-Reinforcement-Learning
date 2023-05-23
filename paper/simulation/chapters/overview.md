@@ -22,4 +22,10 @@ zu werden.
 
 ![UI der Simulation zur Validierung\label{ui}](../images/FahrstuhlLayout.png)
 
-Als zweite Methode helfen die Log-Dateien, in denen jede Zeile ein Takt der Simulation repräsentieren.
+Als zweite Methode helfen die Log-Dateien, in denen jede Zeile einen Takt der Simulation repräsentieren.
+
+Des Weiteren werden einige Daten geplottet, unter anderem die durchschnittliche Wartezeit.
+Wenn diese steigt, sobald viele Menschen unterwegs sind und sinkt, wenn dies nicht der Fall ist,
+so verhält die Simulation wie erwartet und bringt ein Indiz, dass diese Valide ist (\ref{avgWait}).
+
+![Anzahl reisende Personen vs. durchschnittliche Wartezeit zum Zeitpunkt t\label{avgWait}](../images/Durchschnittliche-Wartezeit.png)
