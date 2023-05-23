@@ -322,14 +322,171 @@ verglichen. So soll bei gleichen Parametern trotz Zufallselementen, wie
 die Zielstockwerke der Personen, das gleiche oder ein ähnliches Ergebnis
 erzielt werden.
 
-\hypertarget{simulation}{%
-\chapter{Simulation}\label{simulation}}
+\hypertarget{simulationsuxfcbersicht}{%
+\chapter{Simulationsübersicht}\label{simulationsuxfcbersicht}}
 
-\hypertarget{personen-management-logik}{%
-\section{Personen Management Logik}\label{personen-management-logik}}
+Die Simulation wurde in Python realisiert und anhand des Conceptual
+Model gestaltet. In den nächsten Kapiteln wird der implementierte Ablauf
+der Logik der Simulation erläutert.
 
-\hypertarget{aufzugslogik}{%
-\section{Aufzugslogik}\label{aufzugslogik}}
+Die Klasse Simulation selbst initialisiert Personen- und
+Aufzugsmanagement und führt in einer „run``-Methode diese taktweise aus.
+Dabei wird am Ende eines Taktes die generierten Logs zusammengeführt und
+in einer CSV-Datei gespeichert.
+
+Am Ende des Tages wird eine Statistik erstellt, welche in eine CSV-Datei
+gespeichert wird, in der jede Zeile ein simulierter Tag entspricht.
+
+Durch das intensive Logging soll im späteren Teil des Reinforcement
+Learnings das Vergleichen der verschiedenen Generationen erleichtern.
+
+\hypertarget{validierung-der-simulation}{%
+\section{Validierung der Simulation}\label{validierung-der-simulation}}
+
+Die Validierung der Simulation erfolgt anhand der UI, die die Zustände
+und Daten der Simulation visualisieren. Dabei kann diese beschleunigt
+und pausiert werden. Diese ist jedoch nur dann aktiviert, wenn für das
+Programm ein Flag gesetzt wurde. Dadurch kann der Reinforcement Learner
+später einen simulierten Tag verarbeiten, ohne verlangsamt zu werden.
+
+\begin{figure}
+\centering
+\includegraphics{../images/FahrstuhlLayout.png}
+\caption{UI der Simulation zur Validierung\label{ui}}
+\end{figure}
+
+Als zweite Methode helfen die Log-Dateien, in denen jede Zeile ein Takt
+der Simulation repräsentieren.
+
+\hypertarget{personenmanagement-logik}{%
+\chapter{Personenmanagement Logik}\label{personenmanagement-logik}}
+
+Die Personen, die im Gebäude arbeiten werden als einzelne Klasse
+modelliert und speichern deren aktuellen Zustand, wie Position,
+Heimat-Stockwerk und Schedule, wann sie wohin möchten.
+
+Die Klasse „PersonManager`` generiert bei der Initialisierung sämtliche
+Büroarbeiter und verteilt deren Heimat-Stockwerke gleichverteilt über
+die Etage außer dem Erdgeschoss (\ref{Etagen-Verteilung}).
+
+\begin{figure}
+\centering
+\includegraphics{../images/Etagen-Verteilung.png}
+\caption{Etagen Verteilung\label{Etagen-Verteilung}}
+\end{figure}
+
+Anschließend wird für jede Person einen Schedule aus Tupeln von wann und
+wohin sie müssen generiert. Das Wann wird hierbei gammaverteilt
+festgelegt, um einen natürlichen Andrang anzunähern
+(\ref{Gamma-Verteilung}).
+
+\begin{figure}
+\centering
+\includegraphics{../images/Gamma-Verteilung.png}
+\caption{Verteilung wann Person die Etage wechseln
+möchte\label{Gamma-Verteilung}}
+\end{figure}
+
+Nach der Generierung wird in jedem Takt die „manage``-Methode
+aufgerufen. Diese iteriert über alle Personen, die sich noch im Gebäude
+befinden. Ist die aktuelle Person bereits unterwegs, geht es zur
+nächsten Iteration. Ist die Person nicht unterwegs aber deren Scheduler
+leer, dann wird diese Person aus der Liste der Personen entfernt, die
+noch im Gebäude sind. Denn der letzte Punkt eines Schedules ist immer
+der Weg nach Hause. Ist dieser abgeschlossen und aus dem Schedule
+entfernt, bedeutet es, dass diese Person nicht mehr im Gebäude befindet.
+
+Gibt es noch Elemente im Schedule, wird geprüft, ob es Zeit ist, sich
+zur Zieletage des nächsten Elements im Schedule zu reisen. Ist dies
+nicht der Fall, dann wird weiter iteriert. Ansonsten stellt sich die
+Frage, ob die Person nach oben oder unten möchte. Abhängig davon, wird
+sie in die entsprechende Liste eingetragen, die als eine Liste je
+Stockwerk für die jeweilige Richtung realisiert wurde. Möchte die Person
+auf das gleiche Stockwerk, in der sie sich bereits befindet, so wird
+dieses Element des Schedules entfernt und dadurch als erfüllt angesehen.
+
+Am Ende der Iteration wird der aktuelle Stand des Personenmanagements
+geloggt.
+
+\begin{figure}
+\centering
+\includegraphics{../images/person_manager.png}
+\caption{Prozessablauf einer Person}
+\end{figure}
+
+\hypertarget{aufzugsmanagement-logik}{%
+\chapter{Aufzugsmanagement Logik}\label{aufzugsmanagement-logik}}
+
+Die einzelnen Aufzüge entscheiden, wann sie wohin möchten, und
+kommunizieren nicht untereinander. Bei jedem neuen Takt wird geprüft, ob
+das aktuelle Ziel-Stockwerk erreicht wurde. Ist dies der Fall, soll der
+Bewegungszustand des Aufzugs „Warten`` sein. Ansonsten wird dieser
+darauf gesetzt, der aktuelle Stand geloggt und für diesen Takt beendet.
+Wartet der Aufzug bereits, lässt er Passagiere, die im aktuellen
+Stockwerk aussteigen wollen, aussteigen und die Personen einsteigen, die
+in die gleiche Richtung, wie der Aufzug möchten. Als Nächstes wird die
+neue Ziel-Etage aus den Zielen der Passagiere ermittelt.
+
+Ist der Aufzug leer und ohne Ziel, zu dem er gerufen wurde, dann scannt
+dieser nach einer Aufforderung. Dabei wird zunächst geschaut, ob in der
+aktuellen Richtung bis zum Rand des Gebäudes (Erdgeschoss oder oberste
+Etage) gerufen wurde, und übernimmt die Etage, die am nächsten zur
+aktuellen Position liegt. Ansonsten wird in der Richtung nach der weit
+entfernten Forderung in die Gegengesetze Richtung gesucht. Sind in der
+Richtung des Aufzugs für beide Rufrichtungen keine Aufforderung von
+Personen vorhanden, wechselt der Aufzug seine Richtung und prüft dies
+noch einmal vollständig. Ist am Ende des Scans kein Stockwerk gefunden,
+in dem ein Aufzug gerufen wurde, dann wartet der Aufzug einen weiteren
+Takt.
+
+Der vorangegangene Absatz kann wie im folgenden kommentierten
+Codeausschnitt beschrieben, zusammengefasst werden:
+
+\begin{itemize}
+\tightlist
+\item
+  if on the way up: check if anyone from position to 14 wants to go up.
+\item
+  if on the way up: check if anyone from 14 to position wants to go
+  down.
+\end{itemize}
+
+switch direction: up -\textgreater{} down
+
+\begin{itemize}
+\item
+  if on the way up: check if anyone from position to 0 wants to go down.
+\item
+  if on the way up: check if anyone from 0 to position wants to go up.
+\item
+  if on the way down: check if anyone from position to 0 wants to go
+  down.
+\item
+  if on the way down: check if anyone from 0 to position wants to go up.
+\end{itemize}
+
+switch direction: down -\textgreater{} up
+
+\begin{itemize}
+\tightlist
+\item
+  if on the way down: check if anyone from position to 14 wants to go
+  up.
+\item
+  if on the way down: check if anyone from 14 to position wants to go
+  down.
+\end{itemize}
+
+Sind Fälle vom erreichten Ziel, beziehungsweise der angeforderten Etage
+und des leeren wartenden Aufzugs nicht erfüllt, so wird geprüft, ob sich
+der Aufzug gerade am Bewegen ist. Ist dies der Fall, dann wird sich die
+Position in die jeweilige Richtung bewegt.
+
+\begin{figure}
+\centering
+\includegraphics{../images/elevator.png}
+\caption{Prozessablauf eines Aufzugs}
+\end{figure}
 
 
 % %------------------ Literaturverzeichnis & Index -------------------------------
