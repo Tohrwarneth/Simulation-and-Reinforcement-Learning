@@ -40,37 +40,80 @@ class Elevator:
         #
         self.capacity = Conf.capacity
 
-    def leaving_passengers(self) -> None:
+    def manage(self) -> None:
         """
-        Removes people who are on their target floor and set there waitingStartTime to None.
+        Manages the elevator each tact
         :return: None
         """
-        if self.state == ElevatorState.WAIT:
-            for person in self.passengers:
-                if person.schedule[0][1] == self.position:
-                    person.schedule.pop(0)
-                    self.waitingTimes.append((Clock.tact, Clock.tact - person.waitingStartTime))
+        self.state = self.nextState
 
-                    person.waitingStartTime = None
-                    person.position = self.position
-                    self.passengers.remove(person)
+        # if at buildings end change direction
+        if self.position == Conf.maxFloor - 1:
+            self.direction = Direction.DOWN
+        elif self.position == 0:
+            self.direction = Direction.UP
 
-    def entering_passengers(self) -> None:
-        """
-        Adds passengers according to the call direction and the direction of the elevator.
-        :return: None
-        """
-        if self.state == ElevatorState.WAIT:
-            call: list[Person]
+        log: dict = dict()
 
-            if self.direction == Direction.UP:
-                call = self.callUp[self.position]
+        if (self.target == self.position and len(self.passengers)) or (
+                self.is_floor_requested() and len(self.passengers) < self.capacity):
+            # job done or elevator is requestes while driving
+            if self.state != ElevatorState.WAIT:
+                # if reached target floor, wait a tact
+                self.nextState = ElevatorState.WAIT
             else:
-                call = self.callDown[self.position]
+                # Elevator is waiting for passengers to leave and enter
+                self.leaving_passengers()
+                self.entering_passengers()
 
-            while len(self.passengers) < self.capacity and call:
-                p = call.pop(0)
-                self.passengers.append(p)
+                # reevaluate the new target floor
+                target_floor = Conf.maxFloor - 1 if self.direction == Direction.UP else 0
+                for p in self.passengers:
+                    floor = p.schedule[0][1]
+                    if self.direction == Direction.UP:
+                        if floor <= target_floor:
+                            self.nextState = ElevatorState.UP
+                            target_floor = floor
+                    else:
+                        if floor >= target_floor:
+                            self.nextState = ElevatorState.DOWN
+                            target_floor = floor
+                if self.nextState != ElevatorState.WAIT:
+                    # if passengers with target exist, set new target
+                    self.target = target_floor
+        else:
+            if len(self.passengers) == 0 and self.position == self.target:
+                # if no passengers doesn't have a target
+                target_floor = self.search_for_call()
+                if target_floor != None:
+                    # is requested
+                    self.target = target_floor
+                    if self.target == self.position:
+                        self.nextState = ElevatorState.WAIT
+                    else:
+                        self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN
+                else:
+                    # wait if not requested
+                    self.nextState = ElevatorState.WAIT
+            if self.position != self.target:
+                # if driving to a target
+                if len(self.passengers) > 0:
+                    # state represent direction of the elevator
+                    self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN
+                # position is changed by one floor
+                self.position += self.state.value
+                if self.position == Conf.maxFloor:
+                    self.position = Conf.maxFloor - 1
+                if self.position == -1:
+                    self.position = 0
+
+        # log elevator's variables
+        log[f"({self.index}) position"] = self.position
+        log[f"({self.index}) target"] = self.target
+        log[f"({self.index}) state"] = self.state
+        log[f"({self.index}) number of passangers"] = len(self.passengers)
+        log[f"({self.index}) passangers"] = self.passengers
+        Logger.add_data(log)
 
     def is_floor_requested(self) -> bool:
         """
@@ -163,80 +206,37 @@ class Elevator:
                 searched_one_direction = True
         return None
 
-    def manage(self) -> None:
+    def entering_passengers(self) -> None:
         """
-        Manages the elevator each tact
+        Adds passengers according to the call direction and the direction of the elevator.
         :return: None
         """
-        self.state = self.nextState
+        if self.state == ElevatorState.WAIT:
+            call: list[Person]
 
-        # if at buildings end change direction
-        if self.position == Conf.maxFloor - 1:
-            self.direction = Direction.DOWN
-        elif self.position == 0:
-            self.direction = Direction.UP
-
-        log: dict = dict()
-
-        if (self.target == self.position and len(self.passengers)) or (
-                self.is_floor_requested() and len(self.passengers) < self.capacity):
-            # job done or elevator is requestes while driving
-            if self.state != ElevatorState.WAIT:
-                # if reached target floor, wait a tact
-                self.nextState = ElevatorState.WAIT
+            if self.direction == Direction.UP:
+                call = self.callUp[self.position]
             else:
-                # Elevator is waiting for passengers to leave and enter
-                self.leaving_passengers()
-                self.entering_passengers()
+                call = self.callDown[self.position]
 
-                # reevaluate the new target floor
-                target_floor = Conf.maxFloor - 1 if self.direction == Direction.UP else 0
-                for p in self.passengers:
-                    floor = p.schedule[0][1]
-                    if self.direction == Direction.UP:
-                        if floor <= target_floor:
-                            self.nextState = ElevatorState.UP
-                            target_floor = floor
-                    else:
-                        if floor >= target_floor:
-                            self.nextState = ElevatorState.DOWN
-                            target_floor = floor
-                if self.nextState != ElevatorState.WAIT:
-                    # if passengers with target exist, set new target
-                    self.target = target_floor
-        else:
-            if len(self.passengers) == 0 and self.position == self.target:
-                # if no passengers doesn't have a target
-                target_floor = self.search_for_call()
-                if target_floor != None:
-                    # is requested
-                    self.target = target_floor
-                    if self.target == self.position:
-                        self.nextState = ElevatorState.WAIT
-                    else:
-                        self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN
-                else:
-                    # wait if not requested
-                    self.nextState = ElevatorState.WAIT
-            if self.position != self.target:
-                # if driving to a target
-                if len(self.passengers) > 0:
-                    # state represent direction of the elevator
-                    self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN
-                # position is changed by one floor
-                self.position += self.state.value
-                if self.position == Conf.maxFloor:
-                    self.position = Conf.maxFloor - 1
-                if self.position == -1:
-                    self.position = 0
+            while len(self.passengers) < self.capacity and call:
+                p = call.pop(0)
+                self.passengers.append(p)
 
-        # log elevator's variables
-        log[f"({self.index}) position"] = self.position
-        log[f"({self.index}) target"] = self.target
-        log[f"({self.index}) state"] = self.state
-        log[f"({self.index}) number of passangers"] = len(self.passengers)
-        log[f"({self.index}) passangers"] = self.passengers
-        Logger.add_data(log)
+    def leaving_passengers(self) -> None:
+        """
+        Removes people who are on their target floor and set there waitingStartTime to None.
+        :return: None
+        """
+        if self.state == ElevatorState.WAIT:
+            for person in self.passengers:
+                if person.schedule[0][1] == self.position:
+                    person.schedule.pop(0)
+                    self.waitingTimes.append((Clock.tact, Clock.tact - person.waitingStartTime))
+
+                    person.waitingStartTime = None
+                    person.position = self.position
+                    self.passengers.remove(person)
 
     def end_of_day(self) -> dict:
         """
