@@ -117,17 +117,19 @@ class Simulation:
         :return: log dictionary
         """
         Logger.new_tact()
-        log = self.personManager.end_of_day()
-        for elevator in self.elevators:
-            log = log | elevator.end_of_day()
+        log: dict = dict()
 
-        elevator_waiting_time = []
-        for i in range(3):
-            log[f"waitingTime{i}"] = self.elevators[i].waitingTimes
+        # for i in range(3):
+        #     log[f"waitingTime{i}"] = self.elevators[i].waitingTimes
         if self.finalAvgWaitingTime:
-            log["avgWaitingTime"] = self.finalAvgWaitingTime[24 * 60 - 1]
+            avg_waiting = np.mean(self.avgWaitingTime)
+            log["avgWaitingTime"] = avg_waiting
         else:
             log["avgWaitingTime"] = None
+
+        log = log | self.personManager.end_of_day()
+        for elevator in self.elevators:
+            log = log | elevator.end_of_day()
 
         Logger.add_data(log)
         Logger.log()
@@ -172,14 +174,9 @@ class Simulation:
         if Conf.showPlots:
             plt.show()
 
-        # average waiting time
-        #
         fig: plt.Figure = plt.figure()
-        ax_motion: plt.Axes = fig.add_subplot(221)
-        ax_avg: plt.Axes = fig.add_subplot(222)
-        ax_final_avg: plt.Axes = fig.add_subplot(223)
-
-        fig, axs = plt.subplots(3, layout='constrained', sharex='row')
+        ax_motion: plt.Axes = fig.add_subplot(211)
+        ax_avg: plt.Axes = fig.add_subplot(212)
         ax_motion.plot([i for i in range(24 * 60)], self.personManager.numberInMotion)
         ax_motion.set_xlabel('Zeit [Minuten]')
         ax_motion.set_ylabel('Personen')
@@ -188,22 +185,40 @@ class Simulation:
         ax_motion.title.set_text('Reisende Personen')
 
         ax_avg.plot([i for i in range(24 * 60)], self.avgWaitingTime)
-        plt.xlabel('Zeit [Minuten]')
+        ax_avg.set_xlabel('Zeit [Minuten]')
         secax1 = ax_avg.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
         secax1.set_xlabel('Zeit [Stunden]')
-        plt.ylabel('Wartezeit [Minuten]')
-        ax_avg.title.set_text('Durchschnittliche Wartezeit')
+        ax_avg.set_ylabel('Wartezeit [Minuten]')
+        fig.suptitle("Durchschnittliche Wartezeit")
 
-        axs[2].plot([i for i in range(24 * 60)], self.finalAvgWaitingTime)
-        plt.xlabel('Zeit [Minuten]')
-        secax2 = axs[2].secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
-        secax2.set_xlabel('Zeit [Stunden]')
-        plt.ylabel('Wartezeit [Minuten]')
-        axs[2].title.set_text('Finale Durchschnittliche Wartezeit')
+        fig.tight_layout()
 
         Logger.log(plot_name='Durchschnittliche-Wartezeit')
         if Conf.showPlots:
-            plt.show()
+            fig.show()
+
+        # average waiting time
+        #
+        fig: plt.Figure = plt.figure()
+        ax_avg: plt.Axes = fig.add_subplot(211)
+        ax_final_avg: plt.Axes = fig.add_subplot(212)
+
+        ax_avg.plot([i for i in range(24 * 60)], self.avgWaitingTime)
+        ax_avg.set_xlabel('Zeit [Minuten]')
+        secax1 = ax_avg.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax1.set_xlabel('Zeit [Stunden]')
+        ax_avg.set_ylabel('Wartezeit [Minuten]')
+        fig.suptitle("Durchschnittliche Wartezeit")
+
+        ax_final_avg.plot([i for i in range(24 * 60)], self.finalAvgWaitingTime)
+        ax_final_avg.set_xlabel('Zeit [Minuten]')
+        secax2 = ax_final_avg.secondary_xaxis('top', functions=(min_to_hour, min_to_hour))
+        secax2.set_xlabel('Zeit [Stunden]')
+        ax_final_avg.set_ylabel('Wartezeit [Minuten]')
+        ax_final_avg.title.set_text('Finale Durchschnittliche Wartezeit')
+        fig.tight_layout()
+        if Conf.showPlots:
+            fig.show()
 
 
 if __name__ == "__main__":
