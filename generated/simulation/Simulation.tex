@@ -262,6 +262,17 @@ Zielstockwerk.
 \caption{Prozessablauf einer Person}
 \end{figure}
 
+Das Verhalten einer Person beginnt, sobald diese vom Personen-Manager in
+das Gebäude geschickt wird und einen Aufzug für die gewünschte
+Zielrichtung ruft. Sobald ein Aufzug auf der Etage ankommt. Hat dieser
+noch Platz für die Person, steigt diese ein und drückt auf die
+Zieletage. Ansonsten wartet sie, bis der nächste Aufzug ankommt. Wurde
+die Zieletage erreicht, soll die Person aussteigen und ansonsten warten.
+Ist es Zeit für die Mittagspause oder der Tag zu Ende und befindet sich
+die Person nicht im Erdgeschoss, soll sie wieder den Aufzug in die
+gewünschte Richtung rufen. Am Arbeitstagende geht die Person nach Hause,
+wenn sie im Erdgeschoss ist.
+
 \hypertarget{fehlermuxf6glichkeit}{%
 \section{Fehlermöglichkeit}\label{fehlermuxf6glichkeit}}
 
@@ -315,10 +326,10 @@ erzielt werden.
 \chapter{Simulation}\label{simulation}}
 
 \hypertarget{personen-management-logik}{%
-\chapter{Personen Management Logik}\label{personen-management-logik}}
+\section{Personen Management Logik}\label{personen-management-logik}}
 
 \hypertarget{aufzugslogik}{%
-\chapter{Aufzugslogik}\label{aufzugslogik}}
+\section{Aufzugslogik}\label{aufzugslogik}}
 
 
 % %------------------ Literaturverzeichnis & Index -------------------------------

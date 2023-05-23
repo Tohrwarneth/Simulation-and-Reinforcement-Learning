@@ -35,7 +35,16 @@ möchten und nicht deren Zielstockwerk.
 
 ![Prozessablauf einer Person](../images/Simulation_Person.png)
 
-[//]: # (TODO: Prozess Person)
+Das Verhalten einer Person beginnt, sobald diese vom Personen-Manager 
+in das Gebäude geschickt wird und einen Aufzug für die gewünschte Zielrichtung
+ruft.
+Sobald ein Aufzug auf der Etage ankommt. Hat dieser noch Platz für die Person,
+steigt diese ein und drückt auf die Zieletage. Ansonsten wartet sie, bis der
+nächste Aufzug ankommt. Wurde die Zieletage erreicht, soll die Person aussteigen
+und ansonsten warten. Ist es Zeit für die Mittagspause oder der Tag zu Ende und
+befindet sich die Person nicht im Erdgeschoss, soll sie wieder den Aufzug in die
+gewünschte Richtung rufen. Am Arbeitstagende geht die Person nach Hause, wenn 
+sie im Erdgeschoss ist.
 
 ## Fehlermöglichkeit
 <!-- Fehlermöglichkeit: Was kann schiefgehen in dem Verhalten des SUIs, wie ist darauf zu reagieren? -->

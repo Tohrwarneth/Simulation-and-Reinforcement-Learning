@@ -108,7 +108,6 @@ class Simulation:
         Clock.end_of_day = True
         data = self.end_of_day_log()
         print(f"Average Waiting Time: {data['avgWaitingTime']:.2f} | "
-              f"Final Average Waiting Time: {data['finalAvgWaitingTime']:.2f} | "
               f"Remaining Persons: {data['remaining']}")
         if Conf.generatesPlots:
             self.draw_data()
@@ -121,19 +120,11 @@ class Simulation:
         Logger.new_tact()
         log: dict = dict()
 
-        # for i in range(3):
-        #     log[f"waitingTime{i}"] = self.elevators[i].waitingTimes
-        if self.avgWaitingTime:
-            avg_waiting = np.mean(self.avgWaitingTime)
+        if self.finalAvgWaitingTime:
+            avg_waiting = self.finalAvgWaitingTime[24 * 60 - 1]
             log["avgWaitingTime"] = avg_waiting
         else:
             log["avgWaitingTime"] = None
-
-        if self.finalAvgWaitingTime:
-            avg_waiting = self.finalAvgWaitingTime[24 * 60 - 1]
-        else:
-            avg_waiting = None
-        log["finalAvgWaitingTime"] = avg_waiting
 
         log = log | self.personManager.end_of_day()
         for elevator in self.elevators:
