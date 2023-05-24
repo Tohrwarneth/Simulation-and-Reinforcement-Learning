@@ -1,9 +1,9 @@
 import pygame
-from src.utils import Conf, Clock
-from src.logic.elevator import Elevator
-from src.ui.gui_clock import GuiClock
-from src.ui.gui_floor import GuiFloor
-from src.ui.elevator.gui_elevator import GuiElevator
+from utils import Conf, Clock
+from logic.elevator import Elevator
+from ui.gui_clock import GuiClock
+from ui.gui_floor import GuiFloor
+from ui.elevator.gui_elevator import GuiElevator
 
 
 class GuiManager:

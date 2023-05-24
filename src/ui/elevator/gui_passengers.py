@@ -1,5 +1,5 @@
 import pygame
-from src.utils import Conf
+from utils import Conf
 
 """
 Zeichnet die die Passagiere eines Aufzugs

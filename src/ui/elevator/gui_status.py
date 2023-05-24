@@ -1,6 +1,6 @@
 import pygame
-from src.utils import Conf
-from src.enums import ElevatorState, Direction
+from utils import Conf
+from enums import ElevatorState, Direction
 
 
 class GUIStatus:

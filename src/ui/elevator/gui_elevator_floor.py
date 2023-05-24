@@ -1,7 +1,7 @@
 import pygame
-from src.enums import Direction
-from src.logic.person import Person
-from src.utils import Conf
+from enums import Direction
+from logic.person import Person
+from utils import Conf
 
 
 class GuiElevatorFloor:

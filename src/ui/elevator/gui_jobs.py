@@ -1,6 +1,6 @@
 import pygame
-from src.logic.person import Person
-from src.utils import Conf
+from logic.person import Person
+from utils import Conf
 
 
 class GUIJobs:

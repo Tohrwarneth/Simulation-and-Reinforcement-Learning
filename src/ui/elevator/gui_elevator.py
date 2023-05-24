@@ -1,13 +1,9 @@
-from pygame import Rect
-
-from src.enums import ElevatorState
-from src.logic.elevator import Elevator
+from logic.elevator import Elevator
 import pygame
-
-from src.ui.elevator.gui_passengers import GuiPassengers
-from src.ui.elevator.gui_elevator_floor import GuiElevatorFloor
-from src.ui.elevator.gui_jobs import GUIJobs
-from src.ui.elevator.gui_status import GUIStatus
+from ui.elevator.gui_passengers import GuiPassengers
+from ui.elevator.gui_elevator_floor import GuiElevatorFloor
+from ui.elevator.gui_jobs import GUIJobs
+from ui.elevator.gui_status import GUIStatus
 
 
 class GuiElevator:

@@ -1,6 +1,6 @@
-from src.utils import Conf, Clock, Logger
-from src.enums import ElevatorState, Direction
-from src.logic.person import Person
+from utils import Conf, Clock, Logger
+from enums import ElevatorState, Direction
+from logic.person import Person
 
 
 class Elevator:

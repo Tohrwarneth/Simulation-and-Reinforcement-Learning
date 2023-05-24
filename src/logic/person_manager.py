@@ -2,8 +2,8 @@ import numpy as np
 import scipy
 from numpy.random import default_rng
 
-from src.utils import Conf, Clock, Logger
-from src.logic.person import Person
+from utils import Conf, Clock, Logger
+from logic.person import Person
 
 
 class PersonManager:

@@ -1,5 +1,5 @@
 import pygame
-from src.utils import Conf, Clock
+from utils import Conf, Clock
 
 
 class GuiClock:

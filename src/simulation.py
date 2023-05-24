@@ -3,11 +3,11 @@ from time import time
 import numpy as np
 from matplotlib import pyplot as plt
 
-from src.logic.person import Person
-from src.utils import Conf, Clock, Logger
-from src.logic.elevator import Elevator
-from src.logic.person_manager import PersonManager
-from src.ui.gui_manager import GuiManager
+from logic.person import Person
+from utils import Conf, Clock, Logger
+from logic.elevator import Elevator
+from logic.person_manager import PersonManager
+from ui.gui_manager import GuiManager
 
 
 class Simulation:
