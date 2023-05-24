@@ -1,5 +1,5 @@
-from enums import Direction, ElevatorState
 from logic.decider_interface import IDecider
+from enums import Direction, ElevatorState
 from logic.person import Person
 
 
