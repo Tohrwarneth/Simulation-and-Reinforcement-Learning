@@ -1,3 +1,5 @@
+from logic.decider_interface import IDecider
+from logic.simulation_decider import SimulationDecider
 from utils import Conf, Clock, Logger
 from enums import ElevatorState, Direction
 from logic.person import Person
@@ -23,8 +25,9 @@ class Elevator:
     #
     # Variables described in config class
     capacity: int
+    decider: IDecider
 
-    def __init__(self, call_up, call_down, start_position=0):
+    def __init__(self, call_up, call_down, start_position=0, decider: IDecider = SimulationDecider):
         self.index = self.nextElevatorIndex
         Elevator.nextElevatorIndex += 1
         self.passengers = list()
@@ -39,6 +42,7 @@ class Elevator:
         self.waitingTimes = list()
         #
         self.capacity = Conf.capacity
+        self.decider = decider
 
     def manage(self) -> None:
         """
@@ -67,24 +71,16 @@ class Elevator:
                 self.entering_passengers()
 
                 # reevaluate the new target floor
-                target_floor = Conf.maxFloor - 1 if self.direction == Direction.UP else 0
-                for p in self.passengers:
-                    floor = p.schedule[0][1]
-                    if self.direction == Direction.UP:
-                        if floor <= target_floor:
-                            self.nextState = ElevatorState.UP
-                            target_floor = floor
-                    else:
-                        if floor >= target_floor:
-                            self.nextState = ElevatorState.DOWN
-                            target_floor = floor
-                if self.nextState != ElevatorState.WAIT:
-                    # if passengers with target exist, set new target
+                target_floor, next_state = self.decider.get_next_job(self.position, self.direction, self.nextState,
+                                                                     self.passengers)
+                if target_floor != None:
                     self.target = target_floor
+                    self.nextState = next_state
         else:
             if len(self.passengers) == 0 and self.position == self.target:
                 # if no passengers doesn't have a target
-                target_floor = self.search_for_call()
+                target_floor, self.direction = self.decider.search_for_call(self.position, self.direction,
+                                                                            self.callUp, self.callDown)
                 if target_floor != None:
                     # is requested
                     self.target = target_floor
@@ -127,84 +123,6 @@ class Elevator:
         else:
             call = self.callDown[self.position]
         return call or any(p.schedule[0][1] == self.position for p in self.passengers)
-
-    def search_for_call(self) -> int | None:
-        """
-        Searchs the next requested floor from the current position following the elevator's direction.
-        If building end reached turn direction and search again.
-        :return: Requested floor or None if no requests exists
-        """
-        call: list[Person]
-
-        searched_one_direction: bool = False
-
-        for _ in range(2):
-            # 4 cases per direction:
-            #
-            # if on the way up: check if anyone from position to 14 wants to go up.
-            # if on the way up: check if anyone from 14 to position wants to go down.
-            # switch direction: up -> down
-            # if on the way up: check if anyone from position to 0 wants to go down.
-            # if on the way up: check if anyone from 0 to position wants to go up.
-            #
-            # if on the way down: check if anyone from position to 0 wants to go down.
-            # if on the way down: check if anyone from 0 to position wants to go up.
-            # switch direction: down -> up
-            # if on the way down: check if anyone from position to 14 wants to go up.
-            # if on the way down: check if anyone from 14 to position wants to go down.
-
-            # if already on the buildings end, only one direction have to be checked
-            if self.position == Conf.maxFloor - 1:
-                searched_one_direction = True
-            elif self.position == 0:
-                searched_one_direction = True
-
-            search_range = (range(self.position, Conf.maxFloor), range(0, self.position + 1))
-            if self.direction == Direction.UP:
-                for i in search_range[0]:  # position -> 14
-                    if self.callUp[i]:
-                        return i
-                for i in reversed(search_range[0]):  # 14 -> position
-                    if self.callDown[i]:
-                        # if current floor requested follow the request to go down
-                        if self.position == i:
-                            self.direction = Direction.DOWN
-                        return i
-                # change direction if requested: up -> down
-                for i in reversed(search_range[1]):  # position -> 0
-                    if self.callDown[i]:
-                        self.direction = Direction.DOWN
-                        return i
-                for i in search_range[1]:  # 0 -> position
-                    if self.callUp[i]:
-                        self.direction = Direction.DOWN
-                        return i
-            else:
-                for i in reversed(search_range[1]):  # position -> 0
-                    if self.callDown[i]:
-                        return i
-                for i in search_range[1]:  # 0 -> pos
-                    if self.callUp[i]:
-                        # if current floor requested follow the request to go up
-                        if self.position == i:
-                            self.direction = Direction.UP
-                        return i
-                # change direction if requested: down -> up
-                for i in search_range[0]:  # pos -> 14
-                    if self.callUp[i]:
-                        self.direction = Direction.UP
-                        return i
-                for i in reversed(search_range[0]):  # 14 -> pos
-                    if self.callDown[i]:
-                        self.direction = Direction.UP
-                        return i
-
-            if searched_one_direction:
-                break
-            else:
-                self.direction = Direction.UP if self.direction == Direction.DOWN else Direction.DOWN
-                searched_one_direction = True
-        return None
 
     def entering_passengers(self) -> None:
         """
