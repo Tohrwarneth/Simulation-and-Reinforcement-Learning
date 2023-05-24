@@ -19,9 +19,10 @@ class Simulation:
     personManager: PersonManager
     elevators: list[Elevator]
 
-    showGui: bool
+    show_gui: bool
 
-    def __init__(self, show_gui=True, elevator_position: tuple[int, int, int] = (0, 0, 0)):
+    def __init__(self, show_gui=True, reinforcement_learning: bool = False,
+                 elevator_position: tuple[int, int, int] = (0, 0, 0)):
         self.showGui = show_gui
         self.avgWaitingTime = list()
         self.finalAvgWaitingTime = list()
@@ -35,6 +36,8 @@ class Simulation:
         for i in range(3):
             elevator = Elevator(call_up=self.callUp, call_down=self.callDown,
                                 start_position=elevator_position[i])
+            if reinforcement_learning:
+                elevator.decider = Conf.reinforcement_decider
             self.elevators.append(elevator)
 
         if show_gui:
@@ -221,12 +224,13 @@ class Simulation:
 
 
 if __name__ == "__main__":
-    showGui: bool = False
+    show_gui: bool = False
     step_gui: bool = False
+    reinforcement_learning: bool = False
     for param in sys.argv:
         if param.__contains__("ui="):
             value = param[3:]
-            showGui = value != "false" and value != "False"
+            show_gui = value != "false" and value != "False"
         elif param.__contains__("plots="):
             value = param[6:]
             Conf.generatesPlots = value == "true" or value == "True"
@@ -236,5 +240,8 @@ if __name__ == "__main__":
         elif param.__contains__("skip="):
             value = param[5:]
             Clock.skip = int(value)
+        elif param.__contains__("rl="):
+            value = param[3:]
+            reinforcement_learning = value == "true" or value == "True"
 
-    S = Simulation(show_gui=showGui)
+    S = Simulation(show_gui=show_gui, reinforcement_learning=reinforcement_learning)

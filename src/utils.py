@@ -9,6 +9,9 @@ import os
 import pandas as pd
 from pandas.errors import EmptyDataError
 
+from logic.decider_interface import IDecider
+from re_learner.reinforcment_decider import ReinforcementDecider
+
 
 class Conf:
     """
@@ -16,6 +19,7 @@ class Conf:
     """
     # Elevator
     capacity = 5
+    reinforcement_decider: IDecider = ReinforcementDecider
     #
     # Resolution
     screenSize: tuple[float, float] = (1280, 720)
