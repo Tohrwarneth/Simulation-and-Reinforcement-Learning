@@ -124,7 +124,7 @@ class Simulation:
         log: dict = dict()
 
         if self.finalAvgWaitingTime:
-            avg_waiting = self.finalAvgWaitingTime[24 * 60 - 1]
+            avg_waiting = self.finalAvgWaitingTime.pop()
             log["avgWaitingTime"] = avg_waiting
         else:
             log["avgWaitingTime"] = None
