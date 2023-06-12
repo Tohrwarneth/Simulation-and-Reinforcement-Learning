@@ -12,5 +12,4 @@ graphics: true
 header-includes:
 - \graphicspath{{../paper/simulation/chapters/}}
 ---
-
 \newpage
