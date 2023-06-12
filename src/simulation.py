@@ -1,3 +1,4 @@
+import argparse
 import sys
 from time import time
 import numpy as np
@@ -224,24 +225,26 @@ class Simulation:
 
 
 if __name__ == "__main__":
-    show_gui: bool = False
-    step_gui: bool = False
-    reinforcement_learning: bool = False
-    for param in sys.argv:
-        if param.__contains__("ui="):
-            value = param[3:]
-            show_gui = value != "false" and value != "False"
-        elif param.__contains__("plots="):
-            value = param[6:]
-            Conf.generatesPlots = value == "true" or value == "True"
-        elif param.__contains__("showPlots="):
-            value = param[10:]
-            Conf.showPlots = (value == "true" or value == "True") and Conf.generatesPlots
-        elif param.__contains__("skip="):
-            value = param[5:]
-            Clock.skip = int(value)
-        elif param.__contains__("rl="):
-            value = param[3:]
-            reinforcement_learning = value == "true" or value == "True"
+    parser = argparse.ArgumentParser(prog='ElevatorSimulation',
+                    description='Simulates elevators of an office complex in a simple way')
+
+    parser.add_argument('-p', '--plots', help="Generates plots", action='store_true')
+    parser.add_argument('-sp', '--showPlots', help="Shows generated plots. (sets --plots true)", action='store_true')
+    parser.add_argument('-ui', '--ui', help="Shows user interface", action='store_true')
+    parser.add_argument('-s', '--skip', help="Fast forward to hour x", type=int, nargs='?')
+    parser.add_argument('-rl', '--reinforcementLearner',
+                        help="Runs the simulation with reinforcement learned Decider", action='store_true')
+    parser.add_argument('-t', '--train', help="Trains the reinforcement learner", action='store_true')
+
+    args = parser.parse_args()
+    argument_dict: dict = vars(args)
+    print(f"Dict format: {argument_dict}")
+
+    show_gui: bool = args.ui
+    Conf.generatesPlots = args.plots if args.plots or args.showPlots else False
+    Conf.showPlots = args.showPlots
+    Clock.skip = args.skip
+    reinforcement_learning: bool = args.reinforcementLearner
+    train: bool = args.train
 
     S = Simulation(show_gui=show_gui, reinforcement_learning=reinforcement_learning)
