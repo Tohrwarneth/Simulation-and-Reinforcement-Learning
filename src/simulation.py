@@ -237,8 +237,8 @@ if __name__ == "__main__":
     parser.add_argument('-t', '--train', help="Trains the reinforcement learner", action='store_true')
 
     args = parser.parse_args()
-    print(f"Args: {args}\nCommand Line: {sys.argv}\nui: {args.ui}, plot: {args.plots}")
-    print(f"Dict format: {vars(args)}")
+    argument_dict: dict = vars(args)
+    print(f"Dict format: {argument_dict}")
 
     show_gui: bool = args.ui
     Conf.generatesPlots = args.plots if args.plots or args.showPlots else False

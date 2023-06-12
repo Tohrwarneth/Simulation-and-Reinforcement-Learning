@@ -119,7 +119,7 @@ class Logger:
         now = datetime.now()  # current date and time
         cls.dateTime = now.strftime("%d.%m.%Y-%H.%M.%S")
         Path(f"{Conf.logPath}//{cls.dateTime}").mkdir(parents=True, exist_ok=True)
-        cls.csv = f"{Conf.logPath}//{cls.dateTime}/run.csv"
+        cls.csv = f"{Conf.logPath}//{cls.dateTime}//run.csv"
         cls.eod_file = f"{Conf.logPath}/eod.csv"
         cls.eod_session_file = f"{Conf.logPath}//{cls.dateTime}//eod.csv"
 
@@ -128,6 +128,8 @@ class Logger:
         while len(logs) > cls.log_limits:
             shutil.rmtree(f"{Conf.logPath}//{logs[0]}", ignore_errors=True)
             logs.pop(0)
+
+        os.makedirs(os.path.dirname(cls.csv), exist_ok=True)
 
         cls.allData = list()
 
@@ -147,7 +149,7 @@ class Logger:
             cls.allData.append(cls.currentData)
             cls.currentData = None
         if plot_name:
-            plt.savefig(f"{Conf.logPath}/{cls.dateTime}/{plot_name}", dpi=300)
+            plt.savefig(f"{Conf.logPath}//{cls.dateTime}//{plot_name}", dpi=300)
 
     @classmethod
     def new_tact(cls) -> None:
