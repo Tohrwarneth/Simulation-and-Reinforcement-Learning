@@ -107,7 +107,7 @@ class Logger:
     eod_session_file: str  # End Of Day for each session
     currentData: LogData | None = None
     allData: list[LogData]
-    log_limits: int = 5
+    log_limits: int = 10
     dateTime: str
 
     @classmethod
