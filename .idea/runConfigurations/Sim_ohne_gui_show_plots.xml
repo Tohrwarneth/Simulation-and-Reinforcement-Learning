@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Sim ohne gui show plots" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="Sim ohne gui show plots" type="PythonConfigurationType" factoryName="Python" folderName="Simulation">
     <module name="Simulation_ReinforcementLearning" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />

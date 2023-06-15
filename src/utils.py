@@ -17,8 +17,11 @@ class Conf:
     """
     Config class
     """
+    # Reinforcement Learner
+    train: bool = False
+    #
     # Elevator
-    capacity = 5
+    capacity: int = 5
     reinforcement_decider: IDecider = ReinforcementDecider
     #
     # Resolution
@@ -48,8 +51,8 @@ class Clock:
     Config, model and logic of the simulation clock/time
     """
     # Config
-    peakTimes = [(8 * 60, 10), (12 * 60, 10), (17 * 60, 10)]
-    breakDuration = 30
+    peakTimes: list[tuple[int, int]] = [(8 * 60, 10), (12 * 60, 10), (17 * 60, 10)]
+    breakDuration: int = 30
     #
     # Model
     endOfDay: bool = False
@@ -102,13 +105,14 @@ class Logger:
     """
     Save log files
     """
-    csv: str
+    csv: str | None
     eod_file: str  # End Of Day
-    eod_session_file: str  # End Of Day for each session
+    eod_session_file: str | None  # End Of Day for each session
     currentData: LogData | None = None
     allData: list[LogData]
     log_limits: int = 10
     dateTime: str
+    noLogs: bool = False
 
     @classmethod
     def init(cls) -> None:
@@ -116,12 +120,24 @@ class Logger:
         Initialize Logger
         :return:
         """
+        if cls.noLogs:
+            return
         now = datetime.now()  # current date and time
-        cls.dateTime = now.strftime("%d.%m.%Y-%H.%M.%S")
-        Path(f"{Conf.logPath}//{cls.dateTime}").mkdir(parents=True, exist_ok=True)
-        cls.csv = f"{Conf.logPath}//{cls.dateTime}//run.csv"
-        cls.eod_file = f"{Conf.logPath}/eod.csv"
-        cls.eod_session_file = f"{Conf.logPath}//{cls.dateTime}//eod.csv"
+        cls.dateTime = now.strftime("%m.%d.%Y-%H.%M.%S")
+
+        if Conf.train:
+            cls.csv = None
+        else:
+            Path(f"{Conf.logPath}//{cls.dateTime}").mkdir(parents=True, exist_ok=True)
+            cls.csv = f"{Conf.logPath}//{cls.dateTime}//run.csv"
+            os.makedirs(os.path.dirname(cls.csv), exist_ok=True)
+
+        if Conf.train:
+            cls.eod_file = f"{Conf.logPath}/train_eod.csv"
+            cls.eod_session_file = None
+        else:
+            cls.eod_file = f"{Conf.logPath}/eod.csv"
+            cls.eod_session_file = f"{Conf.logPath}//{cls.dateTime}//eod.csv"
 
         logs = [name for name in os.listdir(Conf.logPath)
                 if os.path.isdir(os.path.join(Conf.logPath, name))]
@@ -129,7 +145,6 @@ class Logger:
             shutil.rmtree(f"{Conf.logPath}//{logs[0]}", ignore_errors=True)
             logs.pop(0)
 
-        os.makedirs(os.path.dirname(cls.csv), exist_ok=True)
 
         cls.allData = list()
 
@@ -140,10 +155,13 @@ class Logger:
         :param plot_name: Name of the plot to save. None if data should be saved
         :return: None
         """
+        if cls.noLogs:
+            return
         if not plot_name:
             if Clock.endOfDay:
                 cls.write_file(cls.eod_file, eod=True)
-                cls.write_file(cls.eod_session_file, eod=True)
+                if not Conf.train:
+                    cls.write_file(cls.eod_session_file, eod=True)
             else:
                 cls.write_file(cls.csv)
             cls.allData.append(cls.currentData)
@@ -157,6 +175,8 @@ class Logger:
         Create new log data for the new tact
         :return: None
         """
+        if cls.noLogs:
+            return
         cls.currentData = LogData(Clock.tact)
 
     @classmethod
@@ -166,6 +186,8 @@ class Logger:
         :param data: Data dictionary
         :return:
         """
+        if cls.noLogs:
+            return
         cls.currentData.add_data(data)
 
     @classmethod
@@ -176,6 +198,9 @@ class Logger:
         :param eod: True if end of day log
         :return: None
         """
+        if cls.noLogs:
+            return
+        assert file
         with open(file, "a", newline='') as csv_file:
             data_dict = cls.currentData.data
             w = csv.DictWriter(csv_file, data_dict.keys(), delimiter=',')

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/src/.idea/SimRL-Source-Code.iml" filepath="$PROJECT_DIR$/src/.idea/SimRL-Source-Code.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/Simulation_ReinforcementLearning.iml" filepath="$PROJECT_DIR$/.idea/Simulation_ReinforcementLearning.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../ZombieDice/.idea/ZombieDice.iml" filepath="$PROJECT_DIR$/../ZombieDice/.idea/ZombieDice.iml" />
     </modules>
   </component>
 </project>

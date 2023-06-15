@@ -1,5 +1,4 @@
 import argparse
-import sys
 from time import time
 import numpy as np
 from matplotlib import pyplot as plt
@@ -22,7 +21,7 @@ class Simulation:
 
     show_gui: bool
 
-    def __init__(self, show_gui=True, reinforcement_learning: bool = False,
+    def __init__(self, show_gui=True, rl_decider: bool = False,
                  elevator_position: tuple[int, int, int] = (0, 0, 0)):
         self.showGui = show_gui
         self.avgWaitingTime = list()
@@ -37,7 +36,7 @@ class Simulation:
         for i in range(3):
             elevator = Elevator(call_up=self.callUp, call_down=self.callDown,
                                 start_position=elevator_position[i])
-            if reinforcement_learning:
+            if rl_decider:
                 elevator.decider = Conf.reinforcement_decider
             self.elevators.append(elevator)
 
@@ -88,9 +87,11 @@ class Simulation:
                 avg_waiting_time = np.mean(person_waiting_time)
                 self.avgWaitingTime.append(avg_waiting_time)
 
-                Logger.add_data({'avgWaitingTime': avg_waiting_time})
                 Clock.tact += 1
-                Logger.log()
+
+                if not Conf.train:
+                    Logger.add_data({'avgWaitingTime': avg_waiting_time})
+                    Logger.log()
 
             if self.showGui:
                 self.ui_manager.render()
@@ -235,6 +236,7 @@ if __name__ == "__main__":
     parser.add_argument('-rl', '--reinforcementLearner',
                         help="Runs the simulation with reinforcement learned Decider", action='store_true')
     parser.add_argument('-t', '--train', help="Trains the reinforcement learner", action='store_true')
+    parser.add_argument('-nl', '--noLogs', help="Doesn't generates log files", action='store_true')
 
     args = parser.parse_args()
     argument_dict: dict = vars(args)
@@ -245,6 +247,7 @@ if __name__ == "__main__":
     Conf.showPlots = args.showPlots
     Clock.skip = args.skip
     reinforcement_learning: bool = args.reinforcementLearner
-    train: bool = args.train
+    Conf.train = args.train
+    Logger.noLogs = args.noLogs
 
-    S = Simulation(show_gui=show_gui, reinforcement_learning=reinforcement_learning)
+    S = Simulation(show_gui=show_gui, rl_decider=reinforcement_learning)
