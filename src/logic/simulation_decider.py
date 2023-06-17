@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from enums import Direction, ElevatorState
 from logic.decider_interface import IDecider
 from logic.person import Person
@@ -5,8 +7,9 @@ from utils import Conf
 
 
 class SimulationDecider(IDecider):
-    @staticmethod
-    def search_for_call(position: int, direction: Direction, call_up: list[list[Person]],
+
+    @classmethod
+    def search_for_call(cls, position: int, direction: Direction, call_up: list[list[Person]],
                         call_down: list[list[Person]]) -> tuple[int, Direction] | tuple[None, Direction]:
         """
         Searchs the next requested floor from the current position following the elevator's direction.
@@ -86,8 +89,8 @@ class SimulationDecider(IDecider):
                 searched_one_direction = True
         return None, direction
 
-    @staticmethod
-    def get_next_job(position: int, direction: Direction, next_state: ElevatorState,
+    @classmethod
+    def get_next_job(cls, position: int, direction: Direction, next_state: ElevatorState,
                      passengers: list[Person]) -> tuple[int, ElevatorState] | tuple[None, ElevatorState]:
         target_floor: int = Conf.maxFloor - 1 if direction == Direction.UP else 0
         for p in passengers:

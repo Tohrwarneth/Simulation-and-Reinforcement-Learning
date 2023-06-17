@@ -1,9 +1,12 @@
-import argparse
+from __future__ import annotations
 from time import time
 import numpy as np
 from matplotlib import pyplot as plt
 
+from logic.decision import Decision
 from logic.person import Person
+from re_learner import NetCoder
+import re_learner.TrainerPPO
 from utils import Conf, Clock, Logger
 from logic.elevator import Elevator
 from logic.person_manager import PersonManager
@@ -12,18 +15,23 @@ from ui.gui_manager import GuiManager
 
 class Simulation:
     avgWaitingTime: list[np.ndarray]
-    finalAvgWaitingTime: list[np.ndarray]
+    finalAvgWaitingTime: list[np.ndarray] | list[float]
     callUp: list[list[Person]]
     callDown: list[list[Person]]
 
     personManager: PersonManager
     elevators: list[Elevator]
 
-    show_gui: bool
+    showGui: bool
+    rlDecider: bool
+    latestDecision: tuple
 
     def __init__(self, show_gui=True, rl_decider: bool = False,
                  elevator_position: tuple[int, int, int] = (0, 0, 0)):
+        self.latestDecision = None
         self.showGui = show_gui
+        self.rlDecider = rl_decider
+
         self.avgWaitingTime = list()
         self.finalAvgWaitingTime = list()
         self.callUp = [list() for _ in range(Conf.maxFloor)]
@@ -43,9 +51,10 @@ class Simulation:
         if show_gui:
             self.ui_manager = GuiManager(self.elevators, self.callUp,
                                          self.callDown)
-        self.run()
+        if rl_decider:
+            NetCoder.init(self.get_game_state(), Conf.capacity)
 
-    def run(self) -> None:
+    def run(self, episode_buffer: list[tuple, float, int] = None) -> None:
         """
         Update and render loop of the simulation.
         :return: None
@@ -73,6 +82,8 @@ class Simulation:
                 for elevator in self.elevators:
                     elevator.manage()
                     elevator_waiting_time += elevator.waitingTimes
+                    if not self.rlDecider:
+                        elevator.log()
                 if len(elevator_waiting_time) == 0:
                     elevator_waiting_time.append((Clock.tact, 0))
                 avg_waiting_time = np.mean(elevator_waiting_time, axis=0)[1]
@@ -92,6 +103,9 @@ class Simulation:
                 if not Conf.train:
                     Logger.add_data({'avgWaitingTime': avg_waiting_time})
                     Logger.log()
+
+                if episode_buffer is not None:
+                    episode_buffer.append((self.get_game_state(), self.latestDecision))
 
             if self.showGui:
                 self.ui_manager.render()
@@ -138,6 +152,12 @@ class Simulation:
         Logger.add_data(log)
         Logger.log()
         return log
+
+    def get_game_state(self) -> tuple:
+        elevators: list[tuple] = list()
+        for e in self.elevators:
+            elevators.append((e.position, e.direction, e.nextState, e.passengers))
+        return self.callUp, self.callDown, tuple(elevators)
 
     def draw_data(self) -> None:
         """
@@ -224,30 +244,21 @@ class Simulation:
         if Conf.showPlots:
             fig.show()
 
+    def apply_decisions(self, decisions: tuple[int, int, int]):
+        self.latestDecision = decisions
+        for elevator in self.elevators:
+            elevator.apply_decision(decisions[elevator.index])
+            elevator.log()
+        return self.avgWaitingTime, self.personManager.get_remaining_people()
+
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(prog='ElevatorSimulation',
-                    description='Simulates elevators of an office complex in a simple way')
+    show_gui, reinforcement_learning = Conf.parse_args()
 
-    parser.add_argument('-p', '--plots', help="Generates plots", action='store_true')
-    parser.add_argument('-sp', '--showPlots', help="Shows generated plots. (sets --plots true)", action='store_true')
-    parser.add_argument('-ui', '--ui', help="Shows user interface", action='store_true')
-    parser.add_argument('-s', '--skip', help="Fast forward to hour x", type=int, nargs='?')
-    parser.add_argument('-rl', '--reinforcementLearner',
-                        help="Runs the simulation with reinforcement learned Decider", action='store_true')
-    parser.add_argument('-t', '--train', help="Trains the reinforcement learner", action='store_true')
-    parser.add_argument('-nl', '--noLogs', help="Doesn't generates log files", action='store_true')
-
-    args = parser.parse_args()
-    argument_dict: dict = vars(args)
-    print(f"Dict format: {argument_dict}")
-
-    show_gui: bool = args.ui
-    Conf.generatesPlots = args.plots if args.plots or args.showPlots else False
-    Conf.showPlots = args.showPlots
-    Clock.skip = args.skip
-    reinforcement_learning: bool = args.reinforcementLearner
-    Conf.train = args.train
-    Logger.noLogs = args.noLogs
-
-    S = Simulation(show_gui=show_gui, rl_decider=reinforcement_learning)
+    if Conf.train:
+        re_learner.TrainerPPO.TrainerPPO().TrainNetwork()
+    else:
+        sim = Simulation(show_gui=show_gui, rl_decider=reinforcement_learning)
+        # Conf.reinforcement_decider.init(sim,)
+        sim.run()
+        Clock.reset()

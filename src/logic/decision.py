@@ -1,0 +1,3 @@
+
+class Decision:
+    target: int

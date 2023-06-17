@@ -126,9 +126,9 @@ class PersonManager:
         Returns final log in dictionary
         :return: log dictionary
         """
-        for person in self.persons + self.atHome:
-            if person.schedule or person.position != 0:
-                print(person)
+        # for person in self.persons + self.atHome:
+        #     if person.schedule or person.position != 0:
+        #         print(person)
         log = {'remaining': f"{self.get_remaining_people()}/{Conf.totalAmountPerson}",
                'inMotion': f"{self.get_people_in_motion()}/{Conf.totalAmountPerson}"}
         return log

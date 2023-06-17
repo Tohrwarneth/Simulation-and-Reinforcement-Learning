@@ -1,4 +1,5 @@
 from logic.decider_interface import IDecider
+from logic.decision import Decision
 from logic.simulation_decider import SimulationDecider
 from utils import Conf, Clock, Logger
 from enums import ElevatorState, Direction
@@ -26,6 +27,8 @@ class Elevator:
     # Variables described in config class
     capacity: int
     decider: IDecider
+    decision_job: tuple[int, Direction] | None
+    decision_call: int | None
 
     def __init__(self, call_up, call_down, start_position=0, decider: IDecider = SimulationDecider):
         self.index = self.nextElevatorIndex
@@ -57,8 +60,6 @@ class Elevator:
         elif self.position == 0:
             self.direction = Direction.UP
 
-        log: dict = dict()
-
         if (self.target == self.position and len(self.passengers)) or (
                 self.is_floor_requested() and len(self.passengers) < self.capacity):
             # job done or elevator is requestes while driving
@@ -78,9 +79,11 @@ class Elevator:
                     self.nextState = next_state
         else:
             if len(self.passengers) == 0 and self.position == self.target:
-                # if no passengers doesn't have a target
-                target_floor, self.direction = self.decider.search_for_call(self.position, self.direction,
-                                                                            self.callUp, self.callDown)
+                # if no passengers and doesn't have a target
+                target_floor, self.direction = self.decider.search_for_call(position=self.position,
+                                                                            direction=self.direction,
+                                                                            call_up=self.callUp,
+                                                                            call_down=self.callDown)
                 if target_floor != None:
                     # is requested
                     self.target = target_floor
@@ -103,7 +106,9 @@ class Elevator:
                 if self.position == -1:
                     self.position = 0
 
+    def log(self):
         # log elevator's variables
+        log: dict = dict()
         log[f"({self.index}) position"] = self.position
         log[f"({self.index}) target"] = self.target
         log[f"({self.index}) state"] = self.state
@@ -150,7 +155,7 @@ class Elevator:
             for person in self.passengers:
                 if person.schedule[0][1] == self.position:
                     person.schedule.pop(0)
-                    assert person.waitingStartTime
+                    assert person.waitingStartTime is not None
                     self.waitingTimes.append((Clock.tact, Clock.tact - person.waitingStartTime))
 
                     person.waitingStartTime = None
@@ -171,3 +176,12 @@ class Elevator:
     def __repr__(self):
         return f"index: {self.index}, position: {self.position}, target: {self.target}," \
                f" passengers: {len(self.passengers)}, state: {self.state}, next state: {self.nextState}"
+
+    def apply_decision(self, decision: int):
+        self.direction = Direction.UP if self.target >= decision else Direction.DOWN
+        self.target = decision
+
+        if self.target == self.position:
+            self.nextState = ElevatorState.WAIT
+        else:
+            self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN

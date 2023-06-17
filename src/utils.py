@@ -1,3 +1,4 @@
+import argparse
 import csv
 import shutil
 from datetime import datetime
@@ -8,7 +9,6 @@ from pathlib import Path
 import os
 import pandas as pd
 from pandas.errors import EmptyDataError
-
 from logic.decider_interface import IDecider
 from re_learner.reinforcment_decider import ReinforcementDecider
 
@@ -45,6 +45,34 @@ class Conf:
     fontLarge: pygame.font
     fontSmall: pygame.font
 
+    @staticmethod
+    def parse_args() -> tuple[bool, bool]:
+        parser = argparse.ArgumentParser(prog='ElevatorSimulation',
+                                         description='Simulates elevators of an office complex in a simple way')
+
+        parser.add_argument('-p', '--plots', help="Generates plots", action='store_true')
+        parser.add_argument('-sp', '--showPlots', help="Shows generated plots. (sets --plots true)",
+                            action='store_true')
+        parser.add_argument('-ui', '--ui', help="Shows user interface", action='store_true')
+        parser.add_argument('-s', '--skip', help="Fast forward to hour x", type=int, nargs='?')
+        parser.add_argument('-rl', '--reinforcementLearner',
+                            help="Runs the simulation with reinforcement learned Decider", action='store_true')
+        parser.add_argument('-t', '--train', help="Trains the reinforcement learner", action='store_true')
+        parser.add_argument('-nl', '--noLogs', help="Doesn't generates log files", action='store_true')
+
+        args = parser.parse_args()
+        argument_dict: dict = vars(args)
+        print(f"Dict format: {argument_dict}")
+
+        Conf.generatesPlots = args.plots if args.plots or args.showPlots else False
+        Conf.showPlots = args.showPlots
+        Clock.skip = args.skip
+        Conf.train = args.train
+        Logger.noLogs = args.noLogs
+        show_gui: bool = args.ui
+        reinforcement_learning: bool = args.reinforcementLearner or args.train
+        return show_gui, reinforcement_learning
+
 
 class Clock:
     """
@@ -66,6 +94,19 @@ class Clock:
     tactBuffer: int = 1
     timeInMin: float = 0
     speedPrePaused: int = 1
+
+    @classmethod
+    def reset(cls):
+        # Model
+        cls.endOfDay = False
+        cls.running = True
+        cls.pause = False
+        cls.tact = 0
+        # Logic
+        cls.speedScale = 1
+        cls.tactBuffer = 1
+        cls.timeInMin = 0
+        cls.speedPrePaused = 1
 
     @classmethod
     def add_time(cls, passed_time: float) -> None:
@@ -144,7 +185,6 @@ class Logger:
         while len(logs) > cls.log_limits:
             shutil.rmtree(f"{Conf.logPath}//{logs[0]}", ignore_errors=True)
             logs.pop(0)
-
 
         cls.allData = list()
 

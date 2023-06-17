@@ -7,29 +7,28 @@ Created on Tue Sep  8 07:51:46 2020
 
 import torch
 import torch.nn as nn
-import NetCoder
-import random
+
+from re_learner import NetCoder
+
 
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-       
+
         activation = nn.LeakyReLU()
-        self.__common = nn.Sequential(nn.Linear(8, 20), activation, 
-                                      nn.Linear(20, 40), activation,
-                                      nn.Linear(40, 20), activation)
-        
+        self.__common = nn.Sequential(nn.Linear(54, 80), activation,
+                                      nn.Linear(80, 160), activation,
+                                      nn.Linear(160, 80), activation)
+
         # We know that value >= 0
-        self.__value = nn.Sequential( 
-                                    nn.Linear(20, 10), activation, 
-                                      nn.Linear(10, 1), activation)
-        
+        self.__value = nn.Sequential(
+            nn.Linear(80, 40), activation,
+            nn.Linear(40, 1), activation)
+
         self.__policy = nn.Sequential(
-                                    nn.Linear(20, 10), activation, 
-                                      nn.Linear(10, 2))
-        
-      
-        
+            nn.Linear(80, 40), activation,
+            nn.Linear(40, 4))
+
     def forward(self, x):
         base = self.__common(x)
         value = self.__value(base) * 13.0
@@ -38,20 +37,13 @@ class Net(nn.Module):
         logits = self.__policy(base)
         # Policy is returned in logits
         return logits, value
-    
-        
-        
-    def DecideForAction(self, gameState):
-        inTensor = torch.zeros((1, NetCoder.StateWidth), dtype=torch.float32)
-        NetCoder.EncodeInTensor(inTensor, 0, gameState)
-        with torch.no_grad():
-            logits, value = self(inTensor)
-            probs = torch.nn.functional.softmax(logits, dim = 1)
-            probs = probs[0].data.cpu().numpy()
-        
-            
-        return random.uniform(0.0, 1.0) < probs[1]
-            
-    
 
-        
+    def decide_for_action(self, game_state) -> tuple[int, int, int]:
+        in_tensor = torch.zeros((1, NetCoder.stateWidth), dtype=torch.float32)
+        NetCoder.encode_in_tensor(in_tensor, 0, game_state)
+        with torch.no_grad():
+            logits, value = self(in_tensor)
+            probs = torch.nn.functional.softmax(logits, dim=1)
+            probs = probs[0].data.cpu().numpy()
+
+        return probs[1], probs[2], probs[3]
