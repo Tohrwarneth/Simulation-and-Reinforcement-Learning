@@ -16,7 +16,7 @@ class Net(nn.Module):
         super(Net, self).__init__()
 
         activation = nn.LeakyReLU()
-        self.__common = nn.Sequential(nn.Linear(54, 80), activation,
+        self.__common = nn.Sequential(nn.Linear(56, 80), activation,
                                       nn.Linear(80, 160), activation,
                                       nn.Linear(160, 80), activation)
 

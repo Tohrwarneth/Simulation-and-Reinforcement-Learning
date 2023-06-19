@@ -1,24 +1,16 @@
-from logic.decider_interface import IDecider
-from enums import Direction, ElevatorState
-from logic.person import Person
 from re_learner import Net
+from re_learner.IReinforcementDecider import IReinforcementDecider
 
 
-class ReinforcementDecider(IDecider):
-    simulation = None
+class ReinforcementDecider(IReinforcementDecider):
     net: Net
 
     @classmethod
-    def init(cls, simulation, net: Net):
+    def init(cls, net: Net):
         cls.net = net
-        cls.simulation = simulation
 
     @classmethod
-    def search_for_call(cls, position: int, direction: Direction, call_up: list[list[Person]],
-                        call_down: list[list[Person]]) -> tuple[int, Direction] | tuple[None, Direction]:
-        return None, Direction.UP
-
-    @classmethod
-    def get_next_job(cls, position: int, direction: Direction, next_state: ElevatorState, passengers: list[Person]) \
-            -> tuple[int, Direction] | tuple[None, ElevatorState]:
-        return None, ElevatorState.WAIT
+    def get_decision(cls, sim) -> tuple[int, int, int]:
+        decisions_float = cls.net.decide_for_action(sim.get_game_state())
+        decisions_int = (round(decisions_float[0]), round(decisions_float[1]), round(decisions_float[2]))
+        return decisions_int

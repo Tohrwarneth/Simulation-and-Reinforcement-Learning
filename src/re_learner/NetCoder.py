@@ -12,34 +12,20 @@ capacity = 0
 
 def init(game_state, elevator_capacity):
     global stateWidth, capacity
-    stateWidth = len(normalize_game_state(game_state))
     capacity = elevator_capacity
+    stateWidth = len(normalize_game_state(game_state))
 
 
 def encode_in_tensor(tensor, tensor_position, game_state):
+    global stateWidth
     n_game_state = normalize_game_state(game_state)
     for index, element in enumerate(n_game_state):
         tensor[tensor_position, index] = element
 
-#
-# def EncodeInTensorPlain(tensor, position, gameState):
-#     # in sack
-#     tensor[position, 0] = gameState[0]['red']
-#     tensor[position, 1] = gameState[0]['yellow']
-#     tensor[position, 2] = gameState[0]['green']
-#     # on table
-#     tensor[position, 3] = gameState[1]['red']
-#     tensor[position, 4] = gameState[1]['yellow']
-#     tensor[position, 5] = gameState[1]['green']
-#     # shots
-#     tensor[position, 6] = gameState[2]
-#     # brains
-#     tensor[position, 7] = gameState[3]
-
 
 def normalize_game_state(game_state: tuple) -> list:
     global capacity
-    call_up, call_down, elevators = game_state
+    avg_waiting, remaining, call_up, call_down, elevators = game_state
 
     n_call_up = [1 if len(persons) > 0 else 0 for persons in call_up]
     n_call_down = [1 if len(persons) > 0 else 0 for persons in call_down]
@@ -56,4 +42,4 @@ def normalize_game_state(game_state: tuple) -> list:
         for i in range(empty_job):
             n_elevators.append(-1)
 
-    return n_call_up + n_call_down + n_elevators
+    return [avg_waiting, remaining] + n_call_up + n_call_down + n_elevators

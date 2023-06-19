@@ -1,12 +1,13 @@
 from __future__ import annotations
 from time import time
 import numpy as np
+import torch
 from matplotlib import pyplot as plt
 
-from logic.decision import Decision
 from logic.person import Person
 from re_learner import NetCoder
 import re_learner.TrainerPPO
+import re_learner.Net
 from utils import Conf, Clock, Logger
 from logic.elevator import Elevator
 from logic.person_manager import PersonManager
@@ -15,7 +16,7 @@ from ui.gui_manager import GuiManager
 
 class Simulation:
     avgWaitingTime: list[np.ndarray]
-    finalAvgWaitingTime: list[np.ndarray] | list[float]
+    finalAvgWaitingTime: list[float]  # | list[np.ndarray]
     callUp: list[list[Person]]
     callDown: list[list[Person]]
 
@@ -24,7 +25,7 @@ class Simulation:
 
     showGui: bool
     rlDecider: bool
-    latestDecision: tuple
+    latestDecision: tuple | None
 
     def __init__(self, show_gui=True, rl_decider: bool = False,
                  elevator_position: tuple[int, int, int] = (0, 0, 0)):
@@ -98,6 +99,10 @@ class Simulation:
                 avg_waiting_time = np.mean(person_waiting_time)
                 self.avgWaitingTime.append(avg_waiting_time)
 
+                if self.rlDecider:
+                    decisions: tuple[int, int, int] = Conf.reinforcement_decider.get_decision(self)
+                    decision_result = self.apply_decisions(decisions)
+
                 Clock.tact += 1
 
                 if not Conf.train:
@@ -126,8 +131,9 @@ class Simulation:
         """
         Clock.endOfDay = True
         data = self.end_of_day_log()
-        print(f"Average Waiting Time: {data['avgWaitingTime']:.2f} | "
-              f"Remaining Persons: {data['remaining']}")
+        if not Conf.train:
+            print(f"Average Waiting Time: {data['avgWaitingTime']:.2f} | "
+                  f"Remaining Persons: {data['remaining']}")
         if Conf.generatesPlots:
             self.draw_data()
 
@@ -157,7 +163,15 @@ class Simulation:
         elevators: list[tuple] = list()
         for e in self.elevators:
             elevators.append((e.position, e.direction, e.nextState, e.passengers))
-        return self.callUp, self.callDown, tuple(elevators)
+        if len(self.avgWaitingTime) == 0:
+            avg_waiting = 0.0
+        else:
+            avg_waiting = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
+
+        return avg_waiting, \
+            self.personManager.get_remaining_people(), \
+            self.callUp, self.callDown, \
+            tuple(elevators)
 
     def draw_data(self) -> None:
         """
@@ -244,12 +258,27 @@ class Simulation:
         if Conf.showPlots:
             fig.show()
 
-    def apply_decisions(self, decisions: tuple[int, int, int]):
+    def apply_decisions(self, decisions: tuple[int, int, int]) -> tuple[float, int]:
         self.latestDecision = decisions
         for elevator in self.elevators:
             elevator.apply_decision(decisions[elevator.index])
             elevator.log()
-        return self.avgWaitingTime, self.personManager.get_remaining_people()
+        avg_waiting_time: float = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
+        return avg_waiting_time, self.personManager.get_remaining_people()
+
+    @staticmethod
+    def load_rl_model(model_file: str):
+        try:
+            net = torch.load(model_file)
+        except:
+            net = re_learner.Net.Net()
+        Conf.reinforcement_decider.init(net)
+
+    @staticmethod
+    def reset():
+        Elevator.nextElevatorIndex = 0
+        Person.nextPersonIndex = 0
+        Clock.reset()
 
 
 if __name__ == "__main__":
@@ -259,6 +288,7 @@ if __name__ == "__main__":
         re_learner.TrainerPPO.TrainerPPO().TrainNetwork()
     else:
         sim = Simulation(show_gui=show_gui, rl_decider=reinforcement_learning)
-        # Conf.reinforcement_decider.init(sim,)
+        if reinforcement_learning:
+            Simulation.load_rl_model(re_learner.TrainerPPO.TrainerPPO.modelFile)
         sim.run()
-        Clock.reset()
+        Simulation.reset()
