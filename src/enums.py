@@ -17,6 +17,15 @@ class ElevatorState(Enum):
     WAIT = 0
     DOWN = -1
 
+    @staticmethod
+    def get_value_by_index(index: int):
+        if index == 1:
+            return ElevatorState.UP
+        elif index == 0:
+            return ElevatorState.WAIT
+        elif index == -1:
+            return ElevatorState.DOWN
+
     def __eq__(self, other):
         if isinstance(other, ElevatorState):
             return self.value == other.value and self.name == other.name

@@ -47,12 +47,13 @@ class Elevator:
         self.capacity = Conf.capacity
         self.decider = decider
 
-    def manage(self) -> None:
+    def manage(self) -> bool:
         """
         Manages the elevator each tact
-        :return: None
+        :return: if a decision for Reinforcement Learner is needed
         """
         self.state = self.nextState
+        need_decision: bool = False
 
         # if at buildings end change direction
         if self.position == Conf.maxFloor - 1:
@@ -60,6 +61,7 @@ class Elevator:
         elif self.position == 0:
             self.direction = Direction.UP
 
+        # TODO: schauen ob erste Zeile len(self.passengers) > 0 nichts kaputt macht
         if (self.target == self.position and len(self.passengers)) or (
                 self.is_floor_requested() and len(self.passengers) < self.capacity):
             # job done or elevator is requestes while driving
@@ -74,6 +76,7 @@ class Elevator:
                 # reevaluate the new target floor
                 target_floor, next_state = self.decider.get_next_job(self.position, self.direction, self.nextState,
                                                                      self.passengers)
+                need_decision = True
                 if target_floor != None:
                     self.target = target_floor
                     self.nextState = next_state
@@ -84,6 +87,7 @@ class Elevator:
                                                                             direction=self.direction,
                                                                             call_up=self.callUp,
                                                                             call_down=self.callDown)
+                need_decision = True
                 if target_floor != None:
                     # is requested
                     self.target = target_floor
@@ -105,6 +109,7 @@ class Elevator:
                     self.position = Conf.maxFloor - 1
                 if self.position == -1:
                     self.position = 0
+        return need_decision
 
     def log(self):
         # log elevator's variables
@@ -177,11 +182,22 @@ class Elevator:
         return f"index: {self.index}, position: {self.position}, target: {self.target}," \
                f" passengers: {len(self.passengers)}, state: {self.state}, next state: {self.nextState}"
 
-    def apply_decision(self, decision: int):
-        self.direction = Direction.UP if self.target >= decision else Direction.DOWN
-        self.target = decision
+    def apply_decision(self, decision: ElevatorState):
+        new_target = self.target + decision.value
 
-        if self.target == self.position:
-            self.nextState = ElevatorState.WAIT
-        else:
-            self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN
+        if new_target > 14:
+            new_target = 14
+            decision = ElevatorState.WAIT
+        elif new_target < 0:
+            new_target = 0
+            decision = ElevatorState.WAIT
+
+        self.direction = Direction.UP if self.target >= new_target else Direction.DOWN
+        self.target = new_target
+
+        self.nextState = decision
+        #
+        # if self.target == self.position:
+        #     self.nextState = ElevatorState.WAIT
+        # else:
+        #     self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN

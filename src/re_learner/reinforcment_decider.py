@@ -1,6 +1,6 @@
-from re_learner import Net
+import enums
+from re_learner import Net, NetCoder
 from re_learner.IReinforcementDecider import IReinforcementDecider
-
 
 class ReinforcementDecider(IReinforcementDecider):
     net: Net
@@ -10,7 +10,7 @@ class ReinforcementDecider(IReinforcementDecider):
         cls.net = net
 
     @classmethod
-    def get_decision(cls, sim) -> tuple[int, int, int]:
+    def get_decision(cls, sim) -> tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState]:
         decisions_float = cls.net.decide_for_action(sim.get_game_state())
-        decisions_int = (round(decisions_float[0]), round(decisions_float[1]), round(decisions_float[2]))
-        return decisions_int
+        decisions_states = NetCoder.decision_to_states(decisions_float)
+        return decisions_states

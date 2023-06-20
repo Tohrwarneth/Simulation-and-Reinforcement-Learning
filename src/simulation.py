@@ -4,6 +4,7 @@ import numpy as np
 import torch
 from matplotlib import pyplot as plt
 
+import enums
 from logic.person import Person
 from re_learner import NetCoder
 import re_learner.TrainerPPO
@@ -80,8 +81,9 @@ class Simulation:
                 person_waiting_time: list[int] = list()
                 #
                 # finished when average waiting time for end of day
-                for elevator in self.elevators:
-                    elevator.manage()
+                need_decisions = [False, False, False]
+                for i, elevator in enumerate(self.elevators):
+                    need_decisions[i] = elevator.manage()
                     elevator_waiting_time += elevator.waitingTimes
                     if not self.rlDecider:
                         elevator.log()
@@ -100,8 +102,9 @@ class Simulation:
                 self.avgWaitingTime.append(avg_waiting_time)
 
                 if self.rlDecider:
-                    decisions: tuple[int, int, int] = Conf.reinforcement_decider.get_decision(self)
-                    decision_result = self.apply_decisions(decisions)
+                    # Nicht, wenn auf Warten gestellt wird. Also nur, wenn er Entscheidung treffen soll
+                    decisions = Conf.reinforcement_decider.get_decision(self)
+                    decision_result = self.apply_decisions(decisions, need_decisions)
 
                 Clock.tact += 1
 
@@ -168,7 +171,7 @@ class Simulation:
         else:
             avg_waiting = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
 
-        return avg_waiting, \
+        return Clock.tact, avg_waiting, \
             self.personManager.get_remaining_people(), \
             self.callUp, self.callDown, \
             tuple(elevators)
@@ -258,10 +261,12 @@ class Simulation:
         if Conf.showPlots:
             fig.show()
 
-    def apply_decisions(self, decisions: tuple[int, int, int]) -> tuple[float, int]:
+    def apply_decisions(self, decisions: tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState],
+                        need_decisions: list[bool, bool, bool]) -> tuple[float, int]:
         self.latestDecision = decisions
-        for elevator in self.elevators:
-            elevator.apply_decision(decisions[elevator.index])
+        for index, elevator in enumerate(self.elevators):
+            if need_decisions[index]:
+                elevator.apply_decision(decisions[elevator.index])
             elevator.log()
         avg_waiting_time: float = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
         return avg_waiting_time, self.personManager.get_remaining_people()

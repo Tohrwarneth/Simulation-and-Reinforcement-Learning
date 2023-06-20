@@ -1,3 +1,4 @@
+import enums
 from enums import Direction, ElevatorState
 from logic.decider_interface import IDecider
 from logic.person import Person
@@ -10,7 +11,7 @@ class IReinforcementDecider(IDecider):
     def init(cls, net: Net):
         raise NotImplementedError("IReinforcementDecider: Interface function init not implemented")
     @classmethod
-    def get_decision(cls, sim):
+    def get_decision(cls, sim) -> tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState]:
         raise NotImplementedError("IReinforcementDecider: Interface function get_decision not implemented")
 
     @classmethod
