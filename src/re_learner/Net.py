@@ -53,4 +53,5 @@ class Net(nn.Module):
             probs = torch.nn.functional.softmax(logits, dim=1)
             probs = probs[0].data.cpu().numpy()
 
+        # TODO: probs[1] ist nur Wahrscheinlichkeit. mit props[1].samlpe oder So bekommt man die entscheidung
         return probs[1]
