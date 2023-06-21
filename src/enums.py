@@ -19,11 +19,11 @@ class ElevatorState(Enum):
 
     @staticmethod
     def get_value_by_index(index: int):
-        if index == 1:
+        if index == 0:
             return ElevatorState.UP
-        elif index == 0:
+        elif index == 1:
             return ElevatorState.WAIT
-        elif index == -1:
+        elif index == 2:
             return ElevatorState.DOWN
 
     def __eq__(self, other):

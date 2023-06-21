@@ -14,7 +14,7 @@ import simulation
 import utils
 from re_learner import Net, EpisodeEncoder
 
-BATCH_SIZE = 5
+BATCH_SIZE = 64
 # TODO: wieder auf 64 stellen
 # BATCH_SIZE = 64
 
@@ -43,7 +43,7 @@ class TrainerPPO:
         # logits = Ausgangsschicht vor Softmax
         # value ist G
         lossValue = F.mse_loss(value, destinationValue)
-        # lossRemaining = F.mse_loss(value, remaining_value)
+        # mean squared error
 
         print("Loss Value " + str(lossValue))
 
@@ -54,8 +54,6 @@ class TrainerPPO:
 
         probs = F.softmax(logits, dim=1)  # Die einzelnen Handlungsmöglichkeiten
 
-        # TODO: decision ist Kreuzprodukt aus den Decisions der drei Aufzüge. Hoch, warten, runter x 3
-        #        Handlung als Hoch, warten, runter!
         playedProbs = probs[range(inputTensor.size()[0]), decisionTensor]
         logProbs = F.log_softmax(logits, dim=1)
         rValue = playedProbs / playedProbs.detach()
@@ -69,11 +67,20 @@ class TrainerPPO:
         lossEntropy = - entropy.mean()
         # print("Loss Entropy " + str(lossEntropy))
         totalLoss = lossValue + FACTOR_POLICY * lossPolicy + FACTOR_ENTROPY * lossEntropy
+
+        # TODO: Reward fkt in total loss (als Tensor?)
+        #       next_state, reward = env.step(action)
+        #       loss = -m.log_prob(action) * reward
+        #       loss.backward()
+
         totalLoss.backward()
         self.__optimizer.step()
 
-    def __TestNet(self):
-        runs = 5
+    def __TestNet(self, one_run=False):
+        if one_run:
+            runs = 1
+        else:
+            runs = 50
         # runs = 1000
         summe_waiting_time = 0.0
         summe_remaining = 0.0
@@ -90,11 +97,12 @@ class TrainerPPO:
 
         avg_remaining = summe_remaining / runs
         avg_waiting = summe_waiting_time / runs
-        print("\rTest Average Remaining: " + str(avg_remaining) + '| Test Average Waiting Time: ' + str(avg_waiting))
+        print(f"\rTest\tAverage Waiting Time: {avg_waiting:.2f}\tAverage Remaining: {avg_remaining:.2f}")
         return avg_remaining, avg_waiting
 
     def TrainNetwork(self):
         simulation.Simulation.load_rl_model(self.modelFile)
+        _, best_avg_waiting = self.__TestNet(True)
         i = 0
         while True:
             print(15 * '-')
@@ -104,13 +112,14 @@ class TrainerPPO:
                 # for i in range(10):
                 self.__ApplyTrainingRoundSingle()
             avg_remaining, avg_waiting = self.__TestNet()
-            if avg_remaining == 0:
-                # TODO: Speichere das beste Ergebnis. Also beim laden einmal laufen lassen und waiting nehmen
-                #       Es ist das richtige Waiting Zeit und die muss 0 seinp
+            if avg_waiting <= best_avg_waiting:
+                best_avg_waiting = avg_waiting
                 os.makedirs(os.path.dirname(self.modelFile), exist_ok=True)
                 torch.save(self.__net, self.modelFile)
+                print(f'Save model with avg. waiting time = {avg_waiting} and {avg_remaining} avg. remaining people')
                 print(5 * '-')
-                break
+                if avg_remaining == 0:
+                    break
             i += 1
 
 

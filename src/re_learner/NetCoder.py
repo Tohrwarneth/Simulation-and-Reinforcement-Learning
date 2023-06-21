@@ -40,7 +40,7 @@ def encode_in_tensor(tensor, tensor_position, game_state):
 def decision_to_states(decisions: int) -> \
         tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState]:
     global decisions_states
-    decisions = round(decisions)
+    assert isinstance(decisions, int)
     decisions = decisions % (3 * 3 * 3)
     states = decisions_states[decisions]
     return states

@@ -25,22 +25,30 @@ class EpisodeEncoder:
         self.__finalEpisodeBuffer = []
         avg_waiting = 0.0
         remaining = utils.Conf.totalAmountPerson
+        best_remaining = 0
+        best_waiting = 0
+        best_episode = -1
         for i in range(num_of_episodes):
-            print(f'\rEpisode: {i}/{num_of_episodes}\tavg. waiting = {avg_waiting}\t'
-                  f'remaining = {remaining}/{utils.Conf.totalAmountPerson}', end='')
+            print(f'\rEpisode: {i}/{num_of_episodes}\t', end='')
             local_episode_buffer = []
             sim = simulation.Simulation(False, True)
             sim.run(local_episode_buffer)
 
             for index, pairing in enumerate(reversed(local_episode_buffer)):
-                if index == 0:
-                    avg_waiting = sim.avgWaitingTime[len(sim.avgWaitingTime) - 1]
-                    remaining = sim.personManager.get_remaining_people()
                 self.__finalEpisodeBuffer.append(pairing + (75, 0,))
                 # Destination ist Wartezeit von 75 Takten und 0 Personen im Haus
+            avg_waiting = sim.avgWaitingTime[len(sim.avgWaitingTime) - 1]
+            remaining = sim.personManager.get_remaining_people()
+            if best_episode == -1:
+                best_remaining = remaining
+                best_waiting = avg_waiting
+                best_episode = i + 1
+            else:
+                best_remaining = min(best_remaining, remaining)
+                best_waiting = min(best_waiting, avg_waiting)
             sim.reset()
-        print(f'\rEpisode: {num_of_episodes}/{num_of_episodes}\tavg. waiting = {avg_waiting}\t'
-              f'remaining = {remaining}/{utils.Conf.totalAmountPerson}')
+        print(f'\rEpisode: {num_of_episodes}/{num_of_episodes}\tBeste Episode: {best_episode}\t Waiting Time = {best_waiting:.2f}\t'
+              f'Remaining = {best_remaining}/{utils.Conf.totalAmountPerson}')
 
     def get_training_tensors(self):
         '''

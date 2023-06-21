@@ -28,7 +28,7 @@ class Net(nn.Module):
 
         self.__policy = nn.Sequential(
             nn.Linear(80, 40), activation,
-            nn.Linear(40, 2))
+            nn.Linear(40, 28))
         # TODO: aktuell Zieletage. Vlt zu 3 Handlungen (Warten, Hoch, Runter) statt Etagenummer für jeden Aufzug
         #       Mache eine Entscheidung aus 27 Möglichkeiten. Also zwischen 0-26 und das Kreuzprodukt der Handlungen
         #       (27) Durchnummerieren (x mod 27)
@@ -51,6 +51,6 @@ class Net(nn.Module):
         with torch.no_grad():
             logits, value = self(in_tensor)
             probs = torch.nn.functional.softmax(logits, dim=1)
-            probs = probs[0].data.cpu().numpy()
-
-        return probs[1]
+            m = torch.distributions.Categorical(probs)
+            action = m.sample()
+        return action[0].item()
