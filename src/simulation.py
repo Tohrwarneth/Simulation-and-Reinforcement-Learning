@@ -9,6 +9,7 @@ from logic.person import Person
 from re_learner import NetCoder
 import re_learner.TrainerPPO
 import re_learner.Net
+from re_learner.reward import Reward
 from utils import Conf, Clock, Logger
 from logic.elevator import Elevator
 from logic.person_manager import PersonManager
@@ -16,8 +17,9 @@ from ui.gui_manager import GuiManager
 
 
 class Simulation:
-    avgWaitingTime: list[np.ndarray]
-    finalAvgWaitingTime: list[float]  # | list[np.ndarray]
+    avgWaitingTime: list[float] | list[np.ndarray]
+    latestAvgWaitingTime: float
+    finalAvgWaitingTime: list[float] | list[np.ndarray]
     callUp: list[list[Person]]
     callDown: list[list[Person]]
 
@@ -27,6 +29,8 @@ class Simulation:
     showGui: bool
     rlDecider: bool
     latestDecision: tuple | None
+    reward: float = 0
+    rewardList: list[float] = list()
 
     def __init__(self, show_gui=True, rl_decider: bool = False,
                  elevator_position: tuple[int, int, int] = (0, 0, 0)):
@@ -35,6 +39,7 @@ class Simulation:
         self.rlDecider = rl_decider
 
         self.avgWaitingTime = list()
+        self.latestAvgWaitingTime = 0.0
         self.finalAvgWaitingTime = list()
         self.callUp = [list() for _ in range(Conf.maxFloor)]
         self.callDown = [list() for _ in range(Conf.maxFloor)]
@@ -68,6 +73,7 @@ class Simulation:
 
         t_old: float = time()
         while Clock.running or Clock.tactBuffer > 0:
+            self.reward = 0
             t_new: float = time()
             for _ in range(Clock.tactBuffer):
                 if Clock.skip and Clock.tact / 60 >= Clock.skip:
@@ -83,7 +89,8 @@ class Simulation:
                 # finished when average waiting time for end of day
                 need_decisions = [False, False, False]
                 for i, elevator in enumerate(self.elevators):
-                    need_decisions[i] = elevator.manage()
+                    need_decisions[i], local_reward = elevator.manage()
+                    self.reward += local_reward
                     elevator_waiting_time += elevator.waitingTimes
                     if not self.rlDecider:
                         elevator.log()
@@ -100,11 +107,13 @@ class Simulation:
                     person_waiting_time.append(0)
                 avg_waiting_time = np.mean(person_waiting_time)
                 self.avgWaitingTime.append(avg_waiting_time)
+                self.latestAvgWaitingTime = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
 
                 if self.rlDecider:
                     # Nicht, wenn auf Warten gestellt wird. Also nur, wenn er Entscheidung treffen soll
                     decisions = Conf.reinforcement_decider.get_decision(self)
-                    decision_result = self.apply_decisions(decisions, need_decisions)
+                    self.apply_decisions(decisions, need_decisions)
+                    self.rewardList.append(self.reward)
 
                 Clock.tact += 1
 
@@ -113,7 +122,7 @@ class Simulation:
                     Logger.log()
 
                 if episode_buffer is not None:
-                    episode_buffer.append((self.get_game_state(), self.latestDecision))
+                    episode_buffer.append((self.get_game_state(), self.latestDecision, self.reward))
 
             if self.showGui:
                 self.ui_manager.render()
@@ -169,7 +178,7 @@ class Simulation:
         if len(self.avgWaitingTime) == 0:
             avg_waiting = 0.0
         else:
-            avg_waiting = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
+            avg_waiting = self.latestAvgWaitingTime
 
         return Clock.tact, avg_waiting, \
             self.personManager.get_remaining_people(), \
@@ -262,22 +271,24 @@ class Simulation:
             fig.show()
 
     def apply_decisions(self, decisions: tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState],
-                        need_decisions: list[bool, bool, bool]) -> tuple[float, int]:
+                        need_decisions: list[bool, bool, bool]) -> None:
         self.latestDecision = decisions
+        self.reward -= self.latestAvgWaitingTime
+        # self.reward += self.personManager.get_people_in_motion() * Reward.notHomePenalty
         for index, elevator in enumerate(self.elevators):
             if need_decisions[index]:
                 elevator.apply_decision(decisions[elevator.index])
             elevator.log()
-        avg_waiting_time: float = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
-        return avg_waiting_time, self.personManager.get_remaining_people()
 
     @staticmethod
-    def load_rl_model(model_file: str):
+    def load_rl_model(model_file: str, device: torch.device) -> re_learner.Net.Net:
         try:
             net = torch.load(model_file)
+            net.to(device)
         except:
             net = re_learner.Net.Net()
         Conf.reinforcement_decider.init(net)
+        return net
 
     @staticmethod
     def reset():

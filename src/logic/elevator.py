@@ -1,6 +1,7 @@
 from logic.decider_interface import IDecider
 from logic.decision import Decision
 from logic.simulation_decider import SimulationDecider
+from re_learner.reward import Reward
 from utils import Conf, Clock, Logger
 from enums import ElevatorState, Direction
 from logic.person import Person
@@ -30,6 +31,8 @@ class Elevator:
     decision_job: tuple[int, Direction] | None
     decision_call: int | None
 
+    reward: float = 0
+
     def __init__(self, call_up, call_down, start_position=0, decider: IDecider = SimulationDecider):
         self.index = self.nextElevatorIndex
         Elevator.nextElevatorIndex += 1
@@ -47,11 +50,12 @@ class Elevator:
         self.capacity = Conf.capacity
         self.decider = decider
 
-    def manage(self) -> bool:
+    def manage(self) -> tuple[bool, float]:
         """
         Manages the elevator each tact
-        :return: if a decision for Reinforcement Learner is needed
+        :return: if a decision for Reinforcement Learner is needed and reward of the tact
         """
+        self.reward = 0
         self.state = self.nextState
         need_decision: bool = False
 
@@ -109,7 +113,7 @@ class Elevator:
                     self.position = Conf.maxFloor - 1
                 if self.position == -1:
                     self.position = 0
-        return need_decision
+        return need_decision, self.reward
 
     def log(self):
         # log elevator's variables
@@ -150,6 +154,7 @@ class Elevator:
             while len(self.passengers) < self.capacity and call:
                 p = call.pop(0)
                 self.passengers.append(p)
+                self.reward += Reward.enterReward
 
     def leaving_passengers(self) -> None:
         """
@@ -166,6 +171,7 @@ class Elevator:
                     person.waitingStartTime = None
                     person.position = self.position
                     self.passengers.remove(person)
+                    self.reward += Reward.leaveReward
 
     def end_of_day(self) -> dict:
         """
@@ -196,6 +202,9 @@ class Elevator:
         self.target = new_target
 
         self.nextState = decision
+        return self.reward
+
+
         #
         # if self.target == self.position:
         #     self.nextState = ElevatorState.WAIT
