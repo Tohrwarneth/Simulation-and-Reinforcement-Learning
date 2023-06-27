@@ -6,10 +6,10 @@ from matplotlib import pyplot as plt
 
 import enums
 from logic.person import Person
+from new_re_learner import trainer
 from re_learner import NetCoder
 import re_learner.TrainerPPO
 import re_learner.Net
-from re_learner.reward import Reward
 from utils import Conf, Clock, Logger
 from logic.elevator import Elevator
 from logic.person_manager import PersonManager
@@ -61,7 +61,8 @@ class Simulation:
         if rl_decider:
             NetCoder.init(self.get_game_state(), Conf.capacity)
 
-    def run(self, episode_buffer: list[tuple, float, int] = None) -> None:
+    def run(self, episode_buffer: list[tuple, float, int] = None, action: int = None, step: bool = False) -> \
+            tuple[tuple, float, bool] | None:
         """
         Update and render loop of the simulation.
         :return: None
@@ -71,8 +72,10 @@ class Simulation:
         if Clock.skip:
             Clock.speedScale = 265
 
+        run_step = True
+
         t_old: float = time()
-        while Clock.running or Clock.tactBuffer > 0:
+        while (Clock.running or Clock.tactBuffer > 0) and run_step:
             self.reward = 0
             t_new: float = time()
             for _ in range(Clock.tactBuffer):
@@ -88,8 +91,9 @@ class Simulation:
                 #
                 # finished when average waiting time for end of day
                 need_decisions = [False, False, False]
+                action_decisions = NetCoder.decision_to_states(action)
                 for i, elevator in enumerate(self.elevators):
-                    need_decisions[i], local_reward = elevator.manage()
+                    need_decisions[i], local_reward = elevator.manage(action_decisions[i])
                     self.reward += local_reward
                     elevator_waiting_time += elevator.waitingTimes
                     if not self.rlDecider:
@@ -109,10 +113,12 @@ class Simulation:
                 self.avgWaitingTime.append(avg_waiting_time)
                 self.latestAvgWaitingTime = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
 
-                if self.rlDecider:
+                if self.rlDecider and action is None:
                     # Nicht, wenn auf Warten gestellt wird. Also nur, wenn er Entscheidung treffen soll
                     decisions = Conf.reinforcement_decider.get_decision(self)
                     self.apply_decisions(decisions, need_decisions)
+
+                if self.rlDecider:
                     self.rewardList.append(self.reward)
 
                 Clock.tact += 1
@@ -121,7 +127,7 @@ class Simulation:
                     Logger.add_data({'avgWaitingTime': avg_waiting_time})
                     Logger.log()
 
-                if episode_buffer is not None:
+                if episode_buffer is not None and action is None:
                     episode_buffer.append((self.get_game_state(), self.latestDecision, self.reward))
 
             if self.showGui:
@@ -134,7 +140,16 @@ class Simulation:
             if not Clock.pause:
                 Clock.add_time(Clock.deltaTime)
 
-        self.shutdown()
+            if step:
+                # if call run, it goes step by step
+                run_step = False
+
+        if step:
+            self.reward -= self.latestAvgWaitingTime
+            # state, reward, done (while run condition)
+            return self.get_game_state(), self.reward, not (Clock.running or Clock.tactBuffer > 0)
+        else:
+            self.shutdown()
 
     def shutdown(self) -> None:
         """
@@ -296,15 +311,26 @@ class Simulation:
         Person.nextPersonIndex = 0
         Clock.reset()
 
+    def sim_reset(self):
+        self.reset()
+        self.__init__(self.showGui, self.rlDecider)
+        return self.get_game_state()
+
 
 if __name__ == "__main__":
-    show_gui, reinforcement_learning = Conf.parse_args()
+    show_gui, reinforcement_learning, rl_phill, rl_dice = Conf.parse_args()
 
     if Conf.train:
-        re_learner.TrainerPPO.TrainerPPO().TrainNetwork()
+        if rl_dice:
+            re_learner.TrainerPPO.TrainerPPO().TrainNetwork()
+        elif rl_phill:
+            trainer.PPOTrainer().train()
     else:
         sim = Simulation(show_gui=show_gui, rl_decider=reinforcement_learning)
         if reinforcement_learning:
-            Simulation.load_rl_model(re_learner.TrainerPPO.TrainerPPO.modelFile)
+            if rl_dice:
+                Simulation.load_rl_model(re_learner.TrainerPPO.TrainerPPO.modelFile)
+            elif rl_phill:
+                Simulation.load_rl_model(trainer.PPOTrainer.modelFile)
         sim.run()
         Simulation.reset()

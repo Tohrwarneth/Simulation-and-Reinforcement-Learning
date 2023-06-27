@@ -13,10 +13,11 @@ import enums
 stateWidth = 0
 capacity = 0
 decisions_states = dict()
+num_actions: int
 
 
 def init(game_state, elevator_capacity):
-    global stateWidth, capacity
+    global stateWidth, capacity, num_actions
     capacity = elevator_capacity
     stateWidth = len(normalize_game_state(game_state))
 
@@ -28,6 +29,7 @@ def init(game_state, elevator_capacity):
                                            enums.ElevatorState.get_value_by_index(elev_2),
                                            enums.ElevatorState.get_value_by_index(elev_3))
                 index += 1
+    num_actions = len(decisions_states)
 
 
 def encode_in_tensor(tensor, tensor_position, game_state):
@@ -38,8 +40,10 @@ def encode_in_tensor(tensor, tensor_position, game_state):
 
 
 def decision_to_states(decisions: int) -> \
-        tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState]:
+        tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState] | tuple[None, None, None]:
     global decisions_states
+    if decisions is None:
+        return None, None, None
     assert isinstance(decisions, int)
     decisions = decisions % (3 * 3 * 3)
     states = decisions_states[decisions]

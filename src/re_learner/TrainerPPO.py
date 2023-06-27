@@ -15,16 +15,16 @@ import simulation
 import utils
 from re_learner import Net, EpisodeEncoder
 
-BATCH_SIZE = 32
+# BATCH_SIZE = 32
 # TODO: wieder auf 64 stellen
-# BATCH_SIZE = 64
+BATCH_SIZE = 64
 
 FACTOR_POLICY = 10.0
 FACTOR_ENTROPY = 2.0
 
 
 class TrainerPPO:
-    modelFile = 'model/elevator.dat'
+    modelFile = 'model/elevator_dice.dat'
     __device: torch.device
 
     def __init__(self):
@@ -67,12 +67,12 @@ class TrainerPPO:
         rValue = playedProbs / playedProbs.detach()
         #  print("R -value " + str(rValue))
 
-        innerValue = torch.min(advantage * rValue, advantage * torch.clamp(rValue, 0.8, 1.2)) * rewardTensor
+        innerValue = torch.min(advantage * rValue, advantage * torch.clamp(rValue, 0.8, 1.2))
 
         lossPolicy = -innerValue.mean()
         # print("Loss Policy " + str(lossPolicy))
         entropy = torch.sum(logProbs * probs, dim=1)
-        lossEntropy = - entropy.mean()
+        lossEntropy = - entropy.mean() * rewardTensor.mean()
         print("Mean Reward " + str(rewardTensor.mean().item()))
         print("Loss Entropy " + str(lossEntropy))
         totalLoss = lossValue + FACTOR_POLICY * lossPolicy + FACTOR_ENTROPY * lossEntropy

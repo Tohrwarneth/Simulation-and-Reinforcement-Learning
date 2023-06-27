@@ -50,7 +50,7 @@ class Elevator:
         self.capacity = Conf.capacity
         self.decider = decider
 
-    def manage(self) -> tuple[bool, float]:
+    def manage(self, decision=None) -> tuple[bool, float]:
         """
         Manages the elevator each tact
         :return: if a decision for Reinforcement Learner is needed and reward of the tact
@@ -84,6 +84,10 @@ class Elevator:
                 if target_floor != None:
                     self.target = target_floor
                     self.nextState = next_state
+
+                # rl decision overwrites sim decision
+                if decision is not None:
+                    self.apply_decision(decision)
         else:
             if len(self.passengers) == 0 and self.position == self.target:
                 # if no passengers and doesn't have a target
@@ -102,6 +106,10 @@ class Elevator:
                 else:
                     # wait if not requested
                     self.nextState = ElevatorState.WAIT
+
+                # rl decision overwrites sim decision
+                if decision is not None:
+                    self.apply_decision(decision)
             if self.position != self.target:
                 # if driving to a target
                 if len(self.passengers) > 0:
@@ -203,7 +211,6 @@ class Elevator:
 
         self.nextState = decision
         return self.reward
-
 
         #
         # if self.target == self.position:

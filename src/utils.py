@@ -46,7 +46,7 @@ class Conf:
     fontSmall: pygame.font
 
     @staticmethod
-    def parse_args() -> tuple[bool, bool]:
+    def parse_args() -> tuple[bool, bool, bool, bool]:
         parser = argparse.ArgumentParser(prog='ElevatorSimulation',
                                          description='Simulates elevators of an office complex in a simple way')
 
@@ -57,6 +57,10 @@ class Conf:
         parser.add_argument('-s', '--skip', help="Fast forward to hour x", type=int, nargs='?')
         parser.add_argument('-rl', '--reinforcementLearner',
                             help="Runs the simulation with reinforcement learned Decider", action='store_true')
+        parser.add_argument('-rld', '--rlDice', help="reinforcement learner by zombie dice ", action='store_true')
+        parser.add_argument('-rlp', '--rlPhill',
+                            help='"reinforcement learner by Phil Tabor "https://youtu.be/hlv79rcHws0""',
+                            action='store_true')
         parser.add_argument('-t', '--train', help="Trains the reinforcement learner", action='store_true')
         parser.add_argument('-nl', '--noLogs', help="Doesn't generates log files", action='store_true')
 
@@ -71,7 +75,9 @@ class Conf:
         Logger.noLogs = args.noLogs
         show_gui: bool = args.ui
         reinforcement_learning: bool = args.reinforcementLearner or args.train
-        return show_gui, reinforcement_learning
+        rl_phill: bool = args.rlPhill and reinforcement_learning
+        rl_dice: bool = args.rlDice or (reinforcement_learning and not rl_phill)
+        return show_gui, reinforcement_learning, rl_phill, rl_dice
 
 
 class Clock:
