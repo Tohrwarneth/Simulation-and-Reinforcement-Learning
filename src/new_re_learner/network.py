@@ -31,7 +31,9 @@ class ActorNetwork(nn.Module):
             nn.Softmax(dim=-1))
 
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
-        self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
+        self.device = T.device('cpu')
+        # TODO
+        # self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
         self.to(self.device)
 
     # def forward(self, state):
@@ -80,7 +82,9 @@ class CriticNetwork(nn.Module):
             nn.Linear(40, 1), nn.ReLU())
 
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
-        self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
+        # TODO
+        # self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
+        self.device = T.device('cpu')
         self.to(self.device)
 
     def forward(self, state):

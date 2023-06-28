@@ -119,9 +119,9 @@ class Simulation:
                     self.apply_decisions(decisions, need_decisions)
 
                 if self.rlDecider:
-                    self.rewardList.append(self.reward)
                     self.reward -= self.latestAvgWaitingTime
-                    self.reward -= self.personManager.get_remaining_people()
+                    # self.reward -= self.personManager.get_remaining_people()
+                    self.rewardList.append(self.reward)
 
                 Clock.tact += 1
 

@@ -50,10 +50,11 @@ class EpisodeEncoder:
                 best_reward = reward
                 best_waiting = avg_waiting
                 best_episode = i + 1
-            else:
-                best_reward = min(best_reward, reward)
-                best_remaining = min(best_remaining, remaining)
-                best_waiting = min(best_waiting, avg_waiting)
+            elif reward > best_reward:
+                best_episode = i + 1
+                best_reward = reward
+                best_remaining = remaining
+                best_waiting = avg_waiting
             sim.reset()
         print(
             f'\rEpisode: {num_of_episodes}/{num_of_episodes}\tBeste Episode: {best_episode}\t Waiting Time = {best_waiting:.2f}\t'

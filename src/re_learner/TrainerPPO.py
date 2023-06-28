@@ -11,13 +11,15 @@ import os
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+import plotter
 import simulation
 import utils
 from re_learner import Net, EpisodeEncoder
 
-BATCH_SIZE = 32
+# BATCH_SIZE = 32
 # TODO: wieder auf 64 stellen
-# BATCH_SIZE = 64
+BATCH_SIZE = 64
 
 FACTOR_POLICY = 10.0
 FACTOR_ENTROPY = 2.0
@@ -29,9 +31,9 @@ class TrainerPPO:
 
     def __init__(self):
         if torch.cuda.is_available():
-            dev = "cuda:0"
-        else:
             dev = "cpu"
+        else:
+            dev = "cuda:0"
         self.__device = torch.device(dev)
         self.__net = simulation.Simulation.load_rl_model(self.modelFile, self.__device)
         self.__net.to(self.__device)
@@ -56,7 +58,7 @@ class TrainerPPO:
         # print("Loss Value " + str(lossValue))
 
         # TODO: Advantage ist Reward Funktion
-        advantage = destinationValue - value.detach()
+        advantage = (destinationValue - value.detach())
         # TODO: am Ende tangus über hau mich blau einsetzen und deshalb zwischen -1 und 1
         # advantage_remaining = remaining_value - value.detach()
 
@@ -65,13 +67,13 @@ class TrainerPPO:
         playedProbs = probs[range(inputTensor.size()[0]), decisionTensor]
         logProbs = F.log_softmax(logits, dim=1)
         rValue = playedProbs / playedProbs.detach()
-        rValue = rewardTensor
+        # rValue = rewardTensor
         #  print("R -value " + str(rValue))
         print(f"Mean Reward {rewardTensor.mean().item():.2f}")
 
         innerValue = torch.min(advantage * rValue, advantage * torch.clamp(rValue, 0.8, 1.2))
 
-        lossPolicy = -innerValue.mean()
+        lossPolicy = -innerValue.mean() * rewardTensor.mean()
         # print("Loss Policy " + str(lossPolicy))
         entropy = torch.sum(logProbs * probs, dim=1)
         lossEntropy = - entropy.mean()
@@ -119,6 +121,8 @@ class TrainerPPO:
     def TrainNetwork(self):
         _, best_avg_waiting, best_avg_reward = self.__TestNet(True)
         i = 0
+        avg_reward_list = list()
+        x = list()
         while True:
             print(15 * '-')
             print(f'Epoche {i}:')
@@ -127,6 +131,7 @@ class TrainerPPO:
                 # for i in range(10):
                 self.__ApplyTrainingRoundSingle()
             avg_remaining, avg_waiting, reward = self.__TestNet()
+            avg_reward_list.append(reward)
             if reward >= best_avg_reward:
                 best_avg_reward = reward
                 os.makedirs(os.path.dirname(self.modelFile), exist_ok=True)
@@ -138,6 +143,8 @@ class TrainerPPO:
                 if avg_remaining == 0:
                     break
             i += 1
+            x = [i + 1 for i in range(len(avg_reward_list))]
+            plotter.plot_learning_curve(x, avg_reward_list, 'images/train_dice.png')
 
 
 if __name__ == "__main__":
