@@ -120,6 +120,8 @@ class Simulation:
 
                 if self.rlDecider:
                     self.rewardList.append(self.reward)
+                    self.reward -= self.latestAvgWaitingTime
+                    self.reward -= self.personManager.get_remaining_people()
 
                 Clock.tact += 1
 
@@ -145,7 +147,6 @@ class Simulation:
                 run_step = False
 
         if step:
-            self.reward -= self.latestAvgWaitingTime
             # state, reward, done (while run condition)
             return self.get_game_state(), self.reward, not (Clock.running or Clock.tactBuffer > 0)
         else:
@@ -288,7 +289,6 @@ class Simulation:
     def apply_decisions(self, decisions: tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState],
                         need_decisions: list[bool, bool, bool]) -> None:
         self.latestDecision = decisions
-        self.reward -= self.latestAvgWaitingTime
         # self.reward += self.personManager.get_people_in_motion() * Reward.notHomePenalty
         for index, elevator in enumerate(self.elevators):
             if need_decisions[index]:

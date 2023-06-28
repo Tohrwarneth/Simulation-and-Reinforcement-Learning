@@ -1,4 +1,3 @@
-import gym as gym
 import numpy as np
 
 from new_re_learner.agent import Agent
@@ -14,6 +13,7 @@ class PPOTrainer:
     def train(self):
         sim = Simulation(show_gui=False, rl_decider=True)
         N = (20 * 60) / 8  # learn after N steps
+        N = 20  # learn after N steps
         batch_size = 5
         n_epochs = 4
         alpha = 0.0003
@@ -21,8 +21,9 @@ class PPOTrainer:
                       alpha=alpha, n_epochs=n_epochs,
                       input_dims=len(sim.get_game_state()))
         n_games = 300
+        # n_games = 300
 
-        figure_file = 'plots/cartpole.png'
+        figure_file = 'images/train_phill.png'
 
         # best_score = env.reward_range[0]
         best_score = 0

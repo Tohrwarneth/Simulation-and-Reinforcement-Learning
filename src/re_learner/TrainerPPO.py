@@ -15,9 +15,9 @@ import simulation
 import utils
 from re_learner import Net, EpisodeEncoder
 
-# BATCH_SIZE = 32
+BATCH_SIZE = 32
 # TODO: wieder auf 64 stellen
-BATCH_SIZE = 64
+# BATCH_SIZE = 64
 
 FACTOR_POLICY = 10.0
 FACTOR_ENTROPY = 2.0
@@ -65,15 +65,16 @@ class TrainerPPO:
         playedProbs = probs[range(inputTensor.size()[0]), decisionTensor]
         logProbs = F.log_softmax(logits, dim=1)
         rValue = playedProbs / playedProbs.detach()
+        rValue = rewardTensor
         #  print("R -value " + str(rValue))
+        print(f"Mean Reward {rewardTensor.mean().item():.2f}")
 
         innerValue = torch.min(advantage * rValue, advantage * torch.clamp(rValue, 0.8, 1.2))
 
         lossPolicy = -innerValue.mean()
         # print("Loss Policy " + str(lossPolicy))
         entropy = torch.sum(logProbs * probs, dim=1)
-        lossEntropy = - entropy.mean() * rewardTensor.mean()
-        print("Mean Reward " + str(rewardTensor.mean().item()))
+        lossEntropy = - entropy.mean()
         print("Loss Entropy " + str(lossEntropy))
         totalLoss = lossValue + FACTOR_POLICY * lossPolicy + FACTOR_ENTROPY * lossEntropy
         print("Total Loss " + str(totalLoss))
