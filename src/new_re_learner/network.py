@@ -21,12 +21,18 @@ class ActorNetwork(nn.Module):
             nn.Softmax(dim=-1)
         )
 
-        self.__common = nn.Sequential(nn.Linear(57, fc1_dims), nn.ReLU(),
-                                      nn.Linear(fc1_dims, fc2_dims), nn.ReLU(),
-                                      nn.Linear(fc2_dims, 80), nn.ReLU())
+        # self.__common = nn.Sequential(nn.Linear(57, fc1_dims), nn.ReLU(),
+        #                               nn.Linear(fc1_dims, fc2_dims), nn.ReLU(),
+        #                               nn.Linear(fc2_dims, 80), nn.ReLU())
+
+        self.__common = nn.Sequential(nn.Linear(57, 80), nn.LeakyReLU(),
+                                      nn.Linear(80, 256), nn.LeakyReLU(),
+                                      nn.Linear(256, 160), nn.LeakyReLU(),
+                                      nn.Linear(160, 80))
 
         self.__policy = nn.Sequential(
-            nn.Linear(80, 40), nn.ReLU(),
+            nn.Linear(80, 60), nn.LeakyReLU(),
+            nn.Linear(60, 40), nn.LeakyReLU(),
             nn.Linear(40, 28),
             nn.Softmax(dim=-1))
 
@@ -74,12 +80,15 @@ class CriticNetwork(nn.Module):
         #                               nn.Linear(80, 160), nn.ReLU(),
         #                               nn.Linear(160, 80), nn.ReLU())
 
-        self.__common = nn.Sequential(nn.Linear(57, fc1_dims), nn.ReLU(),
-                                      nn.Linear(fc1_dims, fc2_dims), nn.ReLU(),
-                                      nn.Linear(fc2_dims, 80), nn.ReLU())
+        self.__common = nn.Sequential(nn.Linear(57, 80), nn.LeakyReLU(),
+                                      nn.Linear(80, 256), nn.LeakyReLU(),
+                                      nn.Linear(256, 160), nn.LeakyReLU(),
+                                      nn.Linear(160, 80))
+
         self.__value = nn.Sequential(
-            nn.Linear(80, 40), nn.ReLU(),
-            nn.Linear(40, 1), nn.ReLU())
+            nn.Linear(80, 60), nn.LeakyReLU(),
+            nn.Linear(60, 40), nn.LeakyReLU(),
+            nn.Linear(40, 1))
 
         self.optimizer = optim.Adam(self.parameters(), lr=alpha)
         # TODO

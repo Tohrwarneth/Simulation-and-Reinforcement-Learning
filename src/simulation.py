@@ -119,8 +119,9 @@ class Simulation:
                     self.apply_decisions(decisions, need_decisions)
 
                 if self.rlDecider:
-                    self.reward -= self.latestAvgWaitingTime
-                    # self.reward -= self.personManager.get_remaining_people()
+                    # self.reward = -self.latestAvgWaitingTime
+                    # self.reward -= self.latestAvgWaitingTime
+                    self.reward += Conf.totalAmountPerson - self.personManager.get_remaining_people()
                     self.rewardList.append(self.reward)
 
                 Clock.tact += 1
@@ -328,9 +329,10 @@ if __name__ == "__main__":
     else:
         sim = Simulation(show_gui=show_gui, rl_decider=reinforcement_learning)
         if reinforcement_learning:
+            device = torch.device('cpu')
             if rl_dice:
-                Simulation.load_rl_model(re_learner.TrainerPPO.TrainerPPO.modelFile)
+                Simulation.load_rl_model(re_learner.TrainerPPO.TrainerPPO.modelFile, device)
             elif rl_phill:
-                Simulation.load_rl_model(trainer.PPOTrainer.modelFile)
+                Simulation.load_rl_model(trainer.PPOTrainer.modelFile, device)
         sim.run()
         Simulation.reset()
