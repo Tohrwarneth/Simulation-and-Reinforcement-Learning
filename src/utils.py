@@ -160,6 +160,7 @@ class Logger:
     log_limits: int = 10
     dateTime: str
     noLogs: bool = False
+    was_init: bool = False
 
     @classmethod
     def init(cls) -> None:
@@ -167,7 +168,7 @@ class Logger:
         Initialize Logger
         :return:
         """
-        if cls.noLogs:
+        if cls.noLogs or cls.was_init:
             return
         now = datetime.now()  # current date and time
         cls.dateTime = now.strftime("%m.%d.%Y-%H.%M.%S")
@@ -180,10 +181,10 @@ class Logger:
             os.makedirs(os.path.dirname(cls.csv), exist_ok=True)
 
         if Conf.train:
-            cls.eod_file = f"{Conf.logPath}/train_eod.csv"
+            cls.eod_file = f"{Conf.logPath}//train_eod.csv"
             cls.eod_session_file = None
         else:
-            cls.eod_file = f"{Conf.logPath}/eod.csv"
+            cls.eod_file = f"{Conf.logPath}//eod.csv"
             cls.eod_session_file = f"{Conf.logPath}//{cls.dateTime}//eod.csv"
 
         logs = [name for name in os.listdir(Conf.logPath)
@@ -193,6 +194,7 @@ class Logger:
             logs.pop(0)
 
         cls.allData = list()
+        cls.was_init = True
 
     @classmethod
     def log(cls, plot_name: str = None) -> None:

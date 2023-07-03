@@ -29,7 +29,8 @@ class Simulation:
     showGui: bool
     rlDecider: bool
     latestDecision: tuple | None
-    reward: float = 0
+    peopleInOffice: int = 0
+    reward: float = 0.0
     rewardList: list[float] = list()
 
     def __init__(self, show_gui=True, rl_decider: bool = False,
@@ -117,12 +118,18 @@ class Simulation:
                     # Nicht, wenn auf Warten gestellt wird. Also nur, wenn er Entscheidung treffen soll
                     decisions = Conf.reinforcement_decider.get_decision(self)
                     self.apply_decisions(decisions, need_decisions)
+                current_people_in_office = self.personManager.get_people_in_office()
 
                 if self.rlDecider:
                     # self.reward = -self.latestAvgWaitingTime
                     # self.reward -= self.latestAvgWaitingTime
-                    self.reward += Conf.totalAmountPerson - self.personManager.get_remaining_people()
+                    # self.reward += Conf.totalAmountPerson - self.personManager.get_remaining_people()
+                    current_people_in_office = self.personManager.get_people_in_office()
+
+                    self.reward = max(0, current_people_in_office - self.peopleInOffice)
                     self.rewardList.append(self.reward)
+
+                    self.peopleInOffice = current_people_in_office
 
                 Clock.tact += 1
 
@@ -175,8 +182,8 @@ class Simulation:
         log: dict = dict()
 
         if self.finalAvgWaitingTime:
-            avg_waiting = self.finalAvgWaitingTime.pop()
-            log["avgWaitingTime"] = avg_waiting
+            # avg_waiting = self.finalAvgWaitingTime.pop()
+            log["avgWaitingTime"] = self.latestAvgWaitingTime
         else:
             log["avgWaitingTime"] = None
 

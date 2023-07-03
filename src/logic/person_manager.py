@@ -110,6 +110,17 @@ class PersonManager:
                 remaining_in_building += 1
         return remaining_in_building
 
+    def get_people_in_office(self) -> int:
+        """
+        Returns the number of peoples in there office
+        :return: number of people in there office
+        """
+        in_office = 0
+        for person in self.persons + self.atHome:
+            if len(person.schedule) < 4 and person.waitingStartTime:
+                in_office += 1
+        return in_office
+
     def get_people_in_motion(self) -> int:
         """
         Return the number of people who are moving between floors or waiting for an elevator
