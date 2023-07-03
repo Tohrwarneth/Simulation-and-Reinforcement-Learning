@@ -76,4 +76,19 @@ Get-ChildItem 'conceptual_model' | ForEach-Object {
 
 PrintGeneralProgress
 
+# Reinforcement
+$images = "..\paper\reinforcement\images"
+$mdFileSimOverview = "..\paper\reinforcement\chapters\overview.md"
+$mdFileSimKonzept = "..\paper\reinforcement\chapters\konzept.md"
+$chapters = $mdFileSimOverview, $mdFileSimKonzept
+$m = (Get-ChildItem 'conceptual_model' | Measure-Object).Count
+$j = 0
+Write-Output "`tBuild Reinforcement"
+Get-ChildItem 'conceptual_model' | ForEach-Object {
+    & $_.FullName -chapters $chapters -inputPath "..\paper\reinforcement\" -outputPath "..\generated\reinforcement\" -name "Reinforcement" -images $images
+    PrintInnerProgress -step $j -max $m -activity "Reinforcement" -operation "Build Reinforcement Paper"
+}
+
+PrintGeneralProgress
+
 Write-Host "Build Fertig"
