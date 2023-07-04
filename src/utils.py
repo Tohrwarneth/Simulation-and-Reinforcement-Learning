@@ -19,6 +19,8 @@ class Conf:
     """
     # Reinforcement Learner
     train: bool = False
+    dice: bool = False
+    phill: bool = False
     #
     # Elevator
     capacity: int = 5
@@ -76,7 +78,9 @@ class Conf:
         show_gui: bool = args.ui
         reinforcement_learning: bool = args.reinforcementLearner or args.train
         rl_phill: bool = args.rlPhill and reinforcement_learning
+        Conf.phill = rl_phill
         rl_dice: bool = args.rlDice or (reinforcement_learning and not rl_phill)
+        Conf.dice = rl_dice
         return show_gui, reinforcement_learning, rl_phill, rl_dice
 
 

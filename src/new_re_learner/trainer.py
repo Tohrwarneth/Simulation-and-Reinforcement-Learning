@@ -10,16 +10,21 @@ from utils import Clock
 class PPOTrainer:
     modelFile = 'model/elevator_phill.dat'
 
-    def train(self):
-        sim = Simulation(show_gui=False, rl_decider=True)
-        N = (24 * 60) / 8  # learn after N steps
-        # N = 20  # learn after N steps
+    @classmethod
+    def get_new_actor(cls, sim: Simulation):
         batch_size = 5
         n_epochs = 4
         alpha = 0.0003
         agent = Agent(n_actions=NetCoder.num_actions, batch_size=batch_size,
                       alpha=alpha, n_epochs=n_epochs,
-                      input_dims=len(sim.get_game_state()))
+                      input_dims=len(NetCoder.normalize_game_state(sim.get_game_state())))
+        return agent
+
+    def train(self):
+        sim = Simulation(show_gui=False, rl_decider=True)
+        N = (24 * 60) / 8  # learn after N steps
+        # N = 20  # learn after N steps
+        agent = self.get_new_actor(sim)
         n_games = 300
         # n_games = 300
 
@@ -76,3 +81,5 @@ class PPOTrainer:
             #       'run_steps', n_steps, 'learning_steps', learn_iters)
         x = [i + 1 for i in range(len(score_history))]
         plot_learning_curve(x, score_history, figure_file)
+        x = [i + 1 for i in range(learn_iters)]
+        plot_learning_curve(x, agent.loss_hist, None, 'Total Loss')

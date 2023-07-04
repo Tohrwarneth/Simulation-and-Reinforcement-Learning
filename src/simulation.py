@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 
 import enums
 from logic.person import Person
-from new_re_learner import trainer
+from new_re_learner import trainer, agent
 from re_learner import NetCoder
 import re_learner.TrainerPPO
 import re_learner.Net
@@ -32,6 +32,7 @@ class Simulation:
     peopleInOffice: int = 0
     reward: float = 0.0
     rewardList: list[float] = list()
+    agent: agent.Agent = None
 
     def __init__(self, show_gui=True, rl_decider: bool = False,
                  elevator_position: tuple[int, int, int] = (0, 0, 0)):
@@ -80,6 +81,9 @@ class Simulation:
             self.reward = 0
             t_new: float = time()
             for _ in range(Clock.tactBuffer):
+                if not Conf.train and Conf.phill:
+                    observation = self.get_game_state()
+                    action, _, _ = self.agent.choose_action(NetCoder.normalize_game_state(observation))
                 if Clock.skip and Clock.tact / 60 >= Clock.skip:
                     Clock.skip = None
                     Clock.speedScale = 1.0
@@ -93,12 +97,17 @@ class Simulation:
                 # finished when average waiting time for end of day
                 need_decisions = [False, False, False]
                 action_decisions = NetCoder.decision_to_states(action)
+                debug_position = list()
                 for i, elevator in enumerate(self.elevators):
                     need_decisions[i], local_reward = elevator.manage(action_decisions[i])
                     self.reward += local_reward
                     elevator_waiting_time += elevator.waitingTimes
-                    if not self.rlDecider:
+                    if not Logger.noLogs:
                         elevator.log()
+                    if Logger.noLogs:
+                        debug_position.append(elevator.position + 1)
+                if Logger.noLogs and not Conf.train:
+                    print(debug_position)
                 if len(elevator_waiting_time) == 0:
                     elevator_waiting_time.append((Clock.tact, 0))
                 avg_waiting_time = np.mean(elevator_waiting_time, axis=0)[1]
@@ -126,7 +135,7 @@ class Simulation:
                     # self.reward += Conf.totalAmountPerson - self.personManager.get_remaining_people()
                     current_people_in_office = self.personManager.get_people_in_office()
 
-                    self.reward = max(0, current_people_in_office - self.peopleInOffice)
+                    # self.reward = max(0, current_people_in_office - self.peopleInOffice)
                     self.rewardList.append(self.reward)
 
                     self.peopleInOffice = current_people_in_office
@@ -304,14 +313,18 @@ class Simulation:
             elevator.log()
 
     @staticmethod
-    def load_rl_model(model_file: str, device: torch.device) -> re_learner.Net.Net:
-        try:
-            net = torch.load(model_file)
-            net.to(device)
-        except:
-            net = re_learner.Net.Net()
-        Conf.reinforcement_decider.init(net)
-        return net
+    def load_rl_model(model_file: str, device: torch.device, is_phill=False,
+                      sim: Simulation = None) -> re_learner.Net.Net:
+        if is_phill:
+            return trainer.PPOTrainer.get_new_actor(sim)
+        else:
+            try:
+                net = torch.load(model_file)
+                net.to(device)
+            except:
+                net = re_learner.Net.Net()
+            Conf.reinforcement_decider.init(net)
+            return net
 
     @staticmethod
     def reset():
@@ -340,6 +353,6 @@ if __name__ == "__main__":
             if rl_dice:
                 Simulation.load_rl_model(re_learner.TrainerPPO.TrainerPPO.modelFile, device)
             elif rl_phill:
-                Simulation.load_rl_model(trainer.PPOTrainer.modelFile, device)
+                sim.agent = Simulation.load_rl_model(trainer.PPOTrainer.modelFile, device, rl_phill, sim)
         sim.run()
         Simulation.reset()

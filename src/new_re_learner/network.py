@@ -5,19 +5,29 @@ import torch.nn as nn
 import torch.optim as optim
 from torch.distributions.categorical import Categorical
 
+activation = nn.LeakyReLU()
+# activation = nn.ReLU()
+
 
 class ActorNetwork(nn.Module):
     def __init__(self, n_actions, input_dims, alpha,
-                 fc1_dims=256, fc2_dims=256, chkpt_dir='model'):
+                 fc1_dims=80, fc2_dims=256, fc3_dims=160, fc4_dims=40, chkpt_dir='model'):
         super(ActorNetwork, self).__init__()
+        global activation
 
         self.checkpoint_file = os.path.join(chkpt_dir, 'actor_torch_ppo')
         self.actor = nn.Sequential(
             nn.Linear(input_dims, fc1_dims),
-            nn.ReLU(),
+            activation,
             nn.Linear(fc1_dims, fc2_dims),
-            nn.ReLU(),
-            nn.Linear(fc2_dims, n_actions),
+            activation,
+            nn.Linear(fc2_dims, fc3_dims),
+            activation,
+            nn.Linear(fc3_dims, fc4_dims),
+            activation,
+            nn.Linear(fc4_dims, fc1_dims),
+            activation,
+            nn.Linear(fc1_dims, n_actions),
             nn.Softmax(dim=-1)
         )
 
@@ -42,17 +52,17 @@ class ActorNetwork(nn.Module):
         # self.device = T.device('cuda:0' if T.cuda.is_available() else 'cpu')
         self.to(self.device)
 
-    # def forward(self, state):
-    #     dist = self.actor(state)
-    #     dist = Categorical(dist)
-    #
-    #     return dist
+    def forward(self, state):
+        dist = self.actor(state)
+        dist = Categorical(dist)
 
-    def forward(self, x):
-        base = self.__common(x)
-        logits = self.__policy(base)
-        dist = Categorical(logits)
         return dist
+
+    # def forward(self, x):
+    #     base = self.__common(x)
+    #     logits = self.__policy(base)
+    #     dist = Categorical(logits)
+    #     return dist
 
     def save_checkpoint(self):
         T.save(self.state_dict(), self.checkpoint_file)
@@ -67,12 +77,14 @@ class CriticNetwork(nn.Module):
                  chkpt_dir='model'):
         super(CriticNetwork, self).__init__()
 
+        global activation
+
         self.checkpoint_file = os.path.join(chkpt_dir, 'critic_torch_ppo')
         self.critic = nn.Sequential(
             nn.Linear(input_dims, fc1_dims),
-            nn.ReLU(),
+            activation,
             nn.Linear(fc1_dims, fc2_dims),
-            nn.ReLU(),
+            activation,
             nn.Linear(fc2_dims, 1)
         )
         #
@@ -103,7 +115,7 @@ class CriticNetwork(nn.Module):
 
     # def forward(self, state):
     #     value = self.critic(state)
-    #
+    #     # value = value.squeeze(-1)
     #     return value
 
     def save_checkpoint(self):

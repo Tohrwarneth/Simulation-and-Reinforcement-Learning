@@ -49,6 +49,17 @@ class GUIStatus:
         """
         (sw, sh) = Conf.screenScale
 
+        # position_rect = game_display.get_rect()
+        # width, height = self.position
+        # offset_width: float = (width / 10) * self.elevatorIndex
+        # offset_height: float = height / 3.15 * self.currentFloor
+        #
+        # position_rect.center = (offset_width + width, offset_height + height)
+        # position_rect.size = (10, 10)
+        #
+        # # position_rect.center = self.position
+        # position_rect: pygame.Rect = pygame.draw.rect(game_display, 'black', position_rect)
+
         text_surface: pygame.Surface = Conf.fontSmall. \
             render(f"{self.currentFloor + 1:01d}", True, "black")
 

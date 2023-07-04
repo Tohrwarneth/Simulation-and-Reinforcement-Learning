@@ -16,6 +16,8 @@ class Agent:
         self.actor = ActorNetwork(n_actions, input_dims, alpha)
         self.critic = CriticNetwork(input_dims, alpha)
         self.memory = PPOMemory(batch_size)
+        self.load_models()
+        self.loss_hist = list()
 
     def remember(self, state, action, probs, vals, reward, done):
         self.memory.store_memory(state, action, probs, vals, reward, done)
@@ -26,9 +28,12 @@ class Agent:
         self.critic.save_checkpoint()
 
     def load_models(self):
-        print('... loading models ...')
-        self.actor.load_checkpoint()
-        self.critic.load_checkpoint()
+        try:
+            self.actor.load_checkpoint()
+            self.critic.load_checkpoint()
+            print('... loading models ...')
+        except:
+            pass
 
     def choose_action(self, observation):
         state = T.tensor([observation], dtype=T.float).to(self.actor.device)
@@ -85,6 +90,7 @@ class Agent:
                 critic_loss = critic_loss.mean()
 
                 total_loss = actor_loss + 0.5 * critic_loss
+                self.loss_hist.append(total_loss)
                 self.actor.optimizer.zero_grad()
                 self.critic.optimizer.zero_grad()
                 total_loss.backward()
