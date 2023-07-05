@@ -1,10 +1,47 @@
+<#
+    .Description
+    Generiert eine PDF aus einer Markdown Datei.
+
+    Benoetigt: Latex (Empfohlen: MikTex), Pandoc mit dem abstract-section lua-Filter, bibtex, und pdflatex
+
+    .PARAMETER status
+    Schreibt den Status in grosser roter Schrift ueber den Titel.
+
+    .PARAMETER outputDir
+    Speicherort der PDF.
+
+    .PARAMETER mainFile
+    Haupt-Markdown-Datei, die die Meta-Daten für die PDF enthaelt und als erste Seite dient.
+
+    .PARAMETER fileName
+    Dateiname der PDF ohne Endung.
+
+    .PARAMETER imageDir
+    Speicherort der genutzten Bilder.
+
+    .PARAMETER hsTemplate
+    Soll die LaTex-Vorlage der Hochschule Trier verwendet werden?
+
+    .PARAMETER saveLatex
+    Soll die LaTex-Datei erhalten bleiben?
+
+    .PARAMETER bibFile
+    Speicherort der BibTex (*.bib).
+
+    .PARAMETER secondarysRootDir
+    Legt ein gemeinsamer Ordner für weitere Markdowns fest und wird vor deren Pfade eingefuegt. Wenn nicht gesetzt, wird nichts eingefuegt.
+
+    .PARAMETER secondarys
+    Weitere Markdowns, die in der vorkommenden Reihenfolge zusammengefuehrt werden.
+#>
+
 param(
     [Parameter(HelpMessage = "Schreibt den Status in grosser roter Schrift über den Titel.")]
-    [Alias("ST", "Status")]
+    [Alias("ST")]
     [String]
     $status,
     [Parameter(Mandatory = $true, HelpMessage = "Speicherort der PDF.")]
-    [Alias("OD", "OutputDir")]
+    [Alias("OD")]
     [System.IO.FileInfo]
     [ValidateScript({
         if (-Not($_ | Test-Path))
@@ -19,7 +56,7 @@ param(
     })]
     $outputDir,
     [Parameter(Mandatory = $true, HelpMessage = "Haupt-Markdown-Datei, die die Meta-Daten für die PDF enthaelt und als erste Seite dient.")]
-    [Alias("MF", "MainFile")]
+    [Alias("MF")]
     [System.IO.FileInfo]
     [ValidateScript({
         if (-Not($_ | Test-Path))
@@ -37,11 +74,13 @@ param(
         return $true
     })]
     $mainFile,
-    [String(HelpMessage = "Dateiname der PDF ohne Endung.")]
-    [Alias("FN", "FileName")]
+    [Parameter(HelpMessage = "Dateiname der PDF ohne Endung.")]
+    [Alias("FN")]
+    [String]
     $fileName,
-    [System.IO.FileInfo(HelpMessage = "Speicherort der genutzten Bilder.")]
-    [Alias("ID", "ImageDir")]
+    [Parameter(HelpMessage = "Speicherort der genutzten Bilder.")]
+    [Alias("ID")]
+    [System.IO.FileInfo]
     [ValidateScript({
         if (-Not($_ | Test-Path))
         {
@@ -54,14 +93,17 @@ param(
         return $true
     })]
     $imageDir,
-    [Switch(HelpMessage = "Soll die LaTex-Vorlage der Hochschule Trier verwendet werden?")]
-    [Alias("HS", "HSTemplate")]
+    [Parameter(HelpMessage = "Soll die LaTex-Vorlage der Hochschule Trier verwendet werden?")]
+    [Alias("HS")]
+    [Switch]
     $hsTemplate,
-    [Switch(HelpMessage = "Soll die LaTex-Datei erhalten bleiben?")]
-    [Alias("SL", "SaveLatex")]
+    [Parameter(HelpMessage = "Soll die LaTex-Datei erhalten bleiben?")]
+    [Alias("SL")]
+    [Switch]
     $saveLatex,
-    [System.IO.FileInfo(HelpMessage = "Speicherort der BibTex (*.bib).")]
-    [Alias("BF", "BibFile")]
+    [Parameter(HelpMessage = "Speicherort der BibTex (*.bib).")]
+    [Alias("BF")]
+    [System.IO.FileInfo]
     [ValidateScript({
         if (-Not($_ | Test-Path))
         {
@@ -78,8 +120,9 @@ param(
         return $true
     })]
     $bibFile,
-    [System.IO.FileInfo(HelpMessage = "Legt ein gemeinsamer Ordner für weitere Markdowns fest und wird vor deren Pfade eingefuegt. Wenn nicht gesetzt, wird nichts eingefuegt.")]
-    [Alias("SR", "SecRoot")]
+    [Parameter(HelpMessage = "Legt ein gemeinsamer Ordner für weitere Markdowns fest und wird vor deren Pfade eingefuegt. Wenn nicht gesetzt, wird nichts eingefuegt.")]
+    [Alias("SR")]
+    [System.IO.FileInfo]
     [ValidateScript({
         if (-Not($_ | Test-Path))
         {
@@ -92,7 +135,8 @@ param(
         return $true
     })]
     $secondarysRootDir,
-    [System.IO.FileInfo[](ValueFromRemainingArguments, HelpMessage = "Weitere Markdowns, die in der vorkommenden Reihenfolge zusammengefuehrt werden.")]
+    [Parameter(ValueFromRemainingArguments, HelpMessage = "Weitere Markdowns, die in der vorkommenden Reihenfolge zusammengefuehrt werden.")]
+    [System.IO.FileInfo[]]
     [ValidateScript({
         if (-Not($_ | Test-Path))
         {
@@ -106,6 +150,7 @@ param(
     })]
     $secondarys
 )
+
 Write-Output "Build..."
 $warning = 0
 
@@ -203,6 +248,10 @@ if (Test-Path -Path $pdfFile -PathType Leaf)
 {
     $pdfFile = Move-Item -Force -PassThru -Path "$( $fileName ).pdf" -Destination ".."
     Write-Output "`r`t- PDF aus LaTex Dokument generiert: $( Resolve-Path -Path $pdfFile )"
+    if ($saveLatex)
+    {
+        Move-Item -Force -PassThru -Path "$( $fileName ).tex" -Destination ".."
+    }
 }
 else
 {
