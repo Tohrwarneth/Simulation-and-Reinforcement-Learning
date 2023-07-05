@@ -49,32 +49,32 @@ $mdFileBehavior = "..\paper\conceptual_model\chapters\behavior.md"
 $mdFileVerification = "..\paper\conceptual_model\chapters\verification.md"
 $chapters = $mdFileIdentity, $mdFileProperties, $mdFileBehavior, $mdFileVerification
 $images = "..\paper\conceptual_model\images", "..\paper\simulation\images"
-$m = (Get-ChildItem 'conceptual_model' | Measure-Object).Count
-$j = 0
-Write-Output "`tBuild Conceptual Model"
-Get-ChildItem 'conceptual_model' | ForEach-Object {
-    & $_.FullName -chapters $chapters -inputPath "..\paper\conceptual_model\" -outputPath "..\generated\conceptual_model\" -name "ConceptualModel" -images $images
-    PrintInnerProgress -step $j -max $m -activity "Conceptual Model" -operation "Build Conecptual Model"
-}
-
-PrintGeneralProgress
+#$m = (Get-ChildItem 'conceptual_model' | Measure-Object).Count
+#$j = 0
+#Write-Output "`tBuild Conceptual Model"
+#Get-ChildItem 'conceptual_model' | ForEach-Object {
+#    & $_.FullName -chapters $chapters -inputPath "..\paper\conceptual_model\" -outputPath "..\generated\conceptual_model\" -name "ConceptualModel" -images $images
+#    PrintInnerProgress -step $j -max $m -activity "Conceptual Model" -operation "Build Conecptual Model"
+#}
+#
+#PrintGeneralProgress
 
 # Simulation
 
 $mdFileSimOverview = "..\paper\simulation\chapters\overview.md"
 $mdFileSimPerson = "..\paper\simulation\chapters\person.md"
 $mdFileSimElevator = "..\paper\simulation\chapters\elevator.md"
-$chapters = $mdFileIdentity, $mdFileProperties, $mdFileBehavior, $mdFileVerification, `
-            $mdFileSimOverview, $mdFileSimPerson, $mdFileSimElevator
-$m = (Get-ChildItem 'conceptual_model' | Measure-Object).Count
-$j = 0
-Write-Output "`tBuild Simulation"
-Get-ChildItem 'conceptual_model' | ForEach-Object {
-    & $_.FullName -chapters $chapters -inputPath "..\paper\simulation\" -outputPath "..\generated\simulation\" -name "Simulation" -images $images
-    PrintInnerProgress -step $j -max $m -activity "Simulation" -operation "Build Simulation Paper"
-}
-
-PrintGeneralProgress
+#$chapters = $mdFileIdentity, $mdFileProperties, $mdFileBehavior, $mdFileVerification, `
+#            $mdFileSimOverview, $mdFileSimPerson, $mdFileSimElevator
+#$m = (Get-ChildItem 'conceptual_model' | Measure-Object).Count
+#$j = 0
+#Write-Output "`tBuild Simulation"
+#Get-ChildItem 'conceptual_model' | ForEach-Object {
+#    & $_.FullName -chapters $chapters -inputPath "..\paper\simulation\" -outputPath "..\generated\simulation\" -name "Simulation" -images $images
+#    PrintInnerProgress -step $j -max $m -activity "Simulation" -operation "Build Simulation Paper"
+#}
+#
+#PrintGeneralProgress
 
 # Reinforcement
 $images = "..\paper\reinforcement\images"

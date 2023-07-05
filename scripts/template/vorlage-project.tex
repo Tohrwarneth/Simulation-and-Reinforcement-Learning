@@ -10,7 +10,7 @@
 
 
 %------------------ Präambel ---------------------------------------------------
-\documentclass[envcountsame, envcountchap, deutsch]{i-studis}
+\documentclass[envcountsame, envcountchap, deutsch]{i-studis.cls}
 
 \usepackage[utf8]{inputenc}
 
@@ -63,10 +63,21 @@
 
 
 \hypersetup{
-  pdftitle={Reinforcement Learning},
-  pdfauthor={Frederic Nicolas Schneider},
-  pdflang={de-DE},
-  pdfsubject={Simulationstechnik und Reinforcement Learning},
+$if(title-meta)$
+  pdftitle={$title-meta$},
+$endif$
+$if(author-meta)$
+  pdfauthor={$author-meta$},
+$endif$
+$if(lang)$
+  pdflang={$lang$},
+$endif$
+$if(subject)$
+  pdfsubject={$subject$},
+$endif$
+$if(keywords)$
+  pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
+$endif$
 }
 
 \providecommand{\tightlist}{%
@@ -79,15 +90,27 @@
 %------------------ Titelseite -------------------------------------------------
 \begin{document}
 
-\title{Reinforcement Learning}
-\subtitle{Simulationstechnik und Reinforcement Learning}
+$if(title)$
+\title{$title$}
+$endif$
+$if(subtitle)$
+\subtitle{$subtitle$}
+$endif$
 
-\author{Frederic Nicolas Schneider}
+$if(author)$
+\author{$author$}
+$endif$
 
-\supervisor{Prof.~Dr.~Christoph Lürig}
+$if(supervisor)$
+\supervisor{$supervisor$}
+$endif$
 
-\address{Trier}
-\submitdate{11.07.2023}
+$if(address)$
+\address{$address$}
+$endif$
+$if(date)$
+\submitdate{$date$}
+$endif$
 
 %------------------ Projektart -------------------------------------------------
 %\project{Bachelor-Projektarbeit}
@@ -96,7 +119,9 @@
 %\project{Master-Abschlussarbeit}
 %\project{Seminar}
 %\project{Hausarbeit}
-\project{Simulationstechnik und Reinforcement Learning}
+$if(project)$
+\project{$project$}
+$endif$
 
 \mytitlepage
 
@@ -104,6 +129,9 @@
 \frontmatter
 % \input{chapters/Vorwort}								% Vorwort (optional)
 % \input{chapters/Kurzfassung}							% Kurzfassung/Abstract
+$if(abstract)$
+\abstract{$abstract$}
+$endif$
 \tableofcontents										% Inhaltsverzeichnis
 % \listoffigures											% Abbildungsverzeichnis (optional)
 % \listoftables											% Tabellenverzeichnis (optional)
@@ -112,48 +140,7 @@
 
 %------------------ Kapitel ----------------------------------------------------
 \mainmatter
-\newpage
-
-\hypertarget{erweiterung-der-simulation}{%
-\chapter{Erweiterung der Simulation}\label{erweiterung-der-simulation}}
-
-\hypertarget{ruxfcckblick-auf-die-aktuelle-simulation}{%
-\section{Rückblick auf die aktuelle
-Simulation}\label{ruxfcckblick-auf-die-aktuelle-simulation}}
-
-Die Simulation wurde in drei Elementen aufgeteilt: der
-Fahrstuhlsteuerung, Personensteuerung und der verbindenden Simulation.
-Dabei wird in jedem Takt überprüft, ob Personen einen Fahrstuhl zu einer
-Etage rufen. Ist der Fahrstuhl leer, prüft er in jedem Takt, ob er
-gerufen wurde. Hat er jedoch Passagiere, so fährt er zur nächsten
-Zieletage und nimmt, wenn möglich, auf dem Weg weitere Passagiere mit.
-
-\hypertarget{die-entscheider-schnittstelle}{%
-\section{Die
-Entscheider-Schnittstelle}\label{die-entscheider-schnittstelle}}
-
-Als erste Erweiterung wurde eine Entscheider-Schnittstelle erstellt, die
-von der Fahrstuhlsteuerung aufgerufen wird. Diese gibt in der reinen
-Simulation die Entscheidung der Scanning-Strategie zurück. Ist der
-Entscheider des Reinforcement Learnings aktiviert, gibt diese
-Schnittstelle eine neutrale Entscheidung zurück. Die Entscheidung der
-Reinforcement Learners wurde bei der ersten Implementierung nach dem
-Fahrstuhlhandlings angewendet (Abbildung \ref{elevator_RL}).
-
-\begin{figure}
-\centering
-\includegraphics{../images/elevator_RL.png}
-\caption{Der neue abgeänderte Ablauf der Fahrstuhlsteuerung. Entscheider
-(grün), Neue Schritte (rot), Nicht mehr genutzt (lila)
-\label{elevator_RL}}
-\end{figure}
-
-In einer zweiten Implementierung wurde die Möglichkeit hinzugefügt, die
-Simulation nur Schrittweise auszuführen und beim Training die
-Entscheidung außerhalb der Simulation zu treffen und diese für den
-nächsten Takt zu übergeben. Ist nur der Entscheider dieser
-Reinforcement-Implementation genutzt, so kann die Simulation diese in
-jedem Takt selbstständig vom Netz anfragen.
+$body$
 
 
 % %------------------ Literaturverzeichnis & Index -------------------------------

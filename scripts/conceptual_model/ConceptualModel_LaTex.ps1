@@ -80,6 +80,7 @@ if (Test-Path -Path "$name.pdf" -PathType Leaf)
 {
     Copy-Item -Path "$name.pdf" -Destination "../$($name)-LaTex.pdf"
     Write-Output "`t`t- PDF aus LaTex Dokument generiert"
+    Write-Output "../$($name)-LaTex.pdf"
 }
 else
 {

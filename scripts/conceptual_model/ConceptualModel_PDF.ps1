@@ -25,5 +25,6 @@ function pdfGen
     if (Test-Path -Path $pdfFile -PathType Leaf)
     {
         Write-Output "`t`t- PDF generiert"
+        Write-Output $pdfFile
     }
 }
