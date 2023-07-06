@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-dynamic-static-initializers</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-dynamic-static-initializers">
+<h1>bugprone-dynamic-static-initializers</h1>
+<p>Finds instances of static variables that are dynamically initialized
+in header files.</p>
+<p>This can pose problems in certain multithreaded contexts. For example,
+when disabling compiler generated synchronization instructions for
+static variables initialized at runtime (e.g. by <code class="docutils literal notranslate"><span class="pre">-fno-threadsafe-statics</span></code>), even if a particular project
+takes the necessary precautions to prevent race conditions during
+initialization by providing their own synchronization, header files included from other projects may
+not. Therefore, such a check is helpful for ensuring that disabling
+compiler generated synchronization for static variable initialization will not cause
+problems.</p>
+<p>Consider the following code:</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="nf">foo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">bar</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">k</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>When synchronization of static initialization is disabled, if two threads both call <cite>foo</cite> for the first time, there is the possibility that <cite>k</cite> will be double initialized, creating a race condition.</p>
+</section>
+</div></body>
+</html>

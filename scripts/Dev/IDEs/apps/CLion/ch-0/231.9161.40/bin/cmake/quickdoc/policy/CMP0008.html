@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0008</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0008">
+<span id="policy:CMP0008"><!--f--></span><h1>CMP0008</h1>
+<p>Libraries linked by full-path must have a valid library file name.</p>
+<p>In CMake 2.4 and below it is possible to write code like</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>target_link_libraries(myexe /full/path/to/somelib)
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">somelib</span></code> is supposed to be a valid library file name such as
+<code class="docutils literal notranslate"><span class="pre">libsomelib.a</span></code> or <code class="docutils literal notranslate"><span class="pre">somelib.lib</span></code>.  For Makefile generators this
+produces an error at build time because the dependency on the full
+path cannot be found.  For <a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> IDE
+and <span class="target" id="index-0-generator:Xcode"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/generator/Xcode.html#generator:Xcode" title="Xcode"><code class="xref cmake cmake-generator docutils literal notranslate"><span class="pre">Xcode</span></code></a> generators this used to
+work by accident because CMake would always split off the library
+directory and ask the linker to search for the library by name
+(<code class="docutils literal notranslate"><span class="pre">-lsomelib</span></code> or <code class="docutils literal notranslate"><span class="pre">somelib.lib</span></code>).  Despite the failure with Makefiles, some
+projects have code like this and build only with Visual Studio and/or Xcode.
+This version of CMake prefers to pass the full path directly to the
+native build tool, which will fail in this case because it does not
+name a valid library file.</p>
+<p>This policy determines what to do with full paths that do not appear
+to name a valid library file.  The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is to
+split the library name from the path and ask the linker to search for
+it.  The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior for this policy is to trust the given path and
+pass it directly to the native build tool unchanged.</p>
+<p>This policy was introduced in CMake version 2.6.1.  CMake version
+ warns when the policy is not set and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.  Use
+the <span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code> explicitly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

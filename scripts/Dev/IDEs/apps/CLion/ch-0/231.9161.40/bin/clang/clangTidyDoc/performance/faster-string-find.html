@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - performance-faster-string-find</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="performance-faster-string-find">
+<h1>performance-faster-string-find</h1>
+<p>Optimize calls to <code class="docutils literal notranslate"><span class="pre">std::string::find()</span></code> and friends when the needle passed is
+a single character string literal. The character literal overload is more
+efficient.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">str</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;A&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// becomes</span>
+
+<span class="n">str</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="sc">&#39;A&#39;</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-StringLikeClasses">
+<span id="cmdoption-arg-stringlikeclasses"></span><span class="sig-name descname"><span class="pre">StringLikeClasses</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>Semicolon-separated list of names of string-like classes. By default only
+<code class="docutils literal notranslate"><span class="pre">::std::basic_string</span></code> and <code class="docutils literal notranslate"><span class="pre">::std::basic_string_view</span></code> are considered.
+The check will only consider member functions named <code class="docutils literal notranslate"><span class="pre">find</span></code>, <code class="docutils literal notranslate"><span class="pre">rfind</span></code>,
+<code class="docutils literal notranslate"><span class="pre">find_first_of</span></code>, <code class="docutils literal notranslate"><span class="pre">find_first_not_of</span></code>, <code class="docutils literal notranslate"><span class="pre">find_last_of</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">find_last_not_of</span></code> within these classes.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

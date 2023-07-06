@@ -1,0 +1,46 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SKIP_AUTOUIC</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="skip-autouic">
+<span id="prop_sf:SKIP_AUTOUIC"><!--f--></span><h1>SKIP_AUTOUIC</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.8.</span></p>
+</div>
+<p>Exclude the source file from <span class="target" id="index-0-prop_tgt:AUTOUIC"><!--f--></span><a class="reference internal" href="prop_tgt/AUTOUIC.html#prop_tgt:AUTOUIC" title="AUTOUIC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOUIC</span></code></a> processing (for Qt projects).</p>
+<p><span class="target" id="index-0-prop_sf:SKIP_AUTOUIC"><!--f--></span><a class="reference internal" href="#prop_sf:SKIP_AUTOUIC" title="SKIP_AUTOUIC"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SKIP_AUTOUIC</span></code></a> can be set on C++ header and source files and on
+<code class="docutils literal notranslate"><span class="pre">.ui</span></code> files.</p>
+<p>For broader exclusion control see <span class="target" id="index-0-prop_sf:SKIP_AUTOGEN"><!--f--></span><a class="reference internal" href="prop_sf/SKIP_AUTOGEN.html#prop_sf:SKIP_AUTOGEN" title="SKIP_AUTOGEN"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">SKIP_AUTOGEN</span></code></a>.</p>
+<section id="example">
+<h2>EXAMPLE</h2>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c"># ...</span>
+<span class="nf">set_property(</span><span class="no">SOURCE</span><span class="w"> </span><span class="nb">file.h</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SKIP_AUTOUIC</span><span class="w"> </span><span class="no">ON</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">set_property(</span><span class="no">SOURCE</span><span class="w"> </span><span class="nb">file.cpp</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SKIP_AUTOUIC</span><span class="w"> </span><span class="no">ON</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">set_property(</span><span class="no">SOURCE</span><span class="w"> </span><span class="nb">widget.ui</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">SKIP_AUTOUIC</span><span class="w"> </span><span class="no">ON</span><span class="nf">)</span><span class="w"></span>
+<span class="c"># ...</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

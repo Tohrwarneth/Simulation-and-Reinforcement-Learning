@@ -40,39 +40,13 @@ param(
     [Alias("ST")]
     [String]
     $status,
-    [Parameter(Mandatory = $true, HelpMessage = "Speicherort der PDF.")]
+    [Parameter(Position = 0, Mandatory = $true, HelpMessage = "Speicherort der PDF.")]
     [Alias("OD")]
-    [System.IO.FileInfo]
-    [ValidateScript({
-        if (-Not($_ | Test-Path))
-        {
-            throw "Ordner existiert nicht."
-        }
-        if (-Not($_ | Test-Path -PathType Container))
-        {
-            throw "OutputDir muss ein Ordner sein"
-        }
-        return $true
-    })]
+    [String]
     $outputDir,
-    [Parameter(Mandatory = $true, HelpMessage = "Haupt-Markdown-Datei, die die Meta-Daten für die PDF enthaelt und als erste Seite dient.")]
+    [Parameter(Position = 1, Mandatory = $true, HelpMessage = "Haupt-Markdown-Datei, die die Meta-Daten für die PDF enthaelt und als erste Seite dient.")]
     [Alias("MF")]
-    [System.IO.FileInfo]
-    [ValidateScript({
-        if (-Not($_ | Test-Path))
-        {
-            throw "Datei existiert nicht."
-        }
-        if (-Not($_ | Test-Path -PathType Leaf))
-        {
-            throw "MainFile muss eine Markdown Datei sein."
-        }
-        if ($_ -notmatch "(\.md)")
-        {
-            throw "MainFile muss ein Markdown (*.md) sein."
-        }
-        return $true
-    })]
+    [String]
     $mainFile,
     [Parameter(HelpMessage = "Dateiname der PDF ohne Endung.")]
     [Alias("FN")]
@@ -80,74 +54,30 @@ param(
     $fileName,
     [Parameter(HelpMessage = "Speicherort der genutzten Bilder.")]
     [Alias("ID")]
-    [System.IO.FileInfo]
-    [ValidateScript({
-        if (-Not($_ | Test-Path))
-        {
-            throw "Ordner existiert nicht."
-        }
-        if (-Not($_ | Test-Path -PathType Container))
-        {
-            throw "ImageDir muss ein Ordner sein"
-        }
-        return $true
-    })]
+    [String]
     $imageDir,
     [Parameter(HelpMessage = "Soll die LaTex-Vorlage der Hochschule Trier verwendet werden?")]
     [Alias("HS")]
     [Switch]
     $hsTemplate,
+    [Parameter(HelpMessage = "Hat das Dokument einen Abstract?")]
+    [Alias("AB")]
+    [Switch]
+    $hasAbstract,
     [Parameter(HelpMessage = "Soll die LaTex-Datei erhalten bleiben?")]
     [Alias("SL")]
     [Switch]
     $saveLatex,
     [Parameter(HelpMessage = "Speicherort der BibTex (*.bib).")]
     [Alias("BF")]
-    [System.IO.FileInfo]
-    [ValidateScript({
-        if (-Not($_ | Test-Path))
-        {
-            throw "Datei existiert nicht."
-        }
-        if (-Not($_ | Test-Path -PathType Leaf))
-        {
-            throw "BibFile muss eine Datei sein"
-        }
-        if ($_ -notmatch "(\.bib)")
-        {
-            throw "BibFile muss eine BibTex-Datei (*.bib) sein."
-        }
-        return $true
-    })]
+    [String]
     $bibFile,
     [Parameter(HelpMessage = "Legt ein gemeinsamer Ordner für weitere Markdowns fest und wird vor deren Pfade eingefuegt. Wenn nicht gesetzt, wird nichts eingefuegt.")]
     [Alias("SR")]
-    [System.IO.FileInfo]
-    [ValidateScript({
-        if (-Not($_ | Test-Path))
-        {
-            throw "Ordner existiert nicht."
-        }
-        if (-Not($_ | Test-Path -PathType Container))
-        {
-            throw "SecRoot muss ein Ordner sein"
-        }
-        return $true
-    })]
+    [String]
     $secondarysRootDir,
-    [Parameter(ValueFromRemainingArguments, HelpMessage = "Weitere Markdowns, die in der vorkommenden Reihenfolge zusammengefuehrt werden.")]
-    [System.IO.FileInfo[]]
-    [ValidateScript({
-        if (-Not($_ | Test-Path))
-        {
-            throw "Datei existiert nicht."
-        }
-        if (-Not($_ | Test-Path -PathType Leaf))
-        {
-            throw "Die Weitere Markdowns müssen Dateien sein."
-        }
-        return $true
-    })]
+    [Parameter(Position = 2, ValueFromRemainingArguments, HelpMessage = "Weitere Markdowns, die in der vorkommenden Reihenfolge zusammengefuehrt werden.")]
+    [String[]]
     $secondarys
 )
 
@@ -158,69 +88,112 @@ if ($status)
 {
     $fileName = "$( $fileName )_$( $status )"
 }
+else
+{
+    $status = ""
+}
 
 $pdfFile = Join-Path -Path $outputDir -ChildPath  "$( $fileName ).pdf"
-$latexFile = Join-Path -Path $outputDir -ChildPath  "$( $fileName ).tex"
+$dir = $PSScriptRoot
 
 if (!$secondarysRootDir)
 {
     $secondarysRootDir = ""
 }
 
-$chaptersList = [System.Collections.ArrayList]@()
+$chaptersList = [String[]]@()
 foreach ($c in $secondarys)
 {
     $c = Join-Path -Path $secondarysRootDir -ChildPath  $c
-    $chaptersList.Add($c)
+    $chaptersList += $c
 }
 
-$imageRelPath = Resolve-RelativePath -Path $imagePath -FromDirectory $mainFile
+$imageDirAbsolut = (get-item $imageDir).FullName
+Set-Location -Path (get-item $mainFile).Directory.FullName
+$imageRelPath = Resolve-Path -Relative -Path $imageDirAbsolut
+Set-Location -Path $dir
 
-$tmpPath = Join-Path -Path $outputDir -ChildPath  "tmp"
+$tmpDir = Join-Path -Path $outputDir -ChildPath  "tmp"
 
-$imgTmpPath = Join-Path -Path $outputPath -ChildPath  $imageRelPath
+$imgTmpDir = Join-Path -Path $outputDir -ChildPath  $imageRelPath
+$latexFile = Join-Path -Path $tmpDir -ChildPath  "$( $fileName ).tex"
 
-if (!(Test-Path -Path $tmpPath -PathType Container))
+if (!(Test-Path -Path $tmpDir -PathType Container))
 {
-    New-Item -Path $outputPath -Name "tmp" -ItemType Directory | Out-Null
+    New-Item -Path $outputDir -Name "tmp" -ItemType Directory | Out-Null
 }
 
-pandoc -s $mainFile $chaptersList --filter pandoc-crossref -o $texFile --top-level-division=chapter `
---template "./template/vorlage-project.tex" `
---resource-path $tmpPath `
---citeproc --bibliography = $bibFile `
---lua-filter = "filter/abstract-section.lua" `
---metadata status = $status
-
-if (!(Test-Path -Path $imgTmpPath -PathType Container))
+if ($bibFile)
 {
-    mkdir $imgTmpPath | Out-Null
+    if ($hasAbstract)
+    {
+        pandoc  -s $mainFile $chaptersList --filter pandoc-crossref -o $latexFile --top-level-division=chapter `
+        -f markdown -t latex `
+        --template "./template/vorlage-project.tex" `
+        --resource-path $tmpDir `
+        --citeproc --bibliography=$bibFile `
+        --lua-filter="filter/abstract-section.lua" `
+        --metadata status=$status
+    }
+    else
+    {
+        pandoc  -s $mainFile $chaptersList --filter pandoc-crossref -o $latexFile --top-level-division=chapter `
+        -f markdown -t latex `
+        --template "./template/vorlage-project.tex" `
+        --resource-path $tmpDir `
+        --citeproc --bibliography=$bibFile `
+        --metadata status=$status
+    }
+}
+else
+{
+    if ($hasAbstract)
+    {
+        pandoc  -s $mainFile $chaptersList --filter pandoc-crossref -o $latexFile --top-level-division=chapter `
+        -f markdown -t latex `
+        --template "./template/vorlage-project.tex" `
+        --resource-path $tmpDir `
+        --lua-filter="filter/abstract-section.lua" `
+        --metadata status=$status
+
+    }
+    else
+    {
+        pandoc  -s $mainFile $chaptersList --filter pandoc-crossref -o $latexFile --top-level-division=chapter `
+        -f markdown -t latex `
+        --template "./template/vorlage-project.tex" `
+        --resource-path $tmpDir `
+        --metadata status=$status
+    }
 }
 
-if (Test-Path -Path $texFile -PathType Leaf)
+if (!(Test-Path -Path $imgTmpDir -PathType Container))
+{
+    mkdir $imgTmpDir | Out-Null
+}
+
+if (Test-Path -Path $latexFile -PathType Leaf)
 {
     Write-Output "`t- LaTex Dokumente generiert"
 }
 else
 {
     Write-Warning "`t- Kein LaTex Dokumente generiert"
+    exit
     $warning = 1
 }
 
-Copy-Item -Path "$( $imagePath )/*" -Destination $imgTmpPath -Recurse
-Copy-Item -Path "./template/i-studis.cls" -Destination $tmpPath
-Copy-Item -Path "./template/logo-fb-informatik.pdf" -Destination $imgTmpPath
+Copy-Item -Path "$( $imageDir )/*" -Destination $imgTmpDir -Recurse
+Copy-Item -Path "./template/i-studis.cls" -Destination $tmpDir -Recurse
+$tmpLogo = Join-Path -Path $tmpDir -ChildPath "images"
+if (-Not (Test-Path -Path $tmpLogo -PathType Container))
+{
+    New-Item -Path $tmpDir -Name "images" -ItemType Directory | Out-Null
+}
+Copy-Item -Path "./template/logo-fb-informatik.pdf" -Destination $tmpLogo -Recurse
 
-$dir = $PSScriptRoot
-#$pdfFile = "$( $name ).pdf"
-#$pdfPath = Join-Path $tmpPath -childPath $pdfFile
-
-#if (Test-Path $pdfFile)
-#{
-#    Remove-Item $pdfFile
-#}
-
-Set-Location -Path $tmpPath
+$latexFile = (get-item $latexFile).FullName
+Set-Location -Path $tmpDir
 Write-Output  (Get-Date) | Out-File -FilePath "Console.log"
 
 if ($bibFile)
@@ -244,7 +217,7 @@ if ($bibFile)
     pdflatex $latexFile.tex | Out-Null
 }
 
-if (Test-Path -Path $pdfFile -PathType Leaf)
+if (Test-Path -Path "$( $fileName ).pdf" -PathType Leaf)
 {
     $pdfFile = Move-Item -Force -PassThru -Path "$( $fileName ).pdf" -Destination ".."
     Write-Output "`r`t- PDF aus LaTex Dokument generiert: $( Resolve-Path -Path $pdfFile )"
@@ -260,16 +233,15 @@ else
 }
 
 Set-Location -Path $dir
-Set-Location -Path ../../
 
-if (Test-Path $imgTmpPath)
+if (Test-Path $imgTmpDir -PathType Container)
 {
-    Remove-Item $imgTmpPath
+    Remove-Item $imgTmpDir -Force -Recurse
 }
 
-if (Test-Path $tmpPath AND $warning -eq 0)
+if ((Test-Path $tmpDir -PathType Container ) -AND ($warning -eq 0))
 {
-    Remove-Item $tmpPath
+    Remove-Item $tmpDir -Force -Recurse
 }
 
 if ($warning)

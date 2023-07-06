@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>aux_source_directory</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="aux-source-directory">
+<span id="command:aux_source_directory"><!--f--></span><h1>aux_source_directory</h1>
+<p>Find all source files in a directory.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">aux_source_directory(</span><span class="nv">&lt;dir&gt;</span><span class="w"> </span><span class="nv">&lt;variable&gt;</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Collects the names of all the source files in the specified directory
+and stores the list in the <code class="docutils literal notranslate"><span class="pre">&lt;variable&gt;</span></code> provided.  This command is
+intended to be used by projects that use explicit template
+instantiation.  Template instantiation files can be stored in a
+<code class="docutils literal notranslate"><span class="pre">Templates</span></code> subdirectory and collected automatically using this
+command to avoid manually listing all instantiations.</p>
+<p>It is tempting to use this command to avoid writing the list of source
+files for a library or executable target.  While this seems to work,
+there is no way for CMake to generate a build system that knows when a
+new source file has been added.  Normally the generated build system
+knows when it needs to rerun CMake because the <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file is
+modified to add a new source.  When the source is just added to the
+directory without modifying this file, one would have to manually
+rerun CMake to generate a build system incorporating the new file.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

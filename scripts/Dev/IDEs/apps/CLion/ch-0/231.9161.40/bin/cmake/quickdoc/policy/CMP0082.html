@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0082</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0082">
+<span id="policy:CMP0082"><!--f--></span><h1>CMP0082</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<p>Install rules from <span class="target" id="index-0-command:add_subdirectory"><!--f--></span><a class="reference internal" href="command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> calls are interleaved with
+those in caller.</p>
+<p>CMake 3.13 and lower ran the install rules from <span class="target" id="index-1-command:add_subdirectory"><!--f--></span><a class="reference internal" href="command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a>
+after all other install rules, even if <span class="target" id="index-2-command:add_subdirectory"><!--f--></span><a class="reference internal" href="command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> was called
+before the other install rules.  CMake 3.14 and above prefer to interleave
+these <span class="target" id="index-3-command:add_subdirectory"><!--f--></span><a class="reference internal" href="command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> install rules with the others so that
+they are run in the order they are declared.  This policy provides
+compatibility for projects that have not been updated to expect the
+new behavior.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is to run the install rules from
+<span class="target" id="index-4-command:add_subdirectory"><!--f--></span><a class="reference internal" href="command/add_subdirectory.html#command:add_subdirectory" title="add_subdirectory"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_subdirectory()</span></code></a> after the other install rules.  The <code class="docutils literal notranslate"><span class="pre">NEW</span></code>
+behavior for this policy is to run all install rules in the order they are
+declared.</p>
+<p>This policy was introduced in CMake version 3.14.  Unlike most policies,
+CMake version  does <em>not</em> warn by default when this policy
+is not set and simply uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.  See documentation of the
+<span class="target" id="index-0-variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"><!--f--></span><a class="reference internal" href="variable/CMAKE_POLICY_WARNING_CMPNNNN.html#variable:CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;" title="CMAKE_POLICY_WARNING_CMP&lt;NNNN&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_POLICY_WARNING_CMP0082</span></code></a>
+variable to control the warning.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

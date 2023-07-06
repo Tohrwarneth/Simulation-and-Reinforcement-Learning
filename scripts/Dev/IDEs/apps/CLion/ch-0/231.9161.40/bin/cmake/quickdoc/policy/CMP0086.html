@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0086</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0086">
+<span id="policy:CMP0086"><!--f--></span><h1>CMP0086</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<p><span class="target" id="index-0-module:UseSWIG"><!--f--></span><a class="reference internal" href="module/UseSWIG.html#module:UseSWIG" title="UseSWIG"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">UseSWIG</span></code></a> honors <code class="docutils literal notranslate"><span class="pre">SWIG_MODULE_NAME</span></code> via <code class="docutils literal notranslate"><span class="pre">-module</span></code> flag.</p>
+<p>Starting with CMake 3.14, <span class="target" id="index-1-module:UseSWIG"><!--f--></span><a class="reference internal" href="module/UseSWIG.html#module:UseSWIG" title="UseSWIG"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">UseSWIG</span></code></a> passes option
+<code class="docutils literal notranslate"><span class="pre">-module</span> <span class="pre">&lt;module_name&gt;</span></code> to <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> compiler if the file property
+<code class="docutils literal notranslate"><span class="pre">SWIG_MODULE_NAME</span></code> is specified. This policy provides compatibility with
+projects that expect the legacy behavior.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is to never pass <code class="docutils literal notranslate"><span class="pre">-module</span></code> option.
+The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior is to pass <code class="docutils literal notranslate"><span class="pre">-module</span></code> option to <code class="docutils literal notranslate"><span class="pre">SWIG</span></code> compiler if
+<code class="docutils literal notranslate"><span class="pre">SWIG_MODULE_NAME</span></code> is specified.</p>
+<p>This policy was introduced in CMake version 3.14.  CMake version
+ warns when the policy is not set and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.
+Use the <span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code>
+explicitly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

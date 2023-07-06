@@ -1,0 +1,65 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-suspicious-missing-comma</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-suspicious-missing-comma">
+<h1>bugprone-suspicious-missing-comma</h1>
+<p>String literals placed side-by-side are concatenated at translation phase 6
+(after the preprocessor). This feature is used to represent long string
+literal on multiple lines.</p>
+<p>For instance, the following declarations are equivalent:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">A</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;This is a test&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">B</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;This&quot;</span><span class="w"> </span><span class="s">&quot; is a &quot;</span><span class="w">    </span><span class="s">&quot;test&quot;</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>A common mistake done by programmers is to forget a comma between two string
+literals in an array initializer list.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">Test</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="s">&quot;line 1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">&quot;line 2&quot;</span><span class="w">     </span><span class="c1">// Missing comma!</span>
+<span class="w">  </span><span class="s">&quot;line 3&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">&quot;line 4&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">&quot;line 5&quot;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The array contains the string “line 2line3” at offset 1 (i.e. Test[1]). Clang
+won’t generate warnings at compile time.</p>
+<p>This check may warn incorrectly on cases like:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="o">*</span><span class="w"> </span><span class="n">SupportedFormat</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="s">&quot;Error %s&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="s">&quot;Code &quot;</span><span class="w"> </span><span class="n">PRIu64</span><span class="p">,</span><span class="w">   </span><span class="c1">// May warn here.</span>
+<span class="w">  </span><span class="s">&quot;Warning %s&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-SizeThreshold">
+<span id="cmdoption-arg-sizethreshold"></span><span class="sig-name descname"><span class="pre">SizeThreshold</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>An unsigned integer specifying the minimum size of a string literal to be
+considered by the check. Default is <code class="docutils literal notranslate"><span class="pre">5U</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-RatioThreshold">
+<span id="cmdoption-arg-ratiothreshold"></span><span class="sig-name descname"><span class="pre">RatioThreshold</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A string specifying the maximum threshold ratio [0, 1.0] of suspicious string
+literals to be considered. Default is <code class="docutils literal notranslate"><span class="pre">&quot;.2&quot;</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-MaxConcatenatedTokens">
+<span id="cmdoption-arg-maxconcatenatedtokens"></span><span class="sig-name descname"><span class="pre">MaxConcatenatedTokens</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>An unsigned integer specifying the maximum number of concatenated tokens.
+Default is <code class="docutils literal notranslate"><span class="pre">5U</span></code>.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

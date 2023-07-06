@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - cppcoreguidelines-pro-type-static-cast-downcast</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="cppcoreguidelines-pro-type-static-cast-downcast">
+<h1>cppcoreguidelines-pro-type-static-cast-downcast</h1>
+<p>This check flags all usages of <code class="docutils literal notranslate"><span class="pre">static_cast</span></code>, where a base class is casted to
+a derived class. In those cases, a fix-it is provided to convert the cast to a
+<code class="docutils literal notranslate"><span class="pre">dynamic_cast</span></code>.</p>
+<p>Use of these casts can violate type safety and cause the program to access a
+variable that is actually of type <code class="docutils literal notranslate"><span class="pre">X</span></code> to be accessed as if it were of an
+unrelated type <code class="docutils literal notranslate"><span class="pre">Z</span></code>.</p>
+<p>This rule is part of the “Type safety” profile of the C++ Core Guidelines, see
+<a class="reference external" href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-downcast">https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-downcast</a>.</p>
+</section>
+</div></body>
+</html>

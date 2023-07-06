@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - abseil-string-find-startswith</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="abseil-string-find-startswith">
+<h1>abseil-string-find-startswith</h1>
+<p>Checks whether a <code class="docutils literal notranslate"><span class="pre">std::string::find()</span></code> or <code class="docutils literal notranslate"><span class="pre">std::string::rfind()</span></code> result is
+compared with 0, and suggests replacing with <code class="docutils literal notranslate"><span class="pre">absl::StartsWith()</span></code>. This is
+both a readability and performance issue.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* do something */</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">rfind</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* do something */</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>becomes</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">StartsWith</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello World&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* do something */</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">StartsWith</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello World&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* do something */</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-StringLikeClasses">
+<span id="cmdoption-arg-stringlikeclasses"></span><span class="sig-name descname"><span class="pre">StringLikeClasses</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>Semicolon-separated list of names of string-like classes. By default only
+<code class="docutils literal notranslate"><span class="pre">std::basic_string</span></code> is considered. The list of methods to considered is
+fixed.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-IncludeStyle">
+<span id="cmdoption-arg-includestyle"></span><span class="sig-name descname"><span class="pre">IncludeStyle</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A string specifying which include-style is used, <cite>llvm</cite> or <cite>google</cite>. Default
+is <cite>llvm</cite>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-AbseilStringsMatchHeader">
+<span id="cmdoption-arg-abseilstringsmatchheader"></span><span class="sig-name descname"><span class="pre">AbseilStringsMatchHeader</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>The location of Abseil’s <code class="docutils literal notranslate"><span class="pre">strings/match.h</span></code>. Defaults to
+<code class="docutils literal notranslate"><span class="pre">absl/strings/match.h</span></code>.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

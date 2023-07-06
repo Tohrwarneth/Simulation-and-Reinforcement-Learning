@@ -1,0 +1,39 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-standalone-empty</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-standalone-empty">
+<h1>bugprone-standalone-empty</h1>
+<p>Warns when <code class="docutils literal notranslate"><span class="pre">empty()</span></code> is used on a range and the result is ignored. Suggests
+<code class="docutils literal notranslate"><span class="pre">clear()</span></code> if it is an existing member function.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">empty()</span></code> method on several common ranges returns a Boolean indicating
+whether or not the range is empty, but is often mistakenly interpreted as
+a way to clear the contents of a range. Some ranges offer a <code class="docutils literal notranslate"><span class="pre">clear()</span></code>
+method for this purpose. This check warns when a call to empty returns a
+result that is ignored, and suggests replacing it with a call to <code class="docutils literal notranslate"><span class="pre">clear()</span></code>
+if it is available as a member function of the range.</p>
+<p>For example, the following code could be used to indicate whether a range
+is empty or not, but the result is ignored:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">;</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="n">v</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>A call to <code class="docutils literal notranslate"><span class="pre">clear()</span></code> would appropriately clear the contents of the range:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">;</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="n">v</span><span class="p">.</span><span class="n">clear</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Limitations:</p>
+<ul class="simple">
+<li><p>Doesn’t warn if <code class="docutils literal notranslate"><span class="pre">empty()</span></code> is defined and used with the ignore result in the
+class template definition (for example in the library implementation). These
+error cases can be caught with <code class="docutils literal notranslate"><span class="pre">[[nodiscard]]</span></code> attribute.</p></li>
+</ul>
+</section>
+</div></body>
+</html>

@@ -1,0 +1,224 @@
+{
+    "id": "CLion",
+    "name": "CLion",
+    "description": "A cross-platform C and C++ IDE",
+    "order_value": 500000,
+    "released": "2023-06-21T00:00:00",
+    "icon_url": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjQiIGhlaWdodD0iNjQiIHZpZXdCb3g9IjAgMCA2NCA2NCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTIzIDI1TDI0LjQgMEwzOC45IDguMUwyMyAyNVoiIGZpbGw9InVybCgjcGFpbnQwX2xpbmVhcikiLz4KPHBhdGggZD0iTTIzIDI1LjAwMDFMMjMuOSA5LjUwMDFMMzguOSA4LjEwMDFMMjMgMjUuMDAwMVoiIGZpbGw9InVybCgjcGFpbnQxX2xpbmVhcikiLz4KPHBhdGggZD0iTTIzIDI1TDIzLjkgOS43TDI0LjQgMEw1LjkgMTEuNkwwIDQ3LjFMMjMgMjVaIiBmaWxsPSIjMDBGRjZBIi8+CjxwYXRoIGQ9Ik0yMyAyNUwyMy45IDkuNUw1LjkwMDAyIDExLjZMMTIuNCAzNS4zTDIzIDI1WiIgZmlsbD0idXJsKCNwYWludDJfbGluZWFyKSIvPgo8cGF0aCBkPSJNMjMgMjVMMjQuNCAwTDUuOTAwMDIgMTEuNkwxMi40IDM1LjNMMjMgMjVaIiBmaWxsPSJ1cmwoI3BhaW50M19saW5lYXIpIi8+CjxwYXRoIGQ9Ik0yMyAyNC41TDIxLjcgNDcuNEwzNy45IDYwLjVMNTMuOSA2NEw2NCA0MS4yTDIzIDI0LjVaIiBmaWxsPSJ1cmwoI3BhaW50NF9saW5lYXIpIi8+CjxwYXRoIGQ9Ik00OC45IDQwLjQ5OTlMMzQuNyAzMS43OTk5TDM2LjUgMjkuODk5OUw2NCA0MS4xOTk5TDQ4LjkgNDAuNDk5OVoiIGZpbGw9InVybCgjcGFpbnQ1X2xpbmVhcikiLz4KPHBhdGggZD0iTTQ4LjkgNDAuNUwzNy45IDYwLjVMNTMuOSA2NEw2NCA0MS4yTDQ4LjkgNDAuNVoiIGZpbGw9InVybCgjcGFpbnQ2X2xpbmVhcikiLz4KPHBhdGggZD0iTTIyLjQgMzIuNUwyMS43IDQ3LjRMMzcuOSA2MC41TDIyLjQgMzIuNVoiIGZpbGw9InVybCgjcGFpbnQ3X2xpbmVhcikiLz4KPHBhdGggZD0iTTIyLjkgMzMuNzk5OEw1My45IDYzLjk5OThMMzcuOSA2MC40OTk4TDIyLjkgMzMuNzk5OFoiIGZpbGw9InVybCgjcGFpbnQ4X2xpbmVhcikiLz4KPHBhdGggZD0iTTIyLjkgMzMuNzk5OEw1My45IDYzLjk5OThMMzcuOSA2MC40OTk4TDIyLjkgMzMuNzk5OFoiIGZpbGw9InVybCgjcGFpbnQ5X2xpbmVhcikiLz4KPHBhdGggZD0iTTAgNDcuMTAwMUwyMyAyNS4wMDAxTDUuOSAxMS42MDAxTDAgNDcuMTAwMVoiIGZpbGw9InVybCgjcGFpbnQxMF9saW5lYXIpIi8+CjxwYXRoIGQ9Ik0wIDQ3LjEwMDFMMTYuOSAzMC4xMDAxTDUuOSAxMS42MDAxTDAgNDcuMTAwMVoiIGZpbGw9InVybCgjcGFpbnQxMV9saW5lYXIpIi8+CjxwYXRoIGQ9Ik02NCAyMi4wOTk5TDU0LjUgMi4zOTk5TDM4LjkgOC4wOTk5TDAgNDcuMDk5OUwyMC44IDYyLjE5OTlMNjQgMjIuMDk5OVoiIGZpbGw9InVybCgjcGFpbnQxMl9saW5lYXIpIi8+CjxwYXRoIGQ9Ik0yMi42IDMzLjcwMDJMMjEuNyA0Ny40MDAyTDI5LjcgNTMuOTAwMkwzMi43IDUxLjEwMDJMMjIuNiAzMy43MDAyWiIgZmlsbD0idXJsKCNwYWludDEzX2xpbmVhcikiLz4KPHBhdGggZD0iTTAgNDcuMTAwMUwyMi41IDMzLjYwMDFMMjAuOCA2Mi4yMDAxTDAgNDcuMTAwMVoiIGZpbGw9InVybCgjcGFpbnQxNF9saW5lYXIpIi8+CjxwYXRoIGQ9Ik0wIDQ3LjEwMDFMMjIuNSAzMy42MDAxTDIwLjggNjIuMjAwMUwwIDQ3LjEwMDFaIiBmaWxsPSJ1cmwoI3BhaW50MTVfbGluZWFyKSIvPgo8cGF0aCBkPSJNMTEuOSAzOS45MDAxTDIyLjUgMzMuNjAwMUwyMS42IDQ3LjIwMDFMMTEuOSAzOS45MDAxWiIgZmlsbD0idXJsKCNwYWludDE2X2xpbmVhcikiLz4KPHBhdGggZD0iTTAgNDcuMDk5OUwyMi41IDMzLjY5OTlMNTQuNSAyLjM5OTlMMzguOSA4LjA5OTlMMCA0Ny4wOTk5WiIgZmlsbD0idXJsKCNwYWludDE3X2xpbmVhcikiLz4KPHBhdGggZD0iTTAgNDcuMDk5OUwyMi40IDMzLjY5OTlMNTQuNSAyLjM5OTlMMzguOSA4LjA5OTlMMCA0Ny4wOTk5WiIgZmlsbD0idXJsKCNwYWludDE4X2xpbmVhcikiLz4KPHBhdGggZD0iTTQ1LjIgMTEuNTk5OUw1NC41IDIuMzk5OUwzOC45IDguMDk5OUw0NS4yIDExLjU5OTlaIiBmaWxsPSJ1cmwoI3BhaW50MTlfbGluZWFyKSIvPgo8cGF0aCBkPSJNNjMuOCAyMS44MDAxTDI5LjggNTMuNjAwMUwxNy4xIDMwLjAwMDFMMzguOSA4LjEwMDFMNjMuOCAyMS44MDAxWiIgZmlsbD0idXJsKCNwYWludDIwX2xpbmVhcikiLz4KPHBhdGggZD0iTTQ5LjUgMzUuMjAwMkwyMi45IDI0LjIwMDJWMjQuNDAwMkw0NS45IDM4LjYwMDJMNDkuNSAzNS4yMDAyWiIgZmlsbD0idXJsKCNwYWludDIxX2xpbmVhcikiLz4KPHBhdGggZD0iTTQ1LjIgMTEuNTAwMUwyMi41IDMzLjcwMDFMMCA0Ny4xMDAxTDE3LjEgMzAuMDAwMUwzOC45IDguMTAwMUw0NS4yIDExLjUwMDFaIiBmaWxsPSJ1cmwoI3BhaW50MjJfbGluZWFyKSIvPgo8cGF0aCBkPSJNNDUuNCAxMS40MDAxTDIyLjUgMzMuNzAwMUwwIDQ3LjEwMDFMMTcuMSAzMC4wMDAxTDM4LjkgOC4xMDAxTDQ1LjQgMTEuNDAwMVoiIGZpbGw9InVybCgjcGFpbnQyM19saW5lYXIpIi8+CjxwYXRoIGQ9Ik00NS40IDEwLjk5OTlMNTQuNSAyLjM5OTlMNjQgMjIuMDk5OUw0NS40IDEwLjk5OTlaIiBmaWxsPSJ1cmwoI3BhaW50MjRfbGluZWFyKSIvPgo8cGF0aCBkPSJNMjMuMSAyNC4wMDAxTDMzLjUgMjkuMjAwMUwzOC45IDguMTAwMUwyMy4xIDI0LjAwMDFaIiBmaWxsPSJ1cmwoI3BhaW50MjVfbGluZWFyKSIvPgo8cGF0aCBkPSJNMzguOSA4LjFMMjQuNCAwTDIzLjEgMjRMMzguOSA4LjFaIiBmaWxsPSJ1cmwoI3BhaW50MjZfbGluZWFyKSIvPgo8cGF0aCBkPSJNNTIgMTJIMTJWNTJINTJWMTJaIiBmaWxsPSJ1cmwoI3BhaW50MjdfbGluZWFyKSIvPgo8ZyBvcGFjaXR5PSIwLjMiPgo8cGF0aCBvcGFjaXR5PSIwLjMiIGQ9Ik01MiAzNi4zTDIzIDI0LjVMMjEuNyA0Ny40TDI3LjQgNTJINTJWMzYuM1oiIGZpbGw9InVybCgjcGFpbnQyOF9saW5lYXIpIi8+CjxwYXRoIG9wYWNpdHk9IjAuMyIgZD0iTTUyIDUyVjQwLjZMNDguOSA0MC41TDQyLjYgNTJINTJaIiBmaWxsPSJ1cmwoI3BhaW50MjlfbGluZWFyKSIvPgo8cGF0aCBvcGFjaXR5PSIwLjMiIGQ9Ik0xMiAxMlYzMy43VjM2TDIzIDI1TDIzLjcgMTJIMTJaIiBmaWxsPSJ1cmwoI3BhaW50MzBfbGluZWFyKSIvPgo8cGF0aCBvcGFjaXR5PSIwLjMiIGQ9Ik0xMiAzMy42OTk5VjM1LjQ5OTlMMjMgMjQuOTk5OUwxMiAxNi4zOTk5VjMzLjY5OTlaIiBmaWxsPSJ1cmwoI3BhaW50MzFfbGluZWFyKSIvPgo8cGF0aCBvcGFjaXR5PSIwLjMiIGQ9Ik0yMy43IDEyTDIzLjEgMjRMMzUgMTJIMjMuN1oiIGZpbGw9InVybCgjcGFpbnQzMl9saW5lYXIpIi8+CjxwYXRoIG9wYWNpdHk9IjAuMyIgZD0iTTUyIDMzLjJWMTJIMzVMMTIgMzVWNTJIMzEuN0w1MiAzMy4yWiIgZmlsbD0idXJsKCNwYWludDMzX2xpbmVhcikiLz4KPHBhdGggb3BhY2l0eT0iMC4zIiBkPSJNMTIgMzUuMVY0MC4xTDIyLjUgMzMuN0w0NC43IDEySDM1TDEyIDM1VjM1LjFaIiBmaWxsPSJ1cmwoI3BhaW50MzRfbGluZWFyKSIvPgo8cGF0aCBvcGFjaXR5PSIwLjMiIGQ9Ik0xMiA1Mi4wMDAxSDIxLjRMMjIuNSAzMy42MDAxTDEyIDM5LjkwMDFWNTIuMDAwMVoiIGZpbGw9InVybCgjcGFpbnQzNV9saW5lYXIpIi8+CjwvZz4KPHBhdGggZD0iTTMyIDQ0LjQ1MDJIMTdWNDYuOTUwMkgzMlY0NC40NTAyWiIgZmlsbD0id2hpdGUiLz4KPHBhdGggZD0iTTMyLjMgMTYuOTUwMkgzNS42VjI5LjIwMDJINDIuMjAwMVYzMi4wMDAySDMyLjNWMTYuOTUwMloiIGZpbGw9IndoaXRlIi8+CjxwYXRoIGQ9Ik0xNi4xNSAyNC42QzE2LjE1IDIwLjI1IDE5LjQgMTYuNzUgMjQuMDUgMTYuNzVDMjYuOSAxNi43NSAyOC42IDE3LjcgMzAgMTkuMUwyNy45IDIxLjVDMjYuNzUgMjAuNDUgMjUuNTUgMTkuOCAyNC4wNSAxOS44QzIxLjUgMTkuOCAxOS42NSAyMS45IDE5LjY1IDI0LjVWMjQuNTVDMTkuNjUgMjcuMTUgMjEuNDUgMjkuMyAyNC4wNSAyOS4zQzI1LjggMjkuMyAyNi44NSAyOC42IDI4LjA1IDI3LjU1TDMwLjE1IDI5LjdDMjguNiAzMS4zNSAyNi44NSAzMi40IDIzLjk1IDMyLjRDMTkuNDUgMzIuMzUgMTYuMTUgMjguOSAxNi4xNSAyNC42WiIgZmlsbD0id2hpdGUiLz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQwX2xpbmVhciIgeDE9IjIzLjAwNDUiIHkxPSIxMi41MTMiIHgyPSI0MS4zNDExIiB5Mj0iMTIuNTEzIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wICBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiNGRjMxOEMiLz4KPHN0b3Agb2Zmc2V0PSIwLjE0OSIgc3RvcC1jb2xvcj0iI0ZCMzQ4QyIvPgo8c3RvcCBvZmZzZXQ9IjAuMjg0OSIgc3RvcC1jb2xvcj0iI0YwM0M4QyIvPgo8c3RvcCBvZmZzZXQ9IjAuNDE1NyIgc3RvcC1jb2xvcj0iI0RFNEE4QyIvPgo8c3RvcCBvZmZzZXQ9IjAuNTQzNCIgc3RvcC1jb2xvcj0iI0M0NUQ4QiIvPgo8c3RvcCBvZmZzZXQ9IjAuNjY4OSIgc3RvcC1jb2xvcj0iI0EyNzc4QiIvPgo8c3RvcCBvZmZzZXQ9IjAuNzkyNiIgc3RvcC1jb2xvcj0iIzc5OTU4QSIvPgo8c3RvcCBvZmZzZXQ9IjAuOTEyOCIgc3RvcC1jb2xvcj0iIzQ5Qjk4QSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyMUQ3ODkiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDFfbGluZWFyIiB4MT0iMjAuODIwMSIgeTE9IjE4LjI5MyIgeDI9IjQ2LjI5MzEiIHkyPSI4LjM0OSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMTA2OSIgc3RvcC1jb2xvcj0iI0ZGMzE4QyIvPgo8c3RvcCBvZmZzZXQ9IjAuMjE4MSIgc3RvcC1jb2xvcj0iI0ZCMzM4QyIvPgo8c3RvcCBvZmZzZXQ9IjAuMzE5NCIgc3RvcC1jb2xvcj0iI0YwMzg4RSIvPgo8c3RvcCBvZmZzZXQ9IjAuNDE2OCIgc3RvcC1jb2xvcj0iI0RFNDE5MCIvPgo8c3RvcCBvZmZzZXQ9IjAuNTExNCIgc3RvcC1jb2xvcj0iI0M0NEU5MyIvPgo8c3RvcCBvZmZzZXQ9IjAuNjAwOCIgc3RvcC1jb2xvcj0iI0E0NUU5NyIvPgo8c3RvcCBvZmZzZXQ9IjAuNjM3NSIgc3RvcC1jb2xvcj0iIzk3NkE5NiIvPgo8c3RvcCBvZmZzZXQ9IjAuNzA1MSIgc3RvcC1jb2xvcj0iIzc1ODk5MiIvPgo8c3RvcCBvZmZzZXQ9IjAuNzk1NiIgc3RvcC1jb2xvcj0iIzNGQkM4QyIvPgo8c3RvcCBvZmZzZXQ9IjAuODQwMiIgc3RvcC1jb2xvcj0iIzIxRDc4OSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50Ml9saW5lYXIiIHgxPSIyMC43NDA4IiB5MT0iNy4wNDg2IiB4Mj0iNi44MTM0MiIgeTI9IjMyLjA3MDYiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjAyOTQxMDkiIHN0b3AtY29sb3I9IiMwMEZGNkEiLz4KPHN0b3Agb2Zmc2V0PSIwLjM3NSIgc3RvcC1jb2xvcj0iIzIxRDc4OSIvPgo8c3RvcCBvZmZzZXQ9IjAuOTAzMiIgc3RvcC1jb2xvcj0iIzAwOUFFNSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50M19saW5lYXIiIHgxPSIyNC4xNDMxIiB5MT0iMTcuMTM2NyIgeDI9IjE0Ljg4MDIiIHkyPSIxNy45NTQiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjAyOTQxMDkiIHN0b3AtY29sb3I9IiNBNkZGOUUiLz4KPHN0b3Agb2Zmc2V0PSIwLjYwMTUiIHN0b3AtY29sb3I9IiMyMUQ3ODkiIHN0b3Atb3BhY2l0eT0iMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50NF9saW5lYXIiIHgxPSIzNC4yOTY0IiB5MT0iNDMuNjM3MSIgeDI9IjY0LjAxMzEiIHkyPSI0Ny44NjIyIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4zNDQ0IiBzdG9wLWNvbG9yPSIjMjFENzg5Ii8+CjxzdG9wIG9mZnNldD0iMC44MDMyIiBzdG9wLWNvbG9yPSIjMDA5QUU1Ii8+CjxzdG9wIG9mZnNldD0iMC45OTMxIiBzdG9wLWNvbG9yPSIjMDg1NUZBIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQ1X2xpbmVhciIgeDE9IjM1Ljg5NDYiIHkxPSI0My40Mzc0IiB4Mj0iNTguODE3OSIgeTI9IjMwLjc3MTUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjA5NjI5ODMiIHN0b3AtY29sb3I9IiMwMEZGNkEiLz4KPHN0b3Agb2Zmc2V0PSIwLjk2NTQiIHN0b3AtY29sb3I9IiMwMEZGNkEiIHN0b3Atb3BhY2l0eT0iMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50Nl9saW5lYXIiIHgxPSIzMS4zNTU3IiB5MT0iNjMuMzIzNCIgeDI9IjY2LjQwMjIiIHkyPSI0My45NTkyIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wICBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiM0MkZGRkEiIHN0b3Atb3BhY2l0eT0iMC41Ii8+CjxzdG9wIG9mZnNldD0iMC45OTg5IiBzdG9wLWNvbG9yPSIjMDBGRjZBIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDdfbGluZWFyIiB4MT0iNDAuOTIzMSIgeTE9IjQ4LjQ0NTYiIHgyPSIyOC41NzI2IiB5Mj0iNDYuMjY2MSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMDUyMTQ5NCIgc3RvcC1jb2xvcj0iIzAwRkY2QSIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMwMDlBRTUiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDhfbGluZWFyIiB4MT0iNjQuMzM2MSIgeTE9IjUxLjMzMjIiIHgyPSIyNC41MzQiIHkyPSI0Ny42MDYiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjEyMTIiIHN0b3AtY29sb3I9IiMyMUQ3ODkiIHN0b3Atb3BhY2l0eT0iMCIvPgo8c3RvcCBvZmZzZXQ9IjAuNzg2OCIgc3RvcC1jb2xvcj0iIzAwRkY2QSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50OV9saW5lYXIiIHgxPSI0Mi4yNDkzIiB5MT0iNDUuNzk0OSIgeDI9IjMzLjk1ODgiIHkyPSI1Mi41MTEzIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4wOTYyOTgzIiBzdG9wLWNvbG9yPSIjNDJGRkZBIi8+CjxzdG9wIG9mZnNldD0iMC45NjU0IiBzdG9wLWNvbG9yPSIjNDJGRkZBIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDEwX2xpbmVhciIgeDE9IjE3Ljk3ODkiIHkxPSIxMC42NTQ3IiB4Mj0iLTEuMTE1NSIgeTI9IjUyLjMxNTIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjA5MTM5NzkiIHN0b3AtY29sb3I9IiMwMEZGNkEiLz4KPHN0b3Agb2Zmc2V0PSIwLjc1OSIgc3RvcC1jb2xvcj0iIzAwOUFFNSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MTFfbGluZWFyIiB4MT0iMy4zNjQiIHkxPSIyMC4yMDg1IiB4Mj0iMTAuMjY1OCIgeTI9IjQ1LjA5MTEiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjExNjMiIHN0b3AtY29sb3I9IiMyMUQ3ODkiIHN0b3Atb3BhY2l0eT0iMC42Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzAwOUFFNSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MTJfbGluZWFyIiB4MT0iNTguNzcyOSIgeTE9IjYuMzIyMSIgeDI9Ii01LjYxMDMiIHkyPSI3NC4zMjA1IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4wOTEzOTc5IiBzdG9wLWNvbG9yPSIjMjFENzg5Ii8+CjxzdG9wIG9mZnNldD0iMC45MDMyIiBzdG9wLWNvbG9yPSIjMDA5QUU1Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQxM19saW5lYXIiIHgxPSIzMi42Nzc1IiB5MT0iNjEuMTE2MSIgeDI9IjIwLjUyMDMiIHkyPSIzNC43NzU1IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4wMDk5NDc1NiIgc3RvcC1jb2xvcj0iIzAwOUFFNSIvPgo8c3RvcCBvZmZzZXQ9IjAuOTY1NCIgc3RvcC1jb2xvcj0iIzAwOUFFNSIgc3RvcC1vcGFjaXR5PSIwIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQxNF9saW5lYXIiIHgxPSIxLjkxMTY1ZS0wNSIgeTE9IjQ3Ljg5NzIiIHgyPSIyMi41MjYiIHkyPSI0Ny44OTcyIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4wNTU2NzgzIiBzdG9wLWNvbG9yPSIjMDA5QUU1IiBzdG9wLW9wYWNpdHk9IjAuNCIvPgo8c3RvcCBvZmZzZXQ9IjAuNzg5NyIgc3RvcC1jb2xvcj0iIzAwOUFFNSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MTVfbGluZWFyIiB4MT0iMy44NjAxIiB5MT0iMzQuMTMxMyIgeDI9IjE5LjY2MTUiIHkyPSI0Ny4zODk5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4xMTk2IiBzdG9wLWNvbG9yPSIjNDJGRkZBIi8+CjxzdG9wIG9mZnNldD0iMC42NzQzIiBzdG9wLWNvbG9yPSIjNDJGRkZBIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDE2X2xpbmVhciIgeDE9IjExLjkzODQiIHkxPSI0MC4zOTg2IiB4Mj0iMjIuNTI2IiB5Mj0iNDAuMzk4NiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMDU1Njc4MyIgc3RvcC1jb2xvcj0iIzAwOUFFNSIgc3RvcC1vcGFjaXR5PSIwLjQiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDg3Q0ZBIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQxN19saW5lYXIiIHgxPSIxMC44NTE2IiB5MT0iNDQuODU1NyIgeDI9IjUxLjE1OSIgeTI9Ii00LjU4MiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCAgb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMDY5N0RDIi8+CjxzdG9wIG9mZnNldD0iMC45MDMyIiBzdG9wLWNvbG9yPSIjMDBGRjZBIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQxOF9saW5lYXIiIHgxPSIzNS4zMjc4IiB5MT0iMzAuOTU2MSIgeDI9IjI3Ljg4MTIiIHkyPSIyNS4yMzQ5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4wOTYyOTgzIiBzdG9wLWNvbG9yPSIjNkVGRkEzIi8+CjxzdG9wIG9mZnNldD0iMC42MDE1IiBzdG9wLWNvbG9yPSIjMjFENzg5IiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDE5X2xpbmVhciIgeDE9IjUyLjUxODMiIHkxPSI4LjMxMjMiIHgyPSI0Mi4xNjU2IiB5Mj0iMy4yMjY4IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4wOTYyOTgzIiBzdG9wLWNvbG9yPSIjNkVGRkEzIi8+CjxzdG9wIG9mZnNldD0iMC45NjU0IiBzdG9wLWNvbG9yPSIjRkNGODRBIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDIwX2xpbmVhciIgeDE9IjU5Ljc3NjQiIHkxPSI1MC4wMzUxIiB4Mj0iMTcuMjc2MSIgeTI9IjkuNzE0MiIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuNTc0NyIgc3RvcC1jb2xvcj0iIzBDQUZBMyIgc3RvcC1vcGFjaXR5PSIwLjEzNjUiLz4KPHN0b3Agb2Zmc2V0PSIxIiBzdG9wLWNvbG9yPSIjMDdDM0YyIiBzdG9wLW9wYWNpdHk9IjAuODgiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDIxX2xpbmVhciIgeDE9IjE2LjkwMzEiIHkxPSIyMi40ODQ0IiB4Mj0iNTEuMzk5NiIgeTI9IjM4LjYyNjUiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjQ4NjIiIHN0b3AtY29sb3I9IiMwODdDRkEiIHN0b3Atb3BhY2l0eT0iMCIvPgo8c3RvcCBvZmZzZXQ9IjEiIHN0b3AtY29sb3I9IiMyMUQ3ODkiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDIyX2xpbmVhciIgeDE9IjI5LjcyNSIgeTE9IjM1LjAzNTciIHgyPSIyMy41NjQ1IiB5Mj0iMzAuMDcwNSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMzExIiBzdG9wLWNvbG9yPSIjNjVGRkM1IiBzdG9wLW9wYWNpdHk9IjAuODgiLz4KPHN0b3Agb2Zmc2V0PSIwLjQ0MzciIHN0b3AtY29sb3I9IiM1NkYyQkUiIHN0b3Atb3BhY2l0eT0iMC42ODAxIi8+CjxzdG9wIG9mZnNldD0iMC42OTgzIiBzdG9wLWNvbG9yPSIjMkZEMEFEIiBzdG9wLW9wYWNpdHk9IjAuMjk2OSIvPgo8c3RvcCBvZmZzZXQ9IjAuODk1NSIgc3RvcC1jb2xvcj0iIzBDQjI5RSIgc3RvcC1vcGFjaXR5PSIwIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQyM19saW5lYXIiIHgxPSIyNi45NzAyIiB5MT0iMzcuMTk0MiIgeDI9IjE3Ljg4ODkiIHkyPSIyMC4zMDMxIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4wOTYyOTgzIiBzdG9wLWNvbG9yPSIjNDJGRkZBIi8+CjxzdG9wIG9mZnNldD0iMC42MzM2IiBzdG9wLWNvbG9yPSIjNDJGRkZBIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDI0X2xpbmVhciIgeDE9IjY4LjM1MjgiIHkxPSIxNi43Njc1IiB4Mj0iNDguODU3OSIgeTI9IjcuMTkxMSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMTUxNCIgc3RvcC1jb2xvcj0iIzAwODY1QiIvPgo8c3RvcCBvZmZzZXQ9IjAuMjQ5NiIgc3RvcC1jb2xvcj0iIzA0OEQ2NCIgc3RvcC1vcGFjaXR5PSIwLjg3OTQiLz4KPHN0b3Agb2Zmc2V0PSIwLjQxMiIgc3RvcC1jb2xvcj0iIzBFQTA3RCIgc3RvcC1vcGFjaXR5PSIwLjY3OTkiLz4KPHN0b3Agb2Zmc2V0PSIwLjYxODciIHN0b3AtY29sb3I9IiMxRkJGQTYiIHN0b3Atb3BhY2l0eT0iMC40MjYiLz4KPHN0b3Agb2Zmc2V0PSIwLjg1OTEiIHN0b3AtY29sb3I9IiMzN0VBREYiIHN0b3Atb3BhY2l0eT0iMC4xMzA2Ii8+CjxzdG9wIG9mZnNldD0iMC45NjU0IiBzdG9wLWNvbG9yPSIjNDJGRkZBIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDI1X2xpbmVhciIgeDE9IjU4LjUyMzgiIHkxPSIzLjQzNjEiIHgyPSIyMC4xMTAxIiB5Mj0iMjkuNTkwMSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMTQ0NiIgc3RvcC1jb2xvcj0iI0ZGNjdBQSIvPgo8c3RvcCBvZmZzZXQ9IjAuMjMyOCIgc3RvcC1jb2xvcj0iI0ZCNjlBOSIgc3RvcC1vcGFjaXR5PSIwLjg2MDMiLz4KPHN0b3Agb2Zmc2V0PSIwLjMxMzIiIHN0b3AtY29sb3I9IiNGMDZGQTYiIHN0b3Atb3BhY2l0eT0iMC43MzI4Ii8+CjxzdG9wIG9mZnNldD0iMC4zOTA3IiBzdG9wLWNvbG9yPSIjREU3QUEyIiBzdG9wLW9wYWNpdHk9IjAuNjEwMSIvPgo8c3RvcCBvZmZzZXQ9IjAuNDY2MyIgc3RvcC1jb2xvcj0iI0M0OEE5QiIgc3RvcC1vcGFjaXR5PSIwLjQ5MDMiLz4KPHN0b3Agb2Zmc2V0PSIwLjU0MDYiIHN0b3AtY29sb3I9IiNBMjlFOTMiIHN0b3Atb3BhY2l0eT0iMC4zNzI1Ii8+CjxzdG9wIG9mZnNldD0iMC42MTM5IiBzdG9wLWNvbG9yPSIjNzlCNzg4IiBzdG9wLW9wYWNpdHk9IjAuMjU2NCIvPgo8c3RvcCBvZmZzZXQ9IjAuNjg2NCIgc3RvcC1jb2xvcj0iIzQ4RDQ3QyIgc3RvcC1vcGFjaXR5PSIwLjE0MTUiLz4KPHN0b3Agb2Zmc2V0PSIwLjc1NjUiIHN0b3AtY29sb3I9IiMxMEY1NkUiIHN0b3Atb3BhY2l0eT0iMC4wMzAzMzUzIi8+CjxzdG9wIG9mZnNldD0iMC43NzU3IiBzdG9wLWNvbG9yPSIjMDBGRjZBIiBzdG9wLW9wYWNpdHk9IjAiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDI2X2xpbmVhciIgeDE9IjE4Ljc0MTUiIHkxPSIxMS4zODc1IiB4Mj0iMzMuMDQ0NSIgeTI9IjEzLjE1ODMiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjIyNTgiIHN0b3AtY29sb3I9IiNGRjUyQTAiLz4KPHN0b3Agb2Zmc2V0PSIwLjQwMjYiIHN0b3AtY29sb3I9IiNGRjRFOUUiIHN0b3Atb3BhY2l0eT0iMC42NDA0Ii8+CjxzdG9wIG9mZnNldD0iMC41NjM1IiBzdG9wLWNvbG9yPSIjRkY0Mzk3IiBzdG9wLW9wYWNpdHk9IjAuMzEzMiIvPgo8c3RvcCBvZmZzZXQ9IjAuNzE3NSIgc3RvcC1jb2xvcj0iI0ZGMzE4QyIgc3RvcC1vcGFjaXR5PSIwIi8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQyN19saW5lYXIiIHgxPSIxMS40OTY5IiB5MT0iMTIuMDk2NSIgeDI9IjUxLjI3MDIiIHkyPSI1MC43MDY5IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wICBvZmZzZXQ9IjAiIHN0b3AtY29sb3I9IiMwMDc4NTkiLz4KPHN0b3Agb2Zmc2V0PSIwLjA4ODI5NjYiIHN0b3AtY29sb3I9IiMwMDUzM0UiLz4KPHN0b3Agb2Zmc2V0PSIwLjE5MjEiIHN0b3AtY29sb3I9IiMwMDJGMjMiLz4KPHN0b3Agb2Zmc2V0PSIwLjI4OTQiIHN0b3AtY29sb3I9IiMwMDE1MTAiLz4KPHN0b3Agb2Zmc2V0PSIwLjM3NjYiIHN0b3AtY29sb3I9IiMwMDA2MDQiLz4KPHN0b3Agb2Zmc2V0PSIwLjQ0NTIiLz4KPHN0b3Agb2Zmc2V0PSIwLjkxMzgiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDI4X2xpbmVhciIgeDE9IjMxLjU1NDgiIHkxPSIzOS4xMzI4IiB4Mj0iNTQuMTA1NiIgeTI9IjQyLjMzOSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMDIwNzgxMSIgc3RvcC1jb2xvcj0iIzAwQTQ2NiIvPgo8c3RvcCBvZmZzZXQ9IjAuOTkzMSIgc3RvcC1jb2xvcj0iIzA4MzczNyIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MjlfbGluZWFyIiB4MT0iNDIuNjA1MiIgeTE9IjQ2LjIzNTEiIHgyPSI1MiIgeTI9IjQ2LjIzNTEiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjE1NDUiIHN0b3AtY29sb3I9IiMwMDMxMjciLz4KPHN0b3Agb2Zmc2V0PSIwLjk5MzEiIHN0b3AtY29sb3I9IiMwODU1RkEiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDMwX2xpbmVhciIgeDE9IjIzLjQ0ODciIHkxPSIyMi45Nzc5IiB4Mj0iMTYuODk0OCIgeTI9IjIzLjU1NjIiIGdyYWRpZW50VW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KPHN0b3Agb2Zmc2V0PSIwLjA5NjI5ODMiIHN0b3AtY29sb3I9IiM2RUZGQTMiLz4KPHN0b3Agb2Zmc2V0PSIwLjk2NTQiIHN0b3AtY29sb3I9IiNGQ0Y4NEEiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDMxX2xpbmVhciIgeDE9IjE5LjQxNjYiIHkxPSIxNi41NDExIiB4Mj0iOS44NDUyIiB5Mj0iMzcuNDI0MSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMDkxMzk3OSIgc3RvcC1jb2xvcj0iIzAwRkY2QSIvPgo8c3RvcCBvZmZzZXQ9IjAuNzU5IiBzdG9wLWNvbG9yPSIjMDA5QUU1Ii8+CjwvbGluZWFyR3JhZGllbnQ+CjxsaW5lYXJHcmFkaWVudCBpZD0icGFpbnQzMl9saW5lYXIiIHgxPSIyNS42MjE4IiB5MT0iMTAuOTM3MiIgeDI9IjMyLjU2NTIiIHkyPSIyNS4yNzM1IiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+CjxzdG9wIG9mZnNldD0iMC4zMzY5IiBzdG9wLWNvbG9yPSIjRkY1MkEwIi8+CjxzdG9wIG9mZnNldD0iMC40OTMiIHN0b3AtY29sb3I9IiNGRjQ4OUEiLz4KPHN0b3Agb2Zmc2V0PSIwLjcxNzUiIHN0b3AtY29sb3I9IiNGRjMxOEMiLz4KPC9saW5lYXJHcmFkaWVudD4KPGxpbmVhckdyYWRpZW50IGlkPSJwYWludDMzX2xpbmVhciIgeDE9IjM2LjE2MTQiIHkxPSI5Ljc1MDMiIHgyPSIyOC43MDQyIiB5Mj0iNTMuNDY0OSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCAgb2Zmc2V0PSIwIiBzdG9wLWNvbG9yPSIjMjFENzg5Ii8+CjxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iIzA5MEMxQiIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MzRfbGluZWFyIiB4MT0iMzIuOTg5MiIgeTE9IjEzLjM0MDEiIHgyPSIyMS4zODU1IiB5Mj0iMzguODYxNyIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMDk2Mjk4MyIgc3RvcC1jb2xvcj0iIzZFRkZBMyIvPgo8c3RvcCBvZmZzZXQ9IjAuOTY1NCIgc3RvcC1jb2xvcj0iIzIxOEY1OSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8bGluZWFyR3JhZGllbnQgaWQ9InBhaW50MzVfbGluZWFyIiB4MT0iMTAuMzQ2MyIgeTE9IjM3LjAxMzUiIHgyPSIxOS41Nzk0IiB5Mj0iNDQuNzYwOCIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiPgo8c3RvcCBvZmZzZXQ9IjAuMTU0NSIgc3RvcC1jb2xvcj0iIzAwMUExOCIvPgo8c3RvcCBvZmZzZXQ9IjAuOTkzMSIgc3RvcC1jb2xvcj0iIzA4NTVGQSIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPgo=",
+    "home_url": "https://www.jetbrains.com/clion?utm_source=product&utm_medium=link&utm_campaign=TBA",
+    "version": "2023.1.4",
+    "major_version": {
+        "name": "2023.1",
+        "order_value": 231000
+    },
+    "build": "231.9161.40",
+    "quality": {
+        "description": "For the prudent. A stable version with reliable performance",
+        "name": "Release",
+        "order_value": 10000
+    },
+    "whats_new": {
+        "full_html": "<p>The main highlights include:</p> \n<ul> \n <li>The issue with CMake presets inheritance has been fixed (<a href=\"https://youtrack.jetbrains.com/issue/CPP-33461?utm_source=product&utm_medium=link&utm_campaign=TBA\">CPP-33461</a>).</li> \n <li>We synchronized the editing of vcpkg.json through actions and through the vcpkg panel (<a href=\"https://youtrack.jetbrains.com/issue/CPP-31855?utm_source=product&utm_medium=link&utm_campaign=TBA\">CPP-31855</a>).</li> \n <li>The issue that caused the deletion of records from the list of local tasks has been fixed (<a href=\"https://youtrack.jetbrains.com/issue/IDEA-274672/?utm_source=product&utm_medium=link&utm_campaign=TBA\">IDEA-274672</a>).</li> \n <li>We fixed the issues that were causing the main menu groups to malfunction and not process actions correctly on macOS (<a href=\"https://youtrack.jetbrains.com/issue/IDEA-319117/?utm_source=product&utm_medium=link&utm_campaign=TBA\">IDEA-319117</a>, <a href=\"https://youtrack.jetbrains.com/issue/IDEA-318603/?utm_source=product&utm_medium=link&utm_campaign=TBA\">IDEA-318603</a>).</li> \n</ul>",
+        "link": {
+            "url": "https://youtrack.jetbrains.com/articles/CPP-A-230654239/CLion-2023.1.4-231.9161.40-build-Release-Notes?utm_source=product&utm_medium=link&utm_campaign=TBA",
+            "text": "Release Notes"
+        }
+    },
+    "supported_languages": [
+        {
+            "id": "JavaScript"
+        },
+        {
+            "id": "CoffeeScript"
+        },
+        {
+            "id": "TypeScript"
+        },
+        {
+            "id": "CSS"
+        },
+        {
+            "id": "HTML"
+        },
+        {
+            "id": "C"
+        },
+        {
+            "id": "C++"
+        },
+        {
+            "id": "SQL"
+        }
+    ],
+    "supported_file_extensions": [
+        "c",
+        "c++",
+        "cc",
+        "cmake",
+        "cpp",
+        "cxx",
+        "h",
+        "h++",
+        "hh",
+        "hpp",
+        "hxx"
+    ],
+    "add_to_open_with": true,
+    "licensing": {
+        "license_is_required": true,
+        "sales_code": "CL",
+        "is_part_of": "CL",
+        "buy_url": "https://www.jetbrains.com/clion/buy/?fromTBA",
+        "major_release_date": "2023-03-29"
+    },
+    "package": {
+        "os": "windows",
+        "type": "nsis",
+        "url": "https://download.jetbrains.com/~urlswitch/cpp/CLion-2023.1.4.exe?fromJetBrainsToolbox",
+        "size": 693156552,
+        "checksums": [
+            {
+                "alg": "sha-256",
+                "value": "cc53253d1da392efb78e3bf036c3e16d02dc12cab40eae87584e34af858b5994"
+            }
+        ],
+        "command": "bin/clion64.exe",
+        "requirements": {
+            "cpu_arch": {
+                "$eq": "x64",
+                "error_message": "This product is only available on x86_64 platforms."
+            }
+        }
+    },
+    "post_install": {
+        "steps": [
+            {
+                "id": "intellij.plugins.update",
+                "progress": {
+                    "visible": true,
+                    "message": "Updating plugins…"
+                },
+                "required": false,
+                "commands": [
+                    {
+                        "arguments": [
+                            "update"
+                        ]
+                    },
+                    {
+                        "arguments": [
+                            "update"
+                        ],
+                        "intellij": {
+                            "additional_vmoptions_content": "-Didea.force.plugin.updates=true"
+                        }
+                    }
+                ],
+                "intellij": {
+                    "temporary_copy_directories": [
+                        {
+                            "name": "idea.config.path"
+                        }
+                    ],
+                    "temporary_new_directories": [
+                        {
+                            "name": "idea.system.path"
+                        }
+                    ],
+                    "vmoptions_environment_variable": "CLION_VM_OPTIONS"
+                }
+            }
+        ]
+    },
+    "uninstall": {
+        "feedback": {
+            "url": "https://www.jetbrains.com/clion/uninstall/?edition=2023.1.4&utm_source=product&utm_medium=link&utm_campaign=TBA",
+            "text": "Understanding the experience you had with our product will help us to make it better.",
+            "confirm_text": "Provide feedback…",
+            "cancel_text": "No, thanks"
+        }
+    },
+    "activation": {
+        "hosts": [
+            "clion"
+        ]
+    },
+    "intellij_platform": {
+        "product_code": "CL",
+        "incompatible_vmoptions": [
+            "-agentlib:yjpagent",
+            "-XX:MaxJavaStackTraceDepth",
+            "-agentpath"
+        ],
+        "default_xmx": "2000m",
+        "shell_script_name": "clion",
+        "config": [
+            {
+                "directory": "CLion*",
+                "recent_projects_filename": "recentProjectDirectories.xml"
+            },
+            {
+                "directory": "CLion*",
+                "recent_projects_filename": "recentProjects.xml"
+            }
+        ],
+        "default_config_directories": {
+            "idea.system.path": "$LOCALAPPDATA/JetBrains/CLion2023.1",
+            "idea.config.path": "$APPDATA/JetBrains/CLion2023.1",
+            "idea.log.path": "$LOCALAPPDATA/JetBrains/CLion2023.1/log",
+            "idea.plugins.path": "$APPDATA/JetBrains/CLion2023.1/plugins"
+        },
+        "directory_patterns": [
+            "$HOME/.CLion*",
+            "$LOCALAPPDATA/JetBrains/CLion*",
+            "$APPDATA/JetBrains/CLion*"
+        ],
+        "java_path": "jbr/bin/java.exe",
+        "localization_plugins": {
+            "ja": {
+                "url": "https://plugins.jetbrains.com/pluginManager?action=download&id=com.intellij.ja&build=CL-231.9161.40"
+            },
+            "ko": {
+                "url": "https://plugins.jetbrains.com/pluginManager?action=download&id=com.intellij.ko&build=CL-231.9161.40"
+            },
+            "zh-CN": {
+                "url": "https://plugins.jetbrains.com/pluginManager?action=download&id=com.intellij.zh&build=CL-231.9161.40"
+            }
+        }
+    },
+    "product_overview": {
+        "html_description": "CLion is a smart cross-platform IDE for developing in C and C++ built on the IntelliJ platform. It brings coding assistance, on-the-fly code analysis with quick-fixes, and safe and automated refactorings to C and C++ developers on all three major platforms (Linux, Windows, and macOS). It fits local and remote development workflows as well as the development of embedded systems.<br><br><b>Supported languages and technologies</b><br>C, C++, Objective-C, Swift, Rust, Python, CMake, Makefile, Gradle",
+        "additional_links": [
+            {
+                "type": "youtube",
+                "name": "Take a video tour",
+                "link": "https://www.youtube.com/watch?v=Srnw1dI1iAA"
+            },
+            {
+                "type": "homepage",
+                "name": "More about CLion",
+                "link": "https://www.jetbrains.com/clion/?utm_source=product&utm_medium=link&utm_campaign=TBA"
+            },
+            {
+                "type": "youtube",
+                "name": "CLion essentials",
+                "link": "https://www.youtube.com/playlist?list=PLQ176FUIyIUZtuh8zmT0lmcjsImnrDSmG"
+            },
+            {
+                "type": "documentation",
+                "name": "Documentation",
+                "link": "https://www.jetbrains.com/help/clion?utm_source=product&utm_medium=link&utm_campaign=TBA"
+            },
+            {
+                "type": "issuetracker",
+                "name": "Issue tracker",
+                "link": "https://youtrack.jetbrains.com/issues/CPP?utm_source=product&utm_medium=link&utm_campaign=TBA"
+            },
+            {
+                "type": "blog",
+                "name": "Blog",
+                "link": "https://blog.jetbrains.com/clion/?utm_source=product&utm_medium=link&utm_campaign=TBA"
+            }
+        ]
+    }
+}

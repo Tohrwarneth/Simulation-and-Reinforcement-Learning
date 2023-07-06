@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-multiple-statement-macro</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-multiple-statement-macro">
+<h1>bugprone-multiple-statement-macro</h1>
+<p>Detect multiple statement macros that are used in unbraced conditionals. Only
+the first statement of the macro will be inside the conditional and the other
+ones will be executed unconditionally.</p>
+<p>Example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#define INCREMENT_TWO(x, y) (x)++; (y)++</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">do_increment</span><span class="p">)</span><span class="w"></span>
+<span class="w">  </span><span class="n">INCREMENT_TWO</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w">  </span><span class="c1">// (b)++ will be executed unconditionally.</span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

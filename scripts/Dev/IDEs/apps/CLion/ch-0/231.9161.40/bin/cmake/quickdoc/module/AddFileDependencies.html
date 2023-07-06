@@ -1,0 +1,43 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AddFileDependencies</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="addfiledependencies">
+<span id="module:AddFileDependencies"><!--f--></span><h1>AddFileDependencies</h1>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.20.</span></p>
+</div>
+<p>Add dependencies to a source file.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_file_dependencies(</span><span class="nv">&lt;source&gt;</span><span class="w"> </span><span class="nv">&lt;files&gt;...</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Adds the given <code class="docutils literal notranslate"><span class="pre">&lt;files&gt;</span></code> to the dependencies of file <code class="docutils literal notranslate"><span class="pre">&lt;source&gt;</span></code>.</p>
+<p>Do not use this command in new code.  It is just a wrapper around:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">SOURCE</span><span class="w"> </span><span class="nv">&lt;source&gt;</span><span class="w"> </span><span class="no">APPEND</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">OBJECT_DEPENDS</span><span class="w"> </span><span class="nv">&lt;files&gt;...</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Instead use the <span class="target" id="index-0-command:set_property"><!--f--></span><a class="reference internal" href="command/set_property.html#command:set_property" title="set_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set_property()</span></code></a> command to append to the
+<span class="target" id="index-0-prop_sf:OBJECT_DEPENDS"><!--f--></span><a class="reference internal" href="prop_sf/OBJECT_DEPENDS.html#prop_sf:OBJECT_DEPENDS" title="OBJECT_DEPENDS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">OBJECT_DEPENDS</span></code></a> source file property directly.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

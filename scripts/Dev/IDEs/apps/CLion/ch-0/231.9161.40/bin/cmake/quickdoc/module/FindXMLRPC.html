@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindXMLRPC</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="findxmlrpc">
+<span id="module:FindXMLRPC"><!--f--></span><h1>FindXMLRPC</h1>
+<p>Find xmlrpc</p>
+<p>Find the native XMLRPC headers and libraries.</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>XMLRPC_INCLUDE_DIRS      - where to find xmlrpc.h, etc.
+XMLRPC_LIBRARIES         - List of libraries when using xmlrpc.
+XMLRPC_FOUND             - True if xmlrpc found.
+</pre></div>
+</div>
+<p>XMLRPC modules may be specified as components for this find module.
+Modules may be listed by running &quot;xmlrpc-c-config&quot;.  Modules include:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>c++            C++ wrapper code
+libwww-client  libwww-based client
+cgi-server     CGI-based server
+abyss-server   ABYSS-based server
+</pre></div>
+</div>
+<p>Typical usage:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>find_package(XMLRPC REQUIRED libwww-client)
+</pre></div>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - cert-err34-c</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="cert-err34-c">
+<h1>cert-err34-c</h1>
+<p>This check flags calls to string-to-number conversion functions that do not
+verify the validity of the conversion, such as <code class="docutils literal notranslate"><span class="pre">atoi()</span></code> or <code class="docutils literal notranslate"><span class="pre">scanf()</span></code>. It
+does not flag calls to <code class="docutils literal notranslate"><span class="pre">strtol()</span></code>, or other, related conversion functions that
+do perform better error checking.</p>
+<div class="highlight-c notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">buff</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">si</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">buff</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">si</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atoi</span><span class="p">(</span><span class="n">buff</span><span class="p">);</span><span class="w"> </span><span class="cm">/* &#39;atoi&#39; used to convert a string to an integer, but function will</span>
+<span class="cm">                         not report conversion errors; consider using &#39;strtol&#39; instead. */</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* Handle error */</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This check corresponds to the CERT C Coding Standard rule
+<a class="reference external" href="https://www.securecoding.cert.org/confluence/display/c/ERR34-C.+Detect+errors+when+converting+a+string+to+a+number">ERR34-C. Detect errors when converting a string to a number</a>.</p>
+</section>
+</div></body>
+</html>

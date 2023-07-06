@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-sizeof-container</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-sizeof-container">
+<h1>bugprone-sizeof-container</h1>
+<p>The check finds usages of <code class="docutils literal notranslate"><span class="pre">sizeof</span></code> on expressions of STL container types. Most
+likely the user wanted to use <code class="docutils literal notranslate"><span class="pre">.size()</span></code> instead.</p>
+<p>All class/struct types declared in namespace <code class="docutils literal notranslate"><span class="pre">std::</span></code> having a const <code class="docutils literal notranslate"><span class="pre">size()</span></code>
+method are considered containers, with the exception of <code class="docutils literal notranslate"><span class="pre">std::bitset</span></code> and
+<code class="docutils literal notranslate"><span class="pre">std::array</span></code>.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">47</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w"> </span><span class="c1">// warning: sizeof() doesn&#39;t return the size of the container. Did you mean .size()?</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">);</span><span class="w"> </span><span class="c1">// no warning, probably intended.</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">array_of_strings</span><span class="p">[</span><span class="mi">10</span><span class="p">];</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">array_of_strings</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">array_of_strings</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span><span class="w"> </span><span class="c1">// no warning, definitely intended.</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">array</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="o">&gt;</span><span class="w"> </span><span class="n">std_array</span><span class="p">;</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">std_array</span><span class="p">);</span><span class="w"> </span><span class="c1">// no warning, probably intended.</span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

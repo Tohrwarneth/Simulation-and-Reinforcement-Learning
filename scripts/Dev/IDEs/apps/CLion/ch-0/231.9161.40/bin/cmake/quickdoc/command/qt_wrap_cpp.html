@@ -1,0 +1,45 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>qt_wrap_cpp</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="qt-wrap-cpp">
+<span id="command:qt_wrap_cpp"><!--f--></span><h1>qt_wrap_cpp</h1>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.14: </span>This command was originally added to support Qt 3 before the
+<span class="target" id="index-0-command:add_custom_command"><!--f--></span><a class="reference internal" href="command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> command was sufficiently mature.  The
+<span class="target" id="index-0-module:FindQt4"><!--f--></span><a class="reference internal" href="module/FindQt4.html#module:FindQt4" title="FindQt4"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindQt4</span></code></a> module provides the <code class="docutils literal notranslate"><span class="pre">qt4_wrap_cpp()</span></code> macro, which
+should be used instead for Qt 4 projects.  For projects using Qt 5 or
+later, use the equivalent macro provided by Qt itself (e.g. Qt 5 provides
+<code class="docutils literal notranslate"><span class="pre">qt5_wrap_cpp()</span></code>).</p>
+</div>
+<p>Manually create Qt Wrappers.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">qt_wrap_cpp(</span><span class="nb">resultingLibraryName</span><span class="w"> </span><span class="nb">DestName</span><span class="w"> </span><span class="nb">SourceLists</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Produces moc files for all the .h files listed in the SourceLists.  The
+moc files will be added to the library using the <code class="docutils literal notranslate"><span class="pre">DestName</span></code> source list.</p>
+<p>Consider updating the project to use the <span class="target" id="index-0-prop_tgt:AUTOMOC"><!--f--></span><a class="reference internal" href="prop_tgt/AUTOMOC.html#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a> target property
+instead for a more automated way of invoking the <code class="docutils literal notranslate"><span class="pre">moc</span></code> tool.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

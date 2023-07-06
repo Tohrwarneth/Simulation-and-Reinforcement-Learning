@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - android-cloexec-epoll-create1</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="android-cloexec-epoll-create1">
+<h1>android-cloexec-epoll-create1</h1>
+<p><code class="docutils literal notranslate"><span class="pre">epoll_create1()</span></code> should include <code class="docutils literal notranslate"><span class="pre">EPOLL_CLOEXEC</span></code> in its type argument to
+avoid the file descriptor leakage. Without this flag, an opened sensitive file
+would remain open across a fork+exec to a lower-privileged SELinux domain.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">epoll_create1</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// becomes</span>
+
+<span class="n">epoll_create1</span><span class="p">(</span><span class="n">EPOLL_CLOEXEC</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

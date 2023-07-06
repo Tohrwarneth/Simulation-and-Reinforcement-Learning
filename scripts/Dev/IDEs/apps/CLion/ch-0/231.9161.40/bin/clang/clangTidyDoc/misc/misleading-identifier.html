@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - misc-misleading-identifier</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="misc-misleading-identifier">
+<h1>misc-misleading-identifier</h1>
+<p>Finds identifiers that contain Unicode characters with right-to-left direction,
+which can be confusing as they may change the understanding of a whole statement
+line, as described in <a class="reference external" href="https://trojansource.codes">Trojan Source</a>.</p>
+<p>An example of such misleading code follows:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>#include &lt;stdio.h&gt;
+
+short int א = (short int)0;
+short int ג = (short int)12345;
+
+int main() {
+  int א = ג; // a local variable, set to zero?
+  printf(&quot;ג is %d\n&quot;, ג);
+  printf(&quot;א is %d\n&quot;, א);
+}
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

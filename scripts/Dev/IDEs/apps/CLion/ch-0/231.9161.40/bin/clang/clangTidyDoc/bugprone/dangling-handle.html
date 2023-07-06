@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-dangling-handle</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-dangling-handle">
+<h1>bugprone-dangling-handle</h1>
+<p>Detect dangling references in value handles like <code class="docutils literal notranslate"><span class="pre">std::string_view</span></code>.
+These dangling references can be a result of constructing handles from temporary
+values, where the temporary is destroyed soon after the handle is created.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">string_view</span><span class="w"> </span><span class="n">View</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">string</span><span class="p">();</span><span class="w">  </span><span class="c1">// View will dangle.</span>
+<span class="n">string</span><span class="w"> </span><span class="n">A</span><span class="p">;</span><span class="w"></span>
+<span class="n">View</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">&quot;A&quot;</span><span class="p">;</span><span class="w">  </span><span class="c1">// still dangle.</span>
+
+<span class="n">vector</span><span class="o">&lt;</span><span class="n">string_view</span><span class="o">&gt;</span><span class="w"> </span><span class="n">V</span><span class="p">;</span><span class="w"></span>
+<span class="n">V</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">string</span><span class="p">());</span><span class="w">  </span><span class="c1">// V[0] is dangling.</span>
+<span class="n">V</span><span class="p">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">string</span><span class="p">());</span><span class="w">  </span><span class="c1">// V[1] and V[2] will also dangle.</span>
+
+<span class="n">string_view</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// All these return values will dangle.</span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">string</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="n">string</span><span class="w"> </span><span class="n">S</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">S</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">Array</span><span class="p">[</span><span class="mi">10</span><span class="p">]{};</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">Array</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-HandleClasses">
+<span id="cmdoption-arg-handleclasses"></span><span class="sig-name descname"><span class="pre">HandleClasses</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A semicolon-separated list of class names that should be treated as handles.
+By default only <code class="docutils literal notranslate"><span class="pre">std::basic_string_view</span></code> and
+<code class="docutils literal notranslate"><span class="pre">std::experimental::basic_string_view</span></code> are considered.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

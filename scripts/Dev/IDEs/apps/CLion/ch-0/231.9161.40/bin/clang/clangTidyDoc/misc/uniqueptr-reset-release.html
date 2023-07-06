@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - misc-uniqueptr-reset-release</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="misc-uniqueptr-reset-release">
+<h1>misc-uniqueptr-reset-release</h1>
+<p>Find and replace <code class="docutils literal notranslate"><span class="pre">unique_ptr::reset(release())</span></code> with <code class="docutils literal notranslate"><span class="pre">std::move()</span></code>.</p>
+<p>Example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">Foo</span><span class="o">&gt;</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"></span>
+<span class="n">x</span><span class="p">.</span><span class="n">reset</span><span class="p">(</span><span class="n">y</span><span class="p">.</span><span class="n">release</span><span class="p">());</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">y</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>If <code class="docutils literal notranslate"><span class="pre">y</span></code> is already rvalue, <code class="docutils literal notranslate"><span class="pre">std::move()</span></code> is not added. <code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> can
+also be <code class="docutils literal notranslate"><span class="pre">std::unique_ptr&lt;Foo&gt;*</span></code>.</p>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-IncludeStyle">
+<span id="cmdoption-arg-includestyle"></span><span class="sig-name descname"><span class="pre">IncludeStyle</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A string specifying which include-style is used, <cite>llvm</cite> or <cite>google</cite>. Default
+is <cite>llvm</cite>.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

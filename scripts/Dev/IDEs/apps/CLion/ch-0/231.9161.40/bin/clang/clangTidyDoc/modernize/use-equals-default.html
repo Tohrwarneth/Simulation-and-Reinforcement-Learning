@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - modernize-use-equals-default</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="modernize-use-equals-default">
+<h1>modernize-use-equals-default</h1>
+<p>This check replaces default bodies of special member functions with <code class="docutils literal notranslate"><span class="pre">=</span>
+<span class="pre">default;</span></code>. The explicitly defaulted function declarations enable more
+opportunities in optimization, because the compiler might treat explicitly
+defaulted functions as trivial.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">A</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">A</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">  </span><span class="o">~</span><span class="n">A</span><span class="p">();</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+<span class="n">A</span><span class="o">::~</span><span class="n">A</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+
+<span class="c1">// becomes</span>
+
+<span class="k">struct</span><span class="w"> </span><span class="nc">A</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">A</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="o">~</span><span class="n">A</span><span class="p">();</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+<span class="n">A</span><span class="o">::~</span><span class="n">A</span><span class="p">()</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">default</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Move-constructor and move-assignment operator are not supported yet.</p>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-IgnoreMacros">
+<span id="cmdoption-arg-ignoremacros"></span><span class="sig-name descname"><span class="pre">IgnoreMacros</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>If set to <cite>true</cite>, the check will not give warnings inside macros. Default
+is <cite>true</cite>.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

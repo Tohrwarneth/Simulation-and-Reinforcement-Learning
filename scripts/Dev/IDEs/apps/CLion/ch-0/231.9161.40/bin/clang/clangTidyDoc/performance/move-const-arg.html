@@ -1,0 +1,49 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - performance-move-const-arg</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="performance-move-const-arg">
+<h1>performance-move-const-arg</h1>
+<p>The check warns</p>
+<ul class="simple">
+<li><p>if <code class="docutils literal notranslate"><span class="pre">std::move()</span></code> is called with a constant argument,</p></li>
+<li><p>if <code class="docutils literal notranslate"><span class="pre">std::move()</span></code> is called with an argument of a trivially-copyable type,</p></li>
+<li><p>if the result of <code class="docutils literal notranslate"><span class="pre">std::move()</span></code> is passed as a const reference argument.</p></li>
+</ul>
+<p>In all three cases, the check will suggest a fix that removes the
+<code class="docutils literal notranslate"><span class="pre">std::move()</span></code>.</p>
+<p>Here are examples of each of the three cases:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">s</span><span class="p">);</span><span class="w">  </span><span class="c1">// Warning: std::move of the const variable has no effect</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w">  </span><span class="c1">// Warning: std::move of the variable of a trivially-copyable type has no effect</span>
+
+<span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">s</span><span class="p">);</span><span class="w"></span>
+<span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="p">;</span><span class="w"></span>
+<span class="n">f</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">s</span><span class="p">));</span><span class="w">  </span><span class="c1">// Warning: passing result of std::move as a const reference argument; no move will actually happen</span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-CheckTriviallyCopyableMove">
+<span id="cmdoption-arg-checktriviallycopyablemove"></span><span class="sig-name descname"><span class="pre">CheckTriviallyCopyableMove</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>If <cite>true</cite>, enables detection of trivially copyable types that do not
+have a move constructor. Default is <cite>true</cite>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-CheckMoveToConstRef">
+<span id="cmdoption-arg-checkmovetoconstref"></span><span class="sig-name descname"><span class="pre">CheckMoveToConstRef</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>If <cite>true</cite>, enables detection of <cite>std::move()</cite> passed as a const
+reference argument. Default is <cite>true</cite>.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

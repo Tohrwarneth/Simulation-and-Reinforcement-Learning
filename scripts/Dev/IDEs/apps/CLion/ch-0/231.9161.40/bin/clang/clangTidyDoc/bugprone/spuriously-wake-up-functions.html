@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-spuriously-wake-up-functions</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-spuriously-wake-up-functions">
+<h1>bugprone-spuriously-wake-up-functions</h1>
+<p>Finds <code class="docutils literal notranslate"><span class="pre">cnd_wait</span></code>, <code class="docutils literal notranslate"><span class="pre">cnd_timedwait</span></code>, <code class="docutils literal notranslate"><span class="pre">wait</span></code>, <code class="docutils literal notranslate"><span class="pre">wait_for</span></code>, or
+<code class="docutils literal notranslate"><span class="pre">wait_until</span></code> function calls when the function is not invoked from a loop
+that checks whether a condition predicate holds or the function has a
+condition parameter.</p>
+<p>This check corresponds to the CERT C++ Coding Standard rule
+<a class="reference external" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/CON54-CPP.+Wrap+functions+that+can+spuriously+wake+up+in+a+loop">CON54-CPP. Wrap functions that can spuriously wake up in a loop</a>.
+and CERT C Coding Standard rule
+<a class="reference external" href="https://wiki.sei.cmu.edu/confluence/display/c/CON36-C.+Wrap+functions+that+can+spuriously+wake+up+in+a+loop">CON36-C. Wrap functions that can spuriously wake up in a loop</a>.</p>
+</section>
+</div></body>
+</html>

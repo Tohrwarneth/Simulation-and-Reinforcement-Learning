@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - misc-unconventional-assign-operator</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="misc-unconventional-assign-operator">
+<h1>misc-unconventional-assign-operator</h1>
+<p>Finds declarations of assign operators with the wrong return and/or argument
+types and definitions with good return type but wrong <code class="docutils literal notranslate"><span class="pre">return</span></code> statements.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>The return type must be <code class="docutils literal notranslate"><span class="pre">Class&amp;</span></code>.</p></li>
+<li><p>The assignment may be from the class type by value, const lvalue
+reference, non-const rvalue reference, or from a completely different
+type (e.g. <code class="docutils literal notranslate"><span class="pre">int</span></code>).</p></li>
+<li><p>Private and deleted operators are ignored.</p></li>
+<li><p>The operator must always return <code class="docutils literal notranslate"><span class="pre">*this</span></code>.</p></li>
+</ul>
+</div></blockquote>
+</section>
+</div></body>
+</html>

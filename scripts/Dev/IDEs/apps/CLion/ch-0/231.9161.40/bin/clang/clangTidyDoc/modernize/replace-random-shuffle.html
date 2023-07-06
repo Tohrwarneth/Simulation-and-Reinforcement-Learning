@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - modernize-replace-random-shuffle</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="modernize-replace-random-shuffle">
+<h1>modernize-replace-random-shuffle</h1>
+<p>This check will find occurrences of <code class="docutils literal notranslate"><span class="pre">std::random_shuffle</span></code> and replace it with <code class="docutils literal notranslate"><span class="pre">std::shuffle</span></code>. In C++17 <code class="docutils literal notranslate"><span class="pre">std::random_shuffle</span></code> will no longer be available and thus we need to replace it.</p>
+<p>Below are two examples of what kind of occurrences will be found and two examples of what it will be replaced with.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">v</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// First example</span>
+<span class="n">std</span><span class="o">::</span><span class="n">random_shuffle</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">vec</span><span class="p">.</span><span class="n">end</span><span class="p">());</span><span class="w"></span>
+
+<span class="c1">// Second example</span>
+<span class="n">std</span><span class="o">::</span><span class="n">random_shuffle</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">vec</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">randomFunc</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Both of these examples will be replaced with:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shuffle</span><span class="p">(</span><span class="n">vec</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">vec</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">random_device</span><span class="p">()()));</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The second example will also receive a warning that <code class="docutils literal notranslate"><span class="pre">randomFunc</span></code> is no longer supported in the same way as before so if the user wants the same functionality, the user will need to change the implementation of the <code class="docutils literal notranslate"><span class="pre">randomFunc</span></code>.</p>
+<p>One thing to be aware of here is that <code class="docutils literal notranslate"><span class="pre">std::random_device</span></code> is quite expensive to initialize. So if you are using the code in a performance critical place, you probably want to initialize it elsewhere.
+Another thing is that the seeding quality of the suggested fix is quite poor: <code class="docutils literal notranslate"><span class="pre">std::mt19937</span></code> has an internal state of 624 32-bit integers, but is only seeded with a single integer. So if you require
+higher quality randomness, you should consider seeding better, for example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">shuffle</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span><span class="w"> </span><span class="p">[]()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="o">::</span><span class="n">result_type</span><span class="w"> </span><span class="n">seeds</span><span class="p">[</span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="o">::</span><span class="n">state_size</span><span class="p">];</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">random_device</span><span class="w"> </span><span class="n">device</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">uniform_int_distribution</span><span class="o">&lt;</span><span class="k">typename</span><span class="w"> </span><span class="nc">std</span><span class="o">::</span><span class="n">mt19937</span><span class="o">::</span><span class="n">result_type</span><span class="o">&gt;</span><span class="w"> </span><span class="n">dist</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">generate</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="o">&amp;</span><span class="p">]</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">dist</span><span class="p">(</span><span class="n">device</span><span class="p">);</span><span class="w"> </span><span class="p">});</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">seed_seq</span><span class="w"> </span><span class="nf">seq</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">seeds</span><span class="p">),</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">seeds</span><span class="p">));</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="p">(</span><span class="n">seq</span><span class="p">);</span><span class="w"></span>
+<span class="p">}());</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

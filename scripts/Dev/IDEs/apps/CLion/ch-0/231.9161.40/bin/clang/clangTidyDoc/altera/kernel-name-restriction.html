@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - altera-kernel-name-restriction</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="altera-kernel-name-restriction">
+<h1>altera-kernel-name-restriction</h1>
+<p>Finds kernel files and include directives whose filename is <cite>kernel.cl</cite>,
+<cite>Verilog.cl</cite>, or <cite>VHDL.cl</cite>. The check is case insensitive.</p>
+<p>Such kernel file names cause the offline compiler to generate intermediate
+design files that have the same names as certain internal files, which
+leads to a compilation error.</p>
+<p>Based on the <cite>Guidelines for Naming the Kernel</cite> section in the
+<a class="reference external" href="https://www.intel.com/content/www/us/en/programmable/documentation/mwh1391807965224.html#ewa1412973930963">Intel FPGA SDK for OpenCL Pro Edition: Programming Guide</a>.</p>
+</section>
+</div></body>
+</html>

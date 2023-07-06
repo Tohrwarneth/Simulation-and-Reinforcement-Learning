@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>write_file</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="write-file">
+<span id="command:write_file"><!--f--></span><h1>write_file</h1>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 3.0: </span>Use the <span class="target" id="index-0-command:file"><!--f--></span><a class="reference internal" href="command/file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(WRITE)</span></code></a> command instead.</p>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>write_file(filename &quot;message to write&quot;... [APPEND])
+</pre></div>
+</div>
+<p>The first argument is the file name, the rest of the arguments are
+messages to write.  If the argument <code class="docutils literal notranslate"><span class="pre">APPEND</span></code> is specified, then the
+message will be appended.</p>
+<p>NOTE 1: <span class="target" id="index-1-command:file"><!--f--></span><a class="reference internal" href="command/file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(WRITE)</span></code></a>  and <span class="target" id="index-2-command:file"><!--f--></span><a class="reference internal" href="command/file.html#command:file" title="file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">file(APPEND)</span></code></a>  do exactly
+the same as this one but add some more functionality.</p>
+<p>NOTE 2: When using <code class="docutils literal notranslate"><span class="pre">write_file</span></code> the produced file cannot be used as an
+input to CMake (CONFIGURE_FILE, source file ...) because it will lead
+to an infinite loop.  Use <span class="target" id="index-0-command:configure_file"><!--f--></span><a class="reference internal" href="command/configure_file.html#command:configure_file" title="configure_file"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">configure_file()</span></code></a> if you want to
+generate input files to CMake.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - objc-dealloc-in-category</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="objc-dealloc-in-category">
+<h1>objc-dealloc-in-category</h1>
+<p>Finds implementations of <code class="docutils literal notranslate"><span class="pre">-dealloc</span></code> in Objective-C categories. The category
+implementation will override any <code class="docutils literal notranslate"><span class="pre">-dealloc</span></code> in the class implementation,
+potentially causing issues.</p>
+<p>Classes implement <code class="docutils literal notranslate"><span class="pre">-dealloc</span></code> to perform important actions to deallocate
+an object. If a category on the class implements <code class="docutils literal notranslate"><span class="pre">-dealloc</span></code>, it will
+override the class’s implementation and unexpected deallocation behavior
+may occur.</p>
+</section>
+</div></body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMAKE_&lt;LANG&gt;_FLAGS</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmake-lang-flags">
+<span id="variable:CMAKE_<LANG>_FLAGS"><!--f--></span><h1>CMAKE_&lt;LANG&gt;_FLAGS</h1>
+<p>Flags for all build types.</p>
+<p><code class="docutils literal notranslate"><span class="pre">&lt;LANG&gt;</span></code> flags used regardless of the value of <span class="target" id="index-0-variable:CMAKE_BUILD_TYPE"><!--f--></span><a class="reference internal" href="variable/CMAKE_BUILD_TYPE.html#variable:CMAKE_BUILD_TYPE" title="CMAKE_BUILD_TYPE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BUILD_TYPE</span></code></a>.</p>
+<p>For each language, if this variable is not defined, it is initialized
+and stored in the cache using values from environment variables in
+combination with CMake's builtin defaults for the toolchain:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_C_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:CFLAGS"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/envvar/CFLAGS.html#envvar:CFLAGS" title="CFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_CXX_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:CXXFLAGS"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/envvar/CXXFLAGS.html#envvar:CXXFLAGS" title="CXXFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CXXFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_CUDA_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:CUDAFLAGS"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/envvar/CUDAFLAGS.html#envvar:CUDAFLAGS" title="CUDAFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CUDAFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_Fortran_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:FFLAGS"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/envvar/FFLAGS.html#envvar:FFLAGS" title="FFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">FFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_CSharp_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:CSFLAGS"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/envvar/CSFLAGS.html#envvar:CSFLAGS" title="CSFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">CSFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_HIP_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:HIPFLAGS"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/envvar/HIPFLAGS.html#envvar:HIPFLAGS" title="HIPFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">HIPFLAGS</span></code></a> environment variable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CMAKE_ISPC_FLAGS</span></code>:
+Initialized by the <span class="target" id="index-0-envvar:ISPCFLAGS"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/envvar/ISPCFLAGS.html#envvar:ISPCFLAGS" title="ISPCFLAGS"><code class="xref cmake cmake-envvar docutils literal notranslate"><span class="pre">ISPCFLAGS</span></code></a> environment variable.</p></li>
+</ul>
+<p>This value is a command-line string fragment. Therefore, multiple options
+should be separated by spaces, and options with spaces should be quoted.</p>
+<p>The flags in this variable will be passed to the compiler before those
+in the per-configuration <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"><!--f--></span><a class="reference internal" href="variable/CMAKE_LANG_FLAGS_CONFIG.html#variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;" title="CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;</span></code></a> variant,
+and before flags added by the <span class="target" id="index-0-command:add_compile_options"><!--f--></span><a class="reference internal" href="command/add_compile_options.html#command:add_compile_options" title="add_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_compile_options()</span></code></a> or
+<span class="target" id="index-0-command:target_compile_options"><!--f--></span><a class="reference internal" href="command/target_compile_options.html#command:target_compile_options" title="target_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_options()</span></code></a> commands.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

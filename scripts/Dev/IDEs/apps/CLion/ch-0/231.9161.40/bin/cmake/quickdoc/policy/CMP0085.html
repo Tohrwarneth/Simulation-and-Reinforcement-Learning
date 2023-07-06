@@ -1,0 +1,51 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0085</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0085">
+<span id="policy:CMP0085"><!--f--></span><h1>CMP0085</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">$&lt;IN_LIST:...&gt;</span></code> handles empty list items.</p>
+<p>In CMake 3.13 and lower, the <code class="docutils literal notranslate"><span class="pre">$&lt;IN_LIST:...&gt;</span></code> generator expression always
+returned <code class="docutils literal notranslate"><span class="pre">0</span></code> if the first argument was empty, even if the list contained an
+empty item. This behavior is inconsistent with the <code class="docutils literal notranslate"><span class="pre">IN_LIST</span></code> behavior of
+<span class="target" id="index-0-command:if"><!--f--></span><a class="reference internal" href="command/if.html#command:if" title="if"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if()</span></code></a>, which this generator expression is meant to emulate. CMake 3.14
+and later handles this case correctly.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of this policy is for <code class="docutils literal notranslate"><span class="pre">$&lt;IN_LIST:...&gt;</span></code> to always return
+<code class="docutils literal notranslate"><span class="pre">0</span></code> if the first argument is empty. The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior is to return <code class="docutils literal notranslate"><span class="pre">1</span></code>
+if the first argument is empty and the list contains an empty item.</p>
+<p>This policy was introduced in CMake version 3.14.  CMake version
+ warns when the policy is not set and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.
+Use the <span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code>
+explicitly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

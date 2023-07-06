@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>add_definitions</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="add-definitions">
+<span id="command:add_definitions"><!--f--></span><h1>add_definitions</h1>
+<p>Add -D define flags to the compilation of source files.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_definitions(</span><span class="p">-</span><span class="no">DFOO</span><span class="w"> </span><span class="p">-</span><span class="no">DBAR</span><span class="w"> </span><span class="p">...</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Adds definitions to the compiler command line for targets in the current
+directory, whether added before or after this command is invoked, and for
+the ones in sub-directories added after. This command can be used to add any
+flags, but it is intended to add preprocessor definitions.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This command has been superseded by alternatives:</p>
+<ul class="simple">
+<li><p>Use <span class="target" id="index-0-command:add_compile_definitions"><!--f--></span><a class="reference internal" href="command/add_compile_definitions.html#command:add_compile_definitions" title="add_compile_definitions"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_compile_definitions()</span></code></a> to add preprocessor definitions.</p></li>
+<li><p>Use <span class="target" id="index-0-command:include_directories"><!--f--></span><a class="reference internal" href="command/include_directories.html#command:include_directories" title="include_directories"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">include_directories()</span></code></a> to add include directories.</p></li>
+<li><p>Use <span class="target" id="index-0-command:add_compile_options"><!--f--></span><a class="reference internal" href="command/add_compile_options.html#command:add_compile_options" title="add_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_compile_options()</span></code></a> to add other options.</p></li>
+</ul>
+</div>
+<p>Flags beginning in <code class="docutils literal notranslate"><span class="pre">-D</span></code> or <code class="docutils literal notranslate"><span class="pre">/D</span></code> that look like preprocessor definitions are
+automatically added to the <span class="target" id="index-0-prop_dir:COMPILE_DEFINITIONS"><!--f--></span><a class="reference internal" href="prop_dir/COMPILE_DEFINITIONS.html#prop_dir:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_dir docutils literal notranslate"><span class="pre">COMPILE_DEFINITIONS</span></code></a> directory
+property for the current directory.  Definitions with non-trivial values
+may be left in the set of flags instead of being converted for reasons of
+backwards compatibility.  See documentation of the
+<span class="target" id="index-1-prop_dir:COMPILE_DEFINITIONS"><!--f--></span><a class="reference internal" href="prop_dir/COMPILE_DEFINITIONS.html#prop_dir:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_dir docutils literal notranslate"><span class="pre">directory</span></code></a>,
+<span class="target" id="index-0-prop_tgt:COMPILE_DEFINITIONS"><!--f--></span><a class="reference internal" href="prop_tgt/COMPILE_DEFINITIONS.html#prop_tgt:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">target</span></code></a>,
+<span class="target" id="index-0-prop_sf:COMPILE_DEFINITIONS"><!--f--></span><a class="reference internal" href="prop_sf/COMPILE_DEFINITIONS.html#prop_sf:COMPILE_DEFINITIONS" title="COMPILE_DEFINITIONS"><code class="xref cmake cmake-prop_sf docutils literal notranslate"><span class="pre">source</span> <span class="pre">file</span></code></a> <code class="docutils literal notranslate"><span class="pre">COMPILE_DEFINITIONS</span></code>
+properties for details on adding preprocessor definitions to specific
+scopes and configurations.</p>
+<p>See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a> manual for more on defining
+buildsystem properties.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

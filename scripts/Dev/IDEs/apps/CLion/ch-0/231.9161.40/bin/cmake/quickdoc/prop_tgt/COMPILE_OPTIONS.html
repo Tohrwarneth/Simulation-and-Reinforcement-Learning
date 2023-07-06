@@ -1,0 +1,59 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>COMPILE_OPTIONS</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="compile-options">
+<span id="prop_tgt:COMPILE_OPTIONS"><!--f--></span><h1>COMPILE_OPTIONS</h1>
+<p>List of options to pass to the compiler.</p>
+<p>This property holds a <a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a>
+of options specified so far for its target.  Use the
+<span class="target" id="index-0-command:target_compile_options"><!--f--></span><a class="reference internal" href="command/target_compile_options.html#command:target_compile_options" title="target_compile_options"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_compile_options()</span></code></a> command to append more options.
+The options will be added after after flags in the
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS"><!--f--></span><a class="reference internal" href="variable/CMAKE_LANG_FLAGS.html#variable:CMAKE_&lt;LANG&gt;_FLAGS" title="CMAKE_&lt;LANG&gt;_FLAGS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS</span></code></a> and <span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"><!--f--></span><a class="reference internal" href="variable/CMAKE_LANG_FLAGS_CONFIG.html#variable:CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;" title="CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_&lt;LANG&gt;_FLAGS_&lt;CONFIG&gt;</span></code></a>
+variables, but before those propagated from dependencies by the
+<span class="target" id="index-0-prop_tgt:INTERFACE_COMPILE_OPTIONS"><!--f--></span><a class="reference internal" href="prop_tgt/INTERFACE_COMPILE_OPTIONS.html#prop_tgt:INTERFACE_COMPILE_OPTIONS" title="INTERFACE_COMPILE_OPTIONS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_COMPILE_OPTIONS</span></code></a> property.</p>
+<p>This property is initialized by the <span class="target" id="index-0-prop_dir:COMPILE_OPTIONS"><!--f--></span><a class="reference internal" href="prop_dir/COMPILE_OPTIONS.html#prop_dir:COMPILE_OPTIONS" title="COMPILE_OPTIONS"><code class="xref cmake cmake-prop_dir docutils literal notranslate"><span class="pre">COMPILE_OPTIONS</span></code></a> directory
+property when a target is created, and is used by the generators to set
+the options for the compiler.</p>
+<p>Contents of <code class="docutils literal notranslate"><span class="pre">COMPILE_OPTIONS</span></code> may use &quot;generator expressions&quot; with the
+syntax <code class="docutils literal notranslate"><span class="pre">$&lt;...&gt;</span></code>.  See the <span class="target" id="index-0-manual:cmake-generator-expressions(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-generator-expressions(7)</span></code></a> manual
+for available expressions.  See the <span class="target" id="index-0-manual:cmake-buildsystem(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-buildsystem.7.html#manual:cmake-buildsystem(7)" title="cmake-buildsystem(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-buildsystem(7)</span></code></a> manual
+for more on defining buildsystem properties.</p>
+<section id="option-de-duplication">
+<h2>Option De-duplication</h2>
+<p>The final set of options used for a target is constructed by
+accumulating options from the current target and the usage requirements of
+its dependencies.  The set of options is de-duplicated to avoid repetition.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.12: </span>While beneficial for individual options, the de-duplication step can break
+up option groups.  For example, <code class="docutils literal notranslate"><span class="pre">-option</span> <span class="pre">A</span> <span class="pre">-option</span> <span class="pre">B</span></code> becomes
+<code class="docutils literal notranslate"><span class="pre">-option</span> <span class="pre">A</span> <span class="pre">B</span></code>.  One may specify a group of options using shell-like
+quoting along with a <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code> prefix.  The <code class="docutils literal notranslate"><span class="pre">SHELL:</span></code> prefix is dropped,
+and the rest of the option string is parsed using the
+<span class="target" id="index-0-command:separate_arguments"><!--f--></span><a class="reference internal" href="command/separate_arguments.html#command:separate_arguments" title="separate_arguments"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">separate_arguments()</span></code></a> <code class="docutils literal notranslate"><span class="pre">UNIX_COMMAND</span></code> mode. For example,
+<code class="docutils literal notranslate"><span class="pre">&quot;SHELL:-option</span> <span class="pre">A&quot;</span> <span class="pre">&quot;SHELL:-option</span> <span class="pre">B&quot;</span></code> becomes <code class="docutils literal notranslate"><span class="pre">-option</span> <span class="pre">A</span> <span class="pre">-option</span> <span class="pre">B</span></code>.</p>
+</div>
+</section>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

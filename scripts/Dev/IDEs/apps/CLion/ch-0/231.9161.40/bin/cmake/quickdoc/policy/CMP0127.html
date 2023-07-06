@@ -1,0 +1,62 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0127</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0127">
+<span id="policy:CMP0127"><!--f--></span><h1>CMP0127</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.22.</span></p>
+</div>
+<p><span class="target" id="index-0-command:cmake_dependent_option"><!--f--></span><a class="reference internal" href="module/CMakeDependentOption.html#command:cmake_dependent_option" title="cmake_dependent_option"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_dependent_option()</span></code></a> supports full <a class="reference internal" href="command/if.html#condition-syntax"><span class="std std-ref">Condition Syntax</span></a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">&lt;depends&gt;</span></code> parameter accepts a <a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-language.7.html#cmake-language-lists"><span class="std std-ref">semicolon-separated list</span></a> of conditions.  CMake 3.21 and lower evaluates each
+<code class="docutils literal notranslate"><span class="pre">condition</span></code> as <code class="docutils literal notranslate"><span class="pre">if(${condition})</span></code>, which does not properly handle
+conditions with nested paren groups.  CMake 3.22 and above instead prefer
+to evaluate each <code class="docutils literal notranslate"><span class="pre">condition</span></code> as <code class="docutils literal notranslate"><span class="pre">if(&lt;condition&gt;)</span></code>, where <code class="docutils literal notranslate"><span class="pre">&lt;condition&gt;</span></code>
+is re-parsed as if literally written in a call to <span class="target" id="index-0-command:if"><!--f--></span><a class="reference internal" href="command/if.html#command:if" title="if"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if()</span></code></a>.  This
+allows expressions like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;A AND (B OR C)&quot;
+</pre></div>
+</div>
+<p>but requires expressions like:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;FOO MATCHES (UPPER|lower)&quot;
+</pre></div>
+</div>
+<p>to be re-written as:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>&quot;FOO MATCHES \&quot;(UPPER|lower)\&quot;&quot;
+</pre></div>
+</div>
+<p>Policy <code class="docutils literal notranslate"><span class="pre">CMP0127</span></code> provides compatibility for projects that have not
+been updated to expect the new behavior.</p>
+<p>This policy was introduced in CMake version 3.22.  CMake version
+ warns when the policy is not set and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.
+Use the <span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code>
+explicitly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - readability-container-contains</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="readability-container-contains">
+<h1>readability-container-contains</h1>
+<p>Finds usages of <code class="docutils literal notranslate"><span class="pre">container.count()</span></code> and <code class="docutils literal notranslate"><span class="pre">container.find()</span> <span class="pre">==</span> <span class="pre">container.end()</span></code> which should be replaced by a call to the <code class="docutils literal notranslate"><span class="pre">container.contains()</span></code> method introduced in C++ 20.</p>
+<p>Whether an element is contained inside a container should be checked with <code class="docutils literal notranslate"><span class="pre">contains</span></code> instead of <code class="docutils literal notranslate"><span class="pre">count</span></code>/<code class="docutils literal notranslate"><span class="pre">find</span></code> because <code class="docutils literal notranslate"><span class="pre">contains</span></code> conveys the intent more clearly. Furthermore, for containers which permit multiple entries per key (<code class="docutils literal notranslate"><span class="pre">multimap</span></code>, <code class="docutils literal notranslate"><span class="pre">multiset</span></code>, …), <code class="docutils literal notranslate"><span class="pre">contains</span></code> is more efficient than <code class="docutils literal notranslate"><span class="pre">count</span></code> because <code class="docutils literal notranslate"><span class="pre">count</span></code> has to do unnecessary additional work.</p>
+<p>Examples:</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td><p>Initial expression</p></td>
+<td><p>Result</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">myMap.find(x)</span> <span class="pre">==</span> <span class="pre">myMap.end()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">!myMap.contains(x)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">myMap.find(x)</span> <span class="pre">!=</span> <span class="pre">myMap.end()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">myMap.contains(x)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(myMap.count(x))</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">if</span> <span class="pre">(myMap.contains(x))</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">exists</span> <span class="pre">=</span> <span class="pre">myMap.count(x)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">exists</span> <span class="pre">=</span> <span class="pre">myMap.contains(x)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">exists</span> <span class="pre">=</span> <span class="pre">myMap.count(x)</span> <span class="pre">&gt;</span> <span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">exists</span> <span class="pre">=</span> <span class="pre">myMap.contains(x)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">exists</span> <span class="pre">=</span> <span class="pre">myMap.count(x)</span> <span class="pre">&gt;=</span> <span class="pre">1</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">exists</span> <span class="pre">=</span> <span class="pre">myMap.contains(x)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">missing</span> <span class="pre">=</span> <span class="pre">myMap.count(x)</span> <span class="pre">==</span> <span class="pre">0</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">bool</span> <span class="pre">missing</span> <span class="pre">=</span> <span class="pre">!myMap.contains(x)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>This check applies to <code class="docutils literal notranslate"><span class="pre">std::set</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_set</span></code>, <code class="docutils literal notranslate"><span class="pre">std::map</span></code>, <code class="docutils literal notranslate"><span class="pre">std::unordered_map</span></code> and the corresponding multi-key variants.
+It is only active for C++20 and later, as the <code class="docutils literal notranslate"><span class="pre">contains</span></code> method was only added in C++20.</p>
+</section>
+</div></body>
+</html>

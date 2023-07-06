@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - readability-static-accessed-through-instance</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="readability-static-accessed-through-instance">
+<h1>readability-static-accessed-through-instance</h1>
+<p>Checks for member expressions that access static members through instances, and
+replaces them with uses of the appropriate qualified-id.</p>
+<p>Example:</p>
+<p>The following code:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">struct</span><span class="w"> </span><span class="nc">C</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="n">C</span><span class="w"> </span><span class="o">*</span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">C</span><span class="p">();</span><span class="w"></span>
+<span class="n">c1</span><span class="o">-&gt;</span><span class="n">foo</span><span class="p">();</span><span class="w"></span>
+<span class="n">c1</span><span class="o">-&gt;</span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>is changed to:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="w"> </span><span class="o">*</span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">C</span><span class="p">();</span><span class="w"></span>
+<span class="n">C</span><span class="o">::</span><span class="n">foo</span><span class="p">();</span><span class="w"></span>
+<span class="n">C</span><span class="o">::</span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

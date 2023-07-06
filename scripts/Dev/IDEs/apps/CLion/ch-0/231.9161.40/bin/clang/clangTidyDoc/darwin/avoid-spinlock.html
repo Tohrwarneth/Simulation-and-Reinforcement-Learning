@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - darwin-avoid-spinlock</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="darwin-avoid-spinlock">
+<h1>darwin-avoid-spinlock</h1>
+<p>Finds usages of <code class="docutils literal notranslate"><span class="pre">OSSpinlock</span></code>, which is deprecated due to potential livelock
+problems.</p>
+<p>This check will detect following function invocations:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">OSSpinlockLock</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OSSpinlockTry</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">OSSpinlockUnlock</span></code></p></li>
+</ul>
+<p>The corresponding information about the problem of <code class="docutils literal notranslate"><span class="pre">OSSpinlock</span></code>: <a class="reference external" href="https://blog.postmates.com/why-spinlocks-are-bad-on-ios-b69fc5221058">https://blog.postmates.com/why-spinlocks-are-bad-on-ios-b69fc5221058</a></p>
+</section>
+</div></body>
+</html>

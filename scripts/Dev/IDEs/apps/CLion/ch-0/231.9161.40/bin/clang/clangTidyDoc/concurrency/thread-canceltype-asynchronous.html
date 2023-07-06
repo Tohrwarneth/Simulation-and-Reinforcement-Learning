@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - concurrency-thread-canceltype-asynchronous</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="concurrency-thread-canceltype-asynchronous">
+<h1>concurrency-thread-canceltype-asynchronous</h1>
+<p>Finds <code class="docutils literal notranslate"><span class="pre">pthread_setcanceltype</span></code> function calls where a thread’s cancellation
+type is set to asynchronous. Asynchronous cancellation type
+(<code class="docutils literal notranslate"><span class="pre">PTHREAD_CANCEL_ASYNCHRONOUS</span></code>) is generally unsafe, use type
+<code class="docutils literal notranslate"><span class="pre">PTHREAD_CANCEL_DEFERRED</span></code> instead which is the default. Even with deferred
+cancellation, a cancellation point in an asynchronous signal handler may still
+be acted upon and the effect is as if it was an asynchronous cancellation.</p>
+<p>This check corresponds to the CERT C Coding Standard rule
+<a class="reference external" href="https://wiki.sei.cmu.edu/confluence/display/c/POS47-C.+Do+not+use+threads+that+can+be+canceled+asynchronously">POS47-C. Do not use threads that can be canceled asynchronously</a>.</p>
+</section>
+</div></body>
+</html>

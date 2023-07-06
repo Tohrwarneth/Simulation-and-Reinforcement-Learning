@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-stringview-nullptr</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-stringview-nullptr">
+<h1>bugprone-stringview-nullptr</h1>
+<p>Checks for various ways that the <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">CharT*</span></code> constructor of
+<code class="docutils literal notranslate"><span class="pre">std::basic_string_view</span></code> can be passed a null argument and replaces them
+with the default constructor in most cases. For the comparison operators,
+braced initializer list does not compile so instead a call to <code class="docutils literal notranslate"><span class="pre">.empty()</span></code>
+or the empty string literal are used, where appropriate.</p>
+<p>This prevents code from invoking behavior which is unconditionally undefined.
+The single-argument <code class="docutils literal notranslate"><span class="pre">const</span> <span class="pre">CharT*</span></code> constructor does not check for the null
+case before dereferencing its input. The standard is slated to add an
+explicitly-deleted overload to catch some of these cases: wg21.link/p2166</p>
+<p>To catch the additional cases of <code class="docutils literal notranslate"><span class="pre">NULL</span></code> (which expands to <code class="docutils literal notranslate"><span class="pre">__null</span></code>) and
+<code class="docutils literal notranslate"><span class="pre">0</span></code>, first run the <code class="docutils literal notranslate"><span class="pre">modernize-use-nullptr</span></code> check to convert the callers to
+<code class="docutils literal notranslate"><span class="pre">nullptr</span></code>.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">sv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">sv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span><span class="w"></span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="n">is_empty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sv</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span><span class="w"></span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">isnt_empty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sv</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="k">nullptr</span><span class="p">;</span><span class="w"></span>
+
+<span class="n">accepts_sv</span><span class="p">(</span><span class="k">nullptr</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">accepts_sv</span><span class="p">({{}});</span><span class="w">  </span><span class="c1">// A</span>
+
+<span class="n">accepts_sv</span><span class="p">({</span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">});</span><span class="w">  </span><span class="c1">// B</span>
+</pre></div>
+</div>
+<p>is translated into…</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">sv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+
+<span class="n">sv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+
+<span class="kt">bool</span><span class="w"> </span><span class="n">is_empty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sv</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span><span class="w"></span>
+<span class="kt">bool</span><span class="w"> </span><span class="n">isnt_empty</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">!</span><span class="n">sv</span><span class="p">.</span><span class="n">empty</span><span class="p">();</span><span class="w"></span>
+
+<span class="n">accepts_sv</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span><span class="w"></span>
+
+<span class="n">accepts_sv</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">);</span><span class="w">  </span><span class="c1">// A</span>
+
+<span class="n">accepts_sv</span><span class="p">({</span><span class="k">nullptr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">});</span><span class="w">  </span><span class="c1">// B</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The source pattern with trailing comment “A” selects the <code class="docutils literal notranslate"><span class="pre">(const</span> <span class="pre">CharT*)</span></code>
+constructor overload and then value-initializes the pointer, causing a null
+dereference. It happens to not include the <code class="docutils literal notranslate"><span class="pre">nullptr</span></code> literal, but it is
+still within the scope of this ClangTidy check.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The source pattern with trailing comment “B” selects the
+<code class="docutils literal notranslate"><span class="pre">(const</span> <span class="pre">CharT*,</span> <span class="pre">size_type)</span></code> constructor which is perfectly valid, since the
+length argument is <code class="docutils literal notranslate"><span class="pre">0</span></code>. It is not changed by this ClangTidy check.</p>
+</div>
+</section>
+</div></body>
+</html>

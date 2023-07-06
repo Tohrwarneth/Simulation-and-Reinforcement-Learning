@@ -1,0 +1,81 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RESOURCE</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="resource">
+<span id="prop_tgt:RESOURCE"><!--f--></span><h1>RESOURCE</h1>
+<p>Specify resource files in a <span class="target" id="index-0-prop_tgt:FRAMEWORK"><!--f--></span><a class="reference internal" href="prop_tgt/FRAMEWORK.html#prop_tgt:FRAMEWORK" title="FRAMEWORK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></a> or <span class="target" id="index-0-prop_tgt:BUNDLE"><!--f--></span><a class="reference internal" href="prop_tgt/BUNDLE.html#prop_tgt:BUNDLE" title="BUNDLE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">BUNDLE</span></code></a>.</p>
+<p>Target marked with the <span class="target" id="index-1-prop_tgt:FRAMEWORK"><!--f--></span><a class="reference internal" href="prop_tgt/FRAMEWORK.html#prop_tgt:FRAMEWORK" title="FRAMEWORK"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">FRAMEWORK</span></code></a> or <span class="target" id="index-1-prop_tgt:BUNDLE"><!--f--></span><a class="reference internal" href="prop_tgt/BUNDLE.html#prop_tgt:BUNDLE" title="BUNDLE"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">BUNDLE</span></code></a> property
+generate framework or application bundle (both macOS and iOS is supported)
+or normal shared libraries on other platforms.
+This property may be set to a list of files to be placed in the corresponding
+directory (eg. <code class="docutils literal notranslate"><span class="pre">Resources</span></code> directory for macOS) inside the bundle.
+On non-Apple platforms these files may be installed using the <code class="docutils literal notranslate"><span class="pre">RESOURCE</span></code>
+option to the <span class="target" id="index-0-command:install"><!--f--></span><a class="reference internal" href="command/install.html#command:install" title="install"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">install(TARGETS)</span></code></a> command.</p>
+<p>Following example of Application Bundle:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">ExecutableTarget</span><span class="w"></span>
+<span class="w">  </span><span class="nb">addDemo.c</span><span class="w"></span>
+<span class="w">  </span><span class="nb">resourcefile.txt</span><span class="w"></span>
+<span class="w">  </span><span class="na">appresourcedir/appres.txt</span><span class="nf">)</span><span class="w"></span>
+
+<span class="nf">target_link_libraries(</span><span class="nb">ExecutableTarget</span><span class="w"> </span><span class="nb">heymath</span><span class="w"> </span><span class="nb">mul</span><span class="nf">)</span><span class="w"></span>
+
+<span class="nf">set(</span><span class="no">RESOURCE_FILES</span><span class="w"></span>
+<span class="w">  </span><span class="nb">resourcefile.txt</span><span class="w"></span>
+<span class="w">  </span><span class="na">appresourcedir/appres.txt</span><span class="nf">)</span><span class="w"></span>
+
+<span class="nf">set_target_properties(</span><span class="nb">ExecutableTarget</span><span class="w"> </span><span class="no">PROPERTIES</span><span class="w"></span>
+<span class="w">  </span><span class="no">MACOSX_BUNDLE</span><span class="w"> </span><span class="no">TRUE</span><span class="w"></span>
+<span class="w">  </span><span class="no">MACOSX_FRAMEWORK_IDENTIFIER</span><span class="w"> </span><span class="nb">org.cmake.ExecutableTarget</span><span class="w"></span>
+<span class="w">  </span><span class="no">RESOURCE</span><span class="w"> </span><span class="s">&quot;${RESOURCE_FILES}&quot;</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>will produce flat structure for iOS systems:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExecutableTarget.app
+  appres.txt
+  ExecutableTarget
+  Info.plist
+  resourcefile.txt
+</pre></div>
+</div>
+<p>For macOS systems it will produce following directory structure:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExecutableTarget.app/
+  Contents
+    Info.plist
+    MacOS
+      ExecutableTarget
+    Resources
+      appres.txt
+      resourcefile.txt
+</pre></div>
+</div>
+<p>For Linux, such CMake script produce following files:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>ExecutableTarget
+Resources
+  appres.txt
+  resourcefile.txt
+</pre></div>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

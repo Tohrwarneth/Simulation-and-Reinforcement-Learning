@@ -1,0 +1,47 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>include</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="include">
+<span id="command:include"><!--f--></span><h1>include</h1>
+<p>Load and run CMake code from a file or module.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">include(</span><span class="o">&lt;</span><span class="nb">file</span><span class="p">|</span><span class="nb">module</span><span class="o">&gt;</span><span class="w"> </span><span class="p">[</span><span class="no">OPTIONAL</span><span class="p">]</span><span class="w"> </span><span class="p">[</span><span class="no">RESULT_VARIABLE</span><span class="w"> </span><span class="nv">&lt;var&gt;</span><span class="p">]</span><span class="w"></span>
+<span class="w">                      </span><span class="p">[</span><span class="no">NO_POLICY_SCOPE</span><span class="p">]</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Loads and runs CMake code from the file given.  Variable reads and
+writes access the scope of the caller (dynamic scoping).  If <code class="docutils literal notranslate"><span class="pre">OPTIONAL</span></code>
+is present, then no error is raised if the file does not exist.  If
+<code class="docutils literal notranslate"><span class="pre">RESULT_VARIABLE</span></code> is given the variable <code class="docutils literal notranslate"><span class="pre">&lt;var&gt;</span></code> will be set to the
+full filename which has been included or <code class="docutils literal notranslate"><span class="pre">NOTFOUND</span></code> if it failed.</p>
+<p>If a module is specified instead of a file, the file with name
+<code class="docutils literal notranslate"><span class="pre">&lt;modulename&gt;.cmake</span></code> is searched first in <span class="target" id="index-0-variable:CMAKE_MODULE_PATH"><!--f--></span><a class="reference internal" href="variable/CMAKE_MODULE_PATH.html#variable:CMAKE_MODULE_PATH" title="CMAKE_MODULE_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MODULE_PATH</span></code></a>,
+then in the CMake module directory.  There is one exception to this: if
+the file which calls <code class="docutils literal notranslate"><span class="pre">include()</span></code> is located itself in the CMake builtin
+module directory, then first the CMake builtin module directory is searched and
+<span class="target" id="index-1-variable:CMAKE_MODULE_PATH"><!--f--></span><a class="reference internal" href="variable/CMAKE_MODULE_PATH.html#variable:CMAKE_MODULE_PATH" title="CMAKE_MODULE_PATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_MODULE_PATH</span></code></a> afterwards.  See also policy <span class="target" id="index-0-policy:CMP0017"><!--f--></span><a class="reference internal" href="policy/CMP0017.html#policy:CMP0017" title="CMP0017"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0017</span></code></a>.</p>
+<p>See the <span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command documentation for discussion of the
+<code class="docutils literal notranslate"><span class="pre">NO_POLICY_SCOPE</span></code> option.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

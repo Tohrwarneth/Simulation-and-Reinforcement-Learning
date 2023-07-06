@@ -90,7 +90,7 @@ class Agent:
                 critic_loss = critic_loss.mean()
 
                 total_loss = actor_loss + 0.5 * critic_loss
-                self.loss_hist.append(total_loss)
+                self.loss_hist.append(total_loss.mean())
                 self.actor.optimizer.zero_grad()
                 self.critic.optimizer.zero_grad()
                 total_loss.backward()

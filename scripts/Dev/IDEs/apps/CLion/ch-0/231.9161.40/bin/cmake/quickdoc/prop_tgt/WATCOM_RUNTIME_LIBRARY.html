@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WATCOM_RUNTIME_LIBRARY</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="watcom-runtime-library">
+<span id="prop_tgt:WATCOM_RUNTIME_LIBRARY"><!--f--></span><h1>WATCOM_RUNTIME_LIBRARY</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Select the Watcom runtime library for use by compilers targeting the Watcom ABI.</p>
+<p>The allowed values are:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SingleThreaded</span></code></dt><dd><p>Compile without additional flags to use a single-threaded
+statically-linked runtime library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SingleThreadedDLL</span></code></dt><dd><p>Compile with <code class="docutils literal notranslate"><span class="pre">-br</span></code> or equivalent flag(s) to use a single-threaded
+dynamically-linked runtime library. This is not available for Linux
+targets.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MultiThreaded</span></code></dt><dd><p>Compile with <code class="docutils literal notranslate"><span class="pre">-bm</span></code> or equivalent flag(s) to use a multi-threaded
+statically-linked runtime library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MultiThreadedDLL</span></code></dt><dd><p>Compile with <code class="docutils literal notranslate"><span class="pre">-bm</span> <span class="pre">-br</span></code> or equivalent flag(s) to use a multi-threaded
+dynamically-linked runtime library. This is not available for Linux
+targets.</p>
+</dd>
+</dl>
+<p>The value is ignored on non-Watcom compilers but an unsupported value will
+be rejected as an error when using a compiler targeting the Watcom ABI.</p>
+<p>The value may also be the empty string (<code class="docutils literal notranslate"><span class="pre">&quot;&quot;</span></code>) in which case no runtime
+library selection flag will be added explicitly by CMake.</p>
+<p>Use <span class="target" id="index-0-manual:cmake-generator-expressions(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a> to
+support per-configuration specification.</p>
+<p>For example, the code:</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">add_executable(</span><span class="nb">foo</span><span class="w"> </span><span class="nb">foo.c</span><span class="nf">)</span><span class="w"></span>
+<span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">foo</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"></span>
+<span class="w">  </span><span class="no">WATCOM_RUNTIME_LIBRARY</span><span class="w"> </span><span class="s">&quot;MultiThreaded&quot;</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>selects for the target <code class="docutils literal notranslate"><span class="pre">foo</span></code> a multi-threaded statically-linked runtime
+library.</p>
+<p>If this property is not set then CMake uses the default value
+<code class="docutils literal notranslate"><span class="pre">MultiThreadedDLL</span></code> on Windows and <code class="docutils literal notranslate"><span class="pre">SingleThreaded</span></code> on other
+platforms to select a Watcom runtime library.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This property has effect only when policy <span class="target" id="index-0-policy:CMP0136"><!--f--></span><a class="reference internal" href="policy/CMP0136.html#policy:CMP0136" title="CMP0136"><code class="xref cmake cmake-policy docutils literal notranslate"><span class="pre">CMP0136</span></code></a> is set to <code class="docutils literal notranslate"><span class="pre">NEW</span></code>
+prior to the first <span class="target" id="index-0-command:project"><!--f--></span><a class="reference internal" href="command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> or <span class="target" id="index-0-command:enable_language"><!--f--></span><a class="reference internal" href="command/enable_language.html#command:enable_language" title="enable_language"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">enable_language()</span></code></a> command
+that enables a language using a compiler targeting the Watcom ABI.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

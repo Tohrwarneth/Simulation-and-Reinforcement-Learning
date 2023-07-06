@@ -1,0 +1,11 @@
+{
+    "filter": {
+        "application_type": "CLion",
+        "quality_filter": {
+            "description": "For the prudent. A stable version with reliable performance",
+            "name": "Release",
+            "order_value": 10000
+        }
+    },
+    "install_automatically": true
+}

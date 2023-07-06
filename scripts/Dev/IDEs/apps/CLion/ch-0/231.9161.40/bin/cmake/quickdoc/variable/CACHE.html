@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CACHE</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cache">
+<span id="variable:CACHE"><!--f--></span><h1>CACHE</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.13.</span></p>
+</div>
+<p>Operator to read cache variables.</p>
+<p>Use the syntax <code class="docutils literal notranslate"><span class="pre">$CACHE{VAR}</span></code> to read cache entry <code class="docutils literal notranslate"><span class="pre">VAR</span></code>.
+See the <a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-language.7.html#cmake-language-variables"><span class="std std-ref">cmake-language(7) variables</span></a>
+documentation for more complete documentation of the interaction of
+normal variables and cache entries.</p>
+<p>When evaluating <a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-language.7.html#variable-references"><span class="std std-ref">Variable References</span></a> of the form <code class="docutils literal notranslate"><span class="pre">${VAR}</span></code>,
+CMake first searches for a normal variable with that name, and if not
+found CMake will search for a cache entry with that name.
+The <code class="docutils literal notranslate"><span class="pre">$CACHE{VAR}</span></code> syntax can be used to do direct cache lookup and
+ignore any existing normal variable.</p>
+<p>See the <span class="target" id="index-0-command:set"><!--f--></span><a class="reference internal" href="command/set.html#command:set" title="set"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">set()</span></code></a> and <span class="target" id="index-0-command:unset"><!--f--></span><a class="reference internal" href="command/unset.html#command:unset" title="unset"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">unset()</span></code></a> commands to see how to
+write or remove cache variables.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

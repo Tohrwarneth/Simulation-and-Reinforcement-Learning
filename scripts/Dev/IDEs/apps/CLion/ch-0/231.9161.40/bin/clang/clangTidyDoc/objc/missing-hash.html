@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - objc-missing-hash</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="objc-missing-hash">
+<h1>objc-missing-hash</h1>
+<p>Finds Objective-C implementations that implement <code class="docutils literal notranslate"><span class="pre">-isEqual:</span></code> without also
+appropriately implementing <code class="docutils literal notranslate"><span class="pre">-hash</span></code>.</p>
+<p>Apple documentation highlights that objects that are equal must have the same
+hash value:
+<a class="reference external" href="https://developer.apple.com/documentation/objectivec/1418956-nsobject/1418795-isequal?language=objc">https://developer.apple.com/documentation/objectivec/1418956-nsobject/1418795-isequal?language=objc</a></p>
+<p>Note that the check only verifies the presence of <code class="docutils literal notranslate"><span class="pre">-hash</span></code> in scenarios where
+its omission could result in unexpected behavior. The verification of the
+implementation of <code class="docutils literal notranslate"><span class="pre">-hash</span></code> is the responsibility of the developer, e.g.,
+through the addition of unit tests to verify the implementation.</p>
+</section>
+</div></body>
+</html>

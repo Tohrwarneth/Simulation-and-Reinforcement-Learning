@@ -1,0 +1,60 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindLua</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="findlua">
+<span id="module:FindLua"><!--f--></span><h1>FindLua</h1>
+<p>Locate Lua library.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18: </span>Support for Lua 5.4.</p>
+</div>
+<p>This module defines:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">LUA_FOUND</span></code></dt><dd><p>if false, do not try to link to Lua</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LUA_LIBRARIES</span></code></dt><dd><p>both lua and lualib</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LUA_INCLUDE_DIR</span></code></dt><dd><p>where to find lua.h</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LUA_VERSION_STRING</span></code></dt><dd><p>the version of Lua found</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LUA_VERSION_MAJOR</span></code></dt><dd><p>the major version of Lua</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LUA_VERSION_MINOR</span></code></dt><dd><p>the minor version of Lua</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">LUA_VERSION_PATCH</span></code></dt><dd><p>the patch version of Lua</p>
+</dd>
+</dl>
+<p>Note that the expected include convention is</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &quot;lua.h&quot;
+</pre></div>
+</div>
+<p>and not</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>#include &lt;lua/lua.h&gt;
+</pre></div>
+</div>
+<p>This is because, the lua location is not standardized and may exist in
+locations other than lua/</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

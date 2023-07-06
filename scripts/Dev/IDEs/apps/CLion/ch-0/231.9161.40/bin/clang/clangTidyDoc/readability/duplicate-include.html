@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - readability-duplicate-include</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="readability-duplicate-include">
+<h1>readability-duplicate-include</h1>
+<p>Looks for duplicate includes and removes them.  The check maintains a list of
+included files and looks for duplicates.  If a macro is defined or undefined
+then the list of included files is cleared.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>becomes</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;memory&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;vector&gt;</span><span class="cp"></span>
+</pre></div>
+</div>
+<p>Because of the intervening macro definitions, this code remains unchanged:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#undef NDEBUG</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;assertion.h&quot;</span><span class="cp"></span>
+<span class="c1">// ...code with assertions enabled</span>
+
+<span class="cp">#define NDEBUG</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;assertion.h&quot;</span><span class="cp"></span>
+<span class="c1">// ...code with assertions disabled</span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

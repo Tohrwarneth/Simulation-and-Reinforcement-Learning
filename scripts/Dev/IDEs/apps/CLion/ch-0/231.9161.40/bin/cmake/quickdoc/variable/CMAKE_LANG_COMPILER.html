@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMAKE_&lt;LANG&gt;_COMPILER</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmake-lang-compiler">
+<span id="variable:CMAKE_<LANG>_COMPILER"><!--f--></span><h1>CMAKE_&lt;LANG&gt;_COMPILER</h1>
+<p>The full path to the compiler for <code class="docutils literal notranslate"><span class="pre">LANG</span></code>.</p>
+<p>This is the command that will be used as the <code class="docutils literal notranslate"><span class="pre">&lt;LANG&gt;</span></code> compiler.  Once
+set, you can not change this variable.</p>
+<section id="usage">
+<h2>Usage</h2>
+<p>This variable can be set by the user during the first time a build tree is configured.</p>
+<p>If a non-full path value is supplied then CMake will resolve the full path of
+the compiler.</p>
+<p>The variable could be set in a user supplied toolchain file or via
+<a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake.1.html#cmdoption-cmake-D"><code class="xref std std-option docutils literal notranslate"><span class="pre">-D</span></code></a> on the command line.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Options that are required to make the compiler work correctly can be included
+as items in a list; they can not be changed.</p>
+</div>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="c">#set within user supplied toolchain file</span>
+<span class="nf">set(</span><span class="no">CMAKE_C_COMPILER</span><span class="w"> </span><span class="na">/full/path/to/qcc</span><span class="w"> </span><span class="p">--</span><span class="nb">arg1</span><span class="w"> </span><span class="p">--</span><span class="nb">arg2</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>cmake ... -DCMAKE_C_COMPILER<span class="o">=</span><span class="s1">&#39;qcc;--arg1;--arg2&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

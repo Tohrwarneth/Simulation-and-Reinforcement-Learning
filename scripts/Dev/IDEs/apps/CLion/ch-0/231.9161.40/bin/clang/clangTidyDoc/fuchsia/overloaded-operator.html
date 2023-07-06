@@ -1,0 +1,22 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - fuchsia-overloaded-operator</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="fuchsia-overloaded-operator">
+<h1>fuchsia-overloaded-operator</h1>
+<p>Warns if an operator is overloaded, except for the assignment (copy and move)
+operators.</p>
+<p>For example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">int</span><span class="w"> </span><span class="k">operator</span><span class="o">+</span><span class="p">(</span><span class="kt">int</span><span class="p">);</span><span class="w">     </span><span class="c1">// Warning</span>
+
+<span class="n">B</span><span class="w"> </span><span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">&amp;</span><span class="n">Other</span><span class="p">);</span><span class="w">  </span><span class="c1">// No warning</span>
+<span class="n">B</span><span class="w"> </span><span class="o">&amp;</span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">B</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="n">Other</span><span class="p">)</span><span class="w"> </span><span class="c1">// No warning</span>
+</pre></div>
+</div>
+<p>See the features disallowed in Fuchsia at <a class="reference external" href="https://fuchsia.googlesource.com/zircon/+/master/docs/cxx.md">https://fuchsia.googlesource.com/zircon/+/master/docs/cxx.md</a></p>
+</section>
+</div></body>
+</html>

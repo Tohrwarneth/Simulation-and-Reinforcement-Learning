@@ -1,0 +1,39 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMAKE_CURRENT_LIST_FILE</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmake-current-list-file">
+<span id="variable:CMAKE_CURRENT_LIST_FILE"><!--f--></span><h1>CMAKE_CURRENT_LIST_FILE</h1>
+<p>Full path to the listfile currently being processed.</p>
+<p>As CMake processes the listfiles in your project this variable will
+always be set to the one currently being processed.  The value has
+dynamic scope.  When CMake starts processing commands in a source file
+it sets this variable to the location of the file.  When CMake
+finishes processing commands from the file it restores the previous
+value.  Therefore the value of the variable inside a macro or function
+is the file invoking the bottom-most entry on the call stack, not the
+file containing the macro or function definition.</p>
+<p>See also <span class="target" id="index-0-variable:CMAKE_PARENT_LIST_FILE"><!--f--></span><a class="reference internal" href="variable/CMAKE_PARENT_LIST_FILE.html#variable:CMAKE_PARENT_LIST_FILE" title="CMAKE_PARENT_LIST_FILE"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PARENT_LIST_FILE</span></code></a>.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

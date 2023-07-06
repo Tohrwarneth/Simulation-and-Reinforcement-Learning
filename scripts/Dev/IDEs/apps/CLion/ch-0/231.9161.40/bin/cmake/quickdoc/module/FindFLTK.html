@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindFLTK</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="findfltk">
+<span id="module:FindFLTK"><!--f--></span><h1>FindFLTK</h1>
+<p>Find the Fast Light Toolkit (FLTK) library</p>
+<section id="input-variables">
+<h2>Input Variables</h2>
+<p>By default this module will search for all of the FLTK components and
+add them to the <code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code> variable.  You can limit the components
+which get placed in <code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code> by defining one or more of the
+following three options:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_OPENGL</span></code></dt><dd><p>Set to true to disable searching for the FLTK GL library</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_FORMS</span></code></dt><dd><p>Set to true to disable searching for the FLTK Forms library</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_IMAGES</span></code></dt><dd><p>Set to true to disable searching for the FLTK Images library</p>
+</dd>
+</dl>
+<p>FLTK is composed also by a binary tool. You can set the following option:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_SKIP_FLUID</span></code></dt><dd><p>Set to true to not look for the FLUID binary</p>
+</dd>
+</dl>
+</section>
+<section id="result-variables">
+<h2>Result Variables</h2>
+<p>The following variables will be defined:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FOUND</span></code></dt><dd><p>True if all components not skipped were found</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_INCLUDE_DIR</span></code></dt><dd><p>Path to the include directory for FLTK header files</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_LIBRARIES</span></code></dt><dd><p>List of the FLTK libraries found</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FLUID_EXECUTABLE</span></code></dt><dd><p>Path to the FLUID binary tool</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_WRAP_UI</span></code></dt><dd><p>True if FLUID is found, used to enable the FLTK_WRAP_UI command</p>
+</dd>
+</dl>
+</section>
+<section id="cache-variables">
+<h2>Cache Variables</h2>
+<p>The following cache variables are also available to set or use:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_BASE_LIBRARY_RELEASE</span></code></dt><dd><p>The FLTK base library (optimized)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_BASE_LIBRARY_DEBUG</span></code></dt><dd><p>The FLTK base library (debug)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_GL_LIBRARY_RELEASE</span></code></dt><dd><p>The FLTK GL library (optimized)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_GL_LIBRARY_DEBUG</span></code></dt><dd><p>The FLTK GL library (debug)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FORMS_LIBRARY_RELEASE</span></code></dt><dd><p>The FLTK Forms library (optimized)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_FORMS_LIBRARY_DEBUG</span></code></dt><dd><p>The FLTK Forms library (debug)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_IMAGES_LIBRARY_RELEASE</span></code></dt><dd><p>The FLTK Images protobuf library (optimized)</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">FLTK_IMAGES_LIBRARY_DEBUG</span></code></dt><dd><p>The FLTK Images library (debug)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.11: </span>Debug and Release variants are found separately and use per-configuration
+variables.</p>
+</div>
+</section>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

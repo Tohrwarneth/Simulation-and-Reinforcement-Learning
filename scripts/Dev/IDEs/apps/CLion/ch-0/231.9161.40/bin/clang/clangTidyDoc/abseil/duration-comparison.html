@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - abseil-duration-comparison</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="abseil-duration-comparison">
+<h1>abseil-duration-comparison</h1>
+<p>Checks for comparisons which should be in the <code class="docutils literal notranslate"><span class="pre">absl::Duration</span></code> domain instead
+of the floating point or integer domains.</p>
+<p>N.B.: In cases where a <code class="docutils literal notranslate"><span class="pre">Duration</span></code> was being converted to an integer and then
+compared against a floating-point value, truncation during the <code class="docutils literal notranslate"><span class="pre">Duration</span></code>
+conversion might yield a different result. In practice this is very rare, and
+still indicates a bug which should be fixed.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Original - Comparison in the floating point domain</span>
+<span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">ToDoubleSeconds</span><span class="p">(</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+
+<span class="c1">// Suggested - Compare in the absl::Duration domain instead</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+
+
+<span class="c1">// Original - Comparison in the integer domain</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">ToInt64Microseconds</span><span class="p">(</span><span class="n">d</span><span class="p">))</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+
+<span class="c1">// Suggested - Compare in the absl::Duration domain instead</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">Microseconds</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

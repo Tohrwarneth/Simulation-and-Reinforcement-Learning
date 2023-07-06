@@ -1,0 +1,45 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - cert-msc51-cpp</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="cert-msc51-cpp">
+<h1>cert-msc51-cpp</h1>
+<p>This check flags all pseudo-random number engines, engine adaptor
+instantiations and <code class="docutils literal notranslate"><span class="pre">srand()</span></code> when initialized or seeded with default argument,
+constant expression or any user-configurable type. Pseudo-random number
+engines seeded with a predictable value may cause vulnerabilities e.g. in
+security protocols.
+This is a CERT security rule, see
+<a class="reference external" href="https://wiki.sei.cmu.edu/confluence/display/cplusplus/MSC51-CPP.+Ensure+your+random+number+generator+is+properly+seeded">MSC51-CPP. Ensure your random number generator is properly seeded</a> and
+<a class="reference external" href="https://wiki.sei.cmu.edu/confluence/display/c/MSC32-C.+Properly+seed+pseudorandom+number+generators">MSC32-C. Properly seed pseudorandom number generators</a>.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="w"> </span><span class="n">engine1</span><span class="p">;</span><span class="w"> </span><span class="c1">// Diagnose, always generate the same sequence</span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="w"> </span><span class="n">engine2</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// Diagnose</span>
+<span class="w">  </span><span class="n">engine1</span><span class="p">.</span><span class="n">seed</span><span class="p">();</span><span class="w"> </span><span class="c1">// Diagnose</span>
+<span class="w">  </span><span class="n">engine2</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// Diagnose</span>
+
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="kt">time_t</span><span class="w"> </span><span class="n">t</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="n">engine1</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">time</span><span class="p">(</span><span class="o">&amp;</span><span class="n">t</span><span class="p">));</span><span class="w"> </span><span class="c1">// Diagnose, system time might be controlled by user</span>
+
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span><span class="w"></span>
+<span class="w">  </span><span class="n">std</span><span class="o">::</span><span class="n">mt19937</span><span class="w"> </span><span class="n">engine3</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w">  </span><span class="c1">// Will not warn</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-DisallowedSeedTypes">
+<span id="cmdoption-arg-disallowedseedtypes"></span><span class="sig-name descname"><span class="pre">DisallowedSeedTypes</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A comma-separated list of the type names which are disallowed.
+Default values are <code class="docutils literal notranslate"><span class="pre">time_t</span></code>, <code class="docutils literal notranslate"><span class="pre">std::time_t</span></code>.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

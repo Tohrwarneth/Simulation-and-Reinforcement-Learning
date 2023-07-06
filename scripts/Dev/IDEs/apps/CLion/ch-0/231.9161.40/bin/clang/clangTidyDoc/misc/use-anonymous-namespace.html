@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - misc-use-anonymous-namespace</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="misc-use-anonymous-namespace">
+<h1>misc-use-anonymous-namespace</h1>
+<p>Finds instances of <code class="docutils literal notranslate"><span class="pre">static</span></code> functions or variables declared at global scope
+that could instead be moved into an anonymous namespace.</p>
+<p>Anonymous namespaces are the “superior alternative” according to the C++
+Standard. <code class="docutils literal notranslate"><span class="pre">static</span></code> was proposed for deprecation, but later un-deprecated to
+keep C compatibility [1]. <code class="docutils literal notranslate"><span class="pre">static</span></code> is an overloaded term with different meanings in
+different contexts, so it can create confusion.</p>
+<p>The following uses of <code class="docutils literal notranslate"><span class="pre">static</span></code> will <em>not</em> be diagnosed:</p>
+<ul class="simple">
+<li><p>Functions or variables in header files, since anonymous namespaces in headers
+is considered an antipattern. Allowed header file extensions can be configured
+via the <cite>HeaderFileExtensions</cite> option (see below).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">const</span></code> or <code class="docutils literal notranslate"><span class="pre">constexpr</span></code> variables, since they already have implicit internal
+linkage in C++.</p></li>
+</ul>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Bad</span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">();</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// Good</span>
+<span class="k">namespace</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">();</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="c1">// namespace</span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-HeaderFileExtensions">
+<span id="cmdoption-arg-headerfileextensions"></span><span class="sig-name descname"><span class="pre">HeaderFileExtensions</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A semicolon-separated list of filename extensions of header files (the filename
+extensions should not include “.” prefix). Default is “;h;hh;hpp;hxx”.
+For extension-less header files, using an empty string or leaving an
+empty string between “;” if there are other filename extensions.</p>
+</dd></dl>
+
+<p>[1] <a class="reference external" href="https://www.open-std.org/jtc1/sc22/wg21/docs/cwg_defects.html#1012">Undeprecating static</a></p>
+</section>
+</section>
+</div></body>
+</html>

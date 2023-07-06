@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - abseil-str-cat-append</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="abseil-str-cat-append">
+<h1>abseil-str-cat-append</h1>
+<p>Flags uses of <code class="docutils literal notranslate"><span class="pre">absl::StrCat()</span></code> to append to a <code class="docutils literal notranslate"><span class="pre">std::string</span></code>. Suggests
+<code class="docutils literal notranslate"><span class="pre">absl::StrAppend()</span></code> should be used instead.</p>
+<p>The extra calls cause unnecessary temporary strings to be constructed. Removing
+them makes the code smaller and faster.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">StrCat</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">);</span><span class="w"> </span><span class="c1">// Use absl::StrAppend(&amp;a, b) instead.</span>
+</pre></div>
+</div>
+<p>Does not diagnose cases where <code class="docutils literal notranslate"><span class="pre">absl::StrCat()</span></code> is used as a template
+argument for a functor.</p>
+</section>
+</div></body>
+</html>

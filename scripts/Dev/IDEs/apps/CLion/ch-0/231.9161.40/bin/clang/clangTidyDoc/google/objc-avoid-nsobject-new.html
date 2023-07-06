@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - google-objc-avoid-nsobject-new</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="google-objc-avoid-nsobject-new">
+<h1>google-objc-avoid-nsobject-new</h1>
+<p>Finds calls to <code class="docutils literal notranslate"><span class="pre">+new</span></code> or overrides of it, which are prohibited by the
+Google Objective-C style guide.</p>
+<p>The Google Objective-C style guide forbids calling <code class="docutils literal notranslate"><span class="pre">+new</span></code> or overriding it in
+class implementations, preferring <code class="docutils literal notranslate"><span class="pre">+alloc</span></code> and <code class="docutils literal notranslate"><span class="pre">-init</span></code> methods to
+instantiate objects.</p>
+<p>An example:</p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="bp">NSDate</span><span class="w"> </span><span class="o">*</span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSDate</span><span class="w"> </span><span class="n">new</span><span class="p">];</span><span class="w"></span>
+<span class="n">Foo</span><span class="w"> </span><span class="o">*</span><span class="n">bar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">Foo</span><span class="w"> </span><span class="n">new</span><span class="p">];</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Instead, code should use <code class="docutils literal notranslate"><span class="pre">+alloc</span></code>/<code class="docutils literal notranslate"><span class="pre">-init</span></code> or class factory methods.</p>
+<div class="highlight-objc notranslate"><div class="highlight"><pre><span></span><span class="bp">NSDate</span><span class="w"> </span><span class="o">*</span><span class="n">now</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="bp">NSDate</span><span class="w"> </span><span class="n">date</span><span class="p">];</span><span class="w"></span>
+<span class="n">Foo</span><span class="w"> </span><span class="o">*</span><span class="n">bar</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="n">Foo</span><span class="w"> </span><span class="n">alloc</span><span class="p">]</span><span class="w"> </span><span class="n">init</span><span class="p">];</span><span class="w"></span>
+</pre></div>
+</div>
+<p>This check corresponds to the Google Objective-C Style Guide rule
+<a class="reference external" href="https://google.github.io/styleguide/objcguide.html#do-not-use-new">Do Not Use +new</a>.</p>
+</section>
+</div></body>
+</html>

@@ -1,0 +1,212 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMakeGraphVizOptions</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmakegraphvizoptions">
+<span id="module:CMakeGraphVizOptions"><!--f--></span><h1>CMakeGraphVizOptions</h1>
+<p>The builtin Graphviz support of CMake.</p>
+<section id="generating-graphviz-files">
+<h2>Generating Graphviz files</h2>
+<p>CMake can generate <a class="reference external" href="https://www.graphviz.org/">Graphviz</a> files showing the
+dependencies between the targets in a project, as well as external libraries
+which are linked against.</p>
+<p>When running CMake with the <code class="docutils literal notranslate"><span class="pre">--graphviz=foo.dot</span></code> option, it produces:</p>
+<ul class="simple">
+<li><p>a <code class="docutils literal notranslate"><span class="pre">foo.dot</span></code> file, showing all dependencies in the project</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">foo.dot.&lt;target&gt;</span></code> file for each target, showing on which other targets
+it depends</p></li>
+<li><p>a <code class="docutils literal notranslate"><span class="pre">foo.dot.&lt;target&gt;.dependers</span></code> file for each target, showing which other
+targets depend on it</p></li>
+</ul>
+<p>Those .dot files can be converted to images using the <em>dot</em> command from the
+Graphviz package:</p>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>dot -Tpng -o foo.png foo.dot
+</pre></div>
+</div>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10: </span>The different dependency types <code class="docutils literal notranslate"><span class="pre">PUBLIC</span></code>, <code class="docutils literal notranslate"><span class="pre">INTERFACE</span></code> and <code class="docutils literal notranslate"><span class="pre">PRIVATE</span></code>
+are represented as solid, dashed and dotted edges.</p>
+</div>
+</section>
+<section id="variables-specific-to-the-graphviz-support">
+<h2>Variables specific to the Graphviz support</h2>
+<p>The resulting graphs can be huge.  The look and content of the generated graphs
+can be controlled using the file <code class="docutils literal notranslate"><span class="pre">CMakeGraphVizOptions.cmake</span></code>.  This file is
+first searched in <span class="target" id="index-0-variable:CMAKE_BINARY_DIR"><!--f--></span><a class="reference internal" href="variable/CMAKE_BINARY_DIR.html#variable:CMAKE_BINARY_DIR" title="CMAKE_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_BINARY_DIR</span></code></a>, and then in
+<span class="target" id="index-0-variable:CMAKE_SOURCE_DIR"><!--f--></span><a class="reference internal" href="variable/CMAKE_SOURCE_DIR.html#variable:CMAKE_SOURCE_DIR" title="CMAKE_SOURCE_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SOURCE_DIR</span></code></a>.  If found, the variables set in it are used to
+adjust options for the generated Graphviz files.</p>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_GRAPH_NAME">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_GRAPH_NAME</span></span></dt>
+<dd><p>The graph name.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: value of <span class="target" id="index-0-variable:CMAKE_PROJECT_NAME"><!--f--></span><a class="reference internal" href="variable/CMAKE_PROJECT_NAME.html#variable:CMAKE_PROJECT_NAME" title="CMAKE_PROJECT_NAME"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_PROJECT_NAME</span></code></a></p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_GRAPH_HEADER">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_GRAPH_HEADER</span></span></dt>
+<dd><p>The header written at the top of the Graphviz files.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: &quot;node [ fontsize = &quot;12&quot; ];&quot;</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_NODE_PREFIX">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_NODE_PREFIX</span></span></dt>
+<dd><p>The prefix for each node in the Graphviz files.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: &quot;node&quot;</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_EXECUTABLES">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_EXECUTABLES</span></span></dt>
+<dd><p>Set to FALSE to exclude executables from the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_STATIC_LIBS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_STATIC_LIBS</span></span></dt>
+<dd><p>Set to FALSE to exclude static libraries from the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_SHARED_LIBS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_SHARED_LIBS</span></span></dt>
+<dd><p>Set to FALSE to exclude shared libraries from the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_MODULE_LIBS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_MODULE_LIBS</span></span></dt>
+<dd><p>Set to FALSE to exclude module libraries from the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_INTERFACE_LIBS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_INTERFACE_LIBS</span></span></dt>
+<dd><p>Set to FALSE to exclude interface libraries from the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_OBJECT_LIBS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_OBJECT_LIBS</span></span></dt>
+<dd><p>Set to FALSE to exclude object libraries from the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_UNKNOWN_LIBS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_UNKNOWN_LIBS</span></span></dt>
+<dd><p>Set to FALSE to exclude unknown libraries from the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_EXTERNAL_LIBS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_EXTERNAL_LIBS</span></span></dt>
+<dd><p>Set to FALSE to exclude external libraries from the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_CUSTOM_TARGETS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_CUSTOM_TARGETS</span></span></dt>
+<dd><p>Set to TRUE to include custom targets in the generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: FALSE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_IGNORE_TARGETS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_IGNORE_TARGETS</span></span></dt>
+<dd><p>A list of regular expressions for names of targets to exclude from the
+generated graphs.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: empty</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_GENERATE_PER_TARGET">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_GENERATE_PER_TARGET</span></span></dt>
+<dd><p>Set to FALSE to not generate per-target graphs <code class="docutils literal notranslate"><span class="pre">foo.dot.&lt;target&gt;</span></code>.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:GRAPHVIZ_GENERATE_DEPENDERS">
+<span class="sig-name descname"><span class="pre">GRAPHVIZ_GENERATE_DEPENDERS</span></span></dt>
+<dd><p>Set to FALSE to not generate depender graphs <code class="docutils literal notranslate"><span class="pre">foo.dot.&lt;target&gt;.dependers</span></code>.</p>
+<ul class="simple">
+<li><p>Mandatory: NO</p></li>
+<li><p>Default: TRUE</p></li>
+</ul>
+</dd></dl>
+
+</section>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

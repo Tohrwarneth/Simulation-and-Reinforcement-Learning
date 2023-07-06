@@ -1,0 +1,58 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0088</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0088">
+<span id="policy:CMP0088"><!--f--></span><h1>CMP0088</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.14.</span></p>
+</div>
+<p><span class="target" id="index-0-module:FindBISON"><!--f--></span><a class="reference internal" href="module/FindBISON.html#module:FindBISON" title="FindBISON"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindBISON</span></code></a> runs bison in <span class="target" id="index-0-variable:CMAKE_CURRENT_BINARY_DIR"><!--f--></span><a class="reference internal" href="variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a>
+when executing.</p>
+<p>The module provides a <code class="docutils literal notranslate"><span class="pre">BISON_TARGET</span></code> macro which generates BISON output.
+In CMake 3.13 and below the macro would generate a custom command that runs
+<code class="docutils literal notranslate"><span class="pre">bison</span></code> in the source directory.  CMake 3.14 and later prefer to run it
+in the build directory and use <span class="target" id="index-1-variable:CMAKE_CURRENT_BINARY_DIR"><!--f--></span><a class="reference internal" href="variable/CMAKE_CURRENT_BINARY_DIR.html#variable:CMAKE_CURRENT_BINARY_DIR" title="CMAKE_CURRENT_BINARY_DIR"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CURRENT_BINARY_DIR</span></code></a> as the
+<code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code> of its <span class="target" id="index-0-command:add_custom_command"><!--f--></span><a class="reference internal" href="command/add_custom_command.html#command:add_custom_command" title="add_custom_command"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_custom_command()</span></code></a> invocation.
+This ensures that any implicitly generated file is written to the build
+tree rather than the source.</p>
+<p>This policy provides compatibility for projects that have not been updated
+to expect the new behavior.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is for <code class="docutils literal notranslate"><span class="pre">BISON_TARGET</span></code> to use
+the current source directory for the <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code> and where
+to generate implicit files. The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior of this policy is to
+use the current binary directory for the <code class="docutils literal notranslate"><span class="pre">WORKING_DIRECTORY</span></code> and where
+to generate implicit files.</p>
+<p>This policy was introduced in CMake version 3.14.  Use the
+<span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code> explicitly.
+Unlike most policies, CMake version  does <em>not</em> warn
+when this policy is not set and simply uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

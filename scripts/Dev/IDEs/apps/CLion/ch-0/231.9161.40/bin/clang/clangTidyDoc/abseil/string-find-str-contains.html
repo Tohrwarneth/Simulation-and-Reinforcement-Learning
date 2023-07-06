@@ -1,0 +1,59 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - abseil-string-find-str-contains</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="abseil-string-find-str-contains">
+<h1>abseil-string-find-str-contains</h1>
+<p>Finds <code class="docutils literal notranslate"><span class="pre">s.find(...)</span> <span class="pre">==</span> <span class="pre">string::npos</span></code> comparisons (for various string-like types)
+and suggests replacing with <code class="docutils literal notranslate"><span class="pre">absl::StrContains()</span></code>.</p>
+<p>This improves readability and reduces the likelihood of accidentally mixing
+<code class="docutils literal notranslate"><span class="pre">find()</span></code> and <code class="docutils literal notranslate"><span class="pre">npos</span></code> from different string-like types.</p>
+<p>By default, “string-like types” includes <code class="docutils literal notranslate"><span class="pre">::std::basic_string</span></code>,
+<code class="docutils literal notranslate"><span class="pre">::std::basic_string_view</span></code>, and <code class="docutils literal notranslate"><span class="pre">::absl::string_view</span></code>. See the
+StringLikeClasses option to change this.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="o">::</span><span class="n">npos</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* do something */</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="n">absl</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">string_view</span><span class="o">::</span><span class="n">npos</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">a</span><span class="p">.</span><span class="n">find</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* do something */</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>becomes</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">absl</span><span class="o">::</span><span class="n">StrContains</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello World&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* do something */</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+
+<span class="n">absl</span><span class="o">::</span><span class="n">string_view</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;...&quot;</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">StrContains</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Hello World&quot;</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="cm">/* do something */</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-StringLikeClasses">
+<span id="cmdoption-arg-stringlikeclasses"></span><span class="sig-name descname"><span class="pre">StringLikeClasses</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>Semicolon-separated list of names of string-like classes. By default includes
+<code class="docutils literal notranslate"><span class="pre">::std::basic_string</span></code>, <code class="docutils literal notranslate"><span class="pre">::std::basic_string_view</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">::absl::string_view</span></code>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-IncludeStyle">
+<span id="cmdoption-arg-includestyle"></span><span class="sig-name descname"><span class="pre">IncludeStyle</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A string specifying which include-style is used, <cite>llvm</cite> or <cite>google</cite>. Default
+is <cite>llvm</cite>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-AbseilStringsMatchHeader">
+<span id="cmdoption-arg-abseilstringsmatchheader"></span><span class="sig-name descname"><span class="pre">AbseilStringsMatchHeader</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>The location of Abseil’s <code class="docutils literal notranslate"><span class="pre">strings/match.h</span></code>. Defaults to
+<code class="docutils literal notranslate"><span class="pre">absl/strings/match.h</span></code>.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

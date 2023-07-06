@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - readability-redundant-smartptr-get</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="readability-redundant-smartptr-get">
+<h1>readability-redundant-smartptr-get</h1>
+<p>Find and remove redundant calls to smart pointer’s <code class="docutils literal notranslate"><span class="pre">.get()</span></code> method.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">ptr</span><span class="p">.</span><span class="n">get</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">()</span><span class="w">  </span><span class="o">==&gt;</span><span class="w">  </span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">Foo</span><span class="p">()</span><span class="w"></span>
+<span class="o">*</span><span class="n">ptr</span><span class="p">.</span><span class="n">get</span><span class="p">()</span><span class="w">  </span><span class="o">==&gt;</span><span class="w">  </span><span class="o">*</span><span class="n">ptr</span><span class="w"></span>
+<span class="o">*</span><span class="n">ptr</span><span class="o">-&gt;</span><span class="n">get</span><span class="p">()</span><span class="w">  </span><span class="o">==&gt;</span><span class="w">  </span><span class="o">**</span><span class="n">ptr</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="p">.</span><span class="n">get</span><span class="p">()</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">ptr</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="k">nullptr</span><span class="p">)</span><span class="w"> </span><span class="p">...</span><span class="w"></span>
+</pre></div>
+</div>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-IgnoreMacros">
+<span id="cmdoption-arg-ignoremacros"></span><span class="sig-name descname"><span class="pre">IgnoreMacros</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>If this option is set to <cite>true</cite> (default is <cite>true</cite>), the check will not warn
+about calls inside macros.</p>
+</dd></dl>
+
+</section>
+</div></body>
+</html>

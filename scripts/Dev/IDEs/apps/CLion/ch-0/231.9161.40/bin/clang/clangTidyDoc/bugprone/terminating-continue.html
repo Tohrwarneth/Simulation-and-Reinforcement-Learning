@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-terminating-continue</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-terminating-continue">
+<h1>bugprone-terminating-continue</h1>
+<p>Detects <code class="docutils literal notranslate"><span class="pre">do</span> <span class="pre">while</span></code> loops with a condition always evaluating to false that
+have a <code class="docutils literal notranslate"><span class="pre">continue</span></code> statement, as this <code class="docutils literal notranslate"><span class="pre">continue</span></code> terminates the loop
+effectively.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="k">do</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="c1">// some code</span>
+<span class="w">  </span><span class="k">continue</span><span class="p">;</span><span class="w"> </span><span class="c1">// terminating continue</span>
+<span class="w">  </span><span class="c1">// some other code</span>
+<span class="p">}</span><span class="w"> </span><span class="k">while</span><span class="p">(</span><span class="nb">false</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

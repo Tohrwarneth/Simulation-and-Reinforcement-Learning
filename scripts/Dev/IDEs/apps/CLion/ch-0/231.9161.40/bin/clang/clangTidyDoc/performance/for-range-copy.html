@@ -1,0 +1,46 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - performance-for-range-copy</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="performance-for-range-copy">
+<h1>performance-for-range-copy</h1>
+<p>Finds C++11 for ranges where the loop variable is copied in each iteration but
+it would suffice to obtain it by const reference.</p>
+<p>The check is only applied to loop variables of types that are expensive to copy
+which means they are not trivially copyable or have a non-trivial copy
+constructor or destructor.</p>
+<p>To ensure that it is safe to replace the copy with a const reference the
+following heuristic is employed:</p>
+<ol class="arabic simple">
+<li><p>The loop variable is const qualified.</p></li>
+<li><p>The loop variable is not const, but only const methods or operators are
+invoked on it, or it is used as const reference or value argument in
+constructors or function calls.</p></li>
+</ol>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-WarnOnAllAutoCopies">
+<span id="cmdoption-arg-warnonallautocopies"></span><span class="sig-name descname"><span class="pre">WarnOnAllAutoCopies</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>When <cite>true</cite>, warns on any use of <cite>auto</cite> as the type of the range-based for
+loop variable. Default is <cite>false</cite>.</p>
+</dd></dl>
+
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-AllowedTypes">
+<span id="cmdoption-arg-allowedtypes"></span><span class="sig-name descname"><span class="pre">AllowedTypes</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A semicolon-separated list of names of types allowed to be copied in each
+iteration. Regular expressions are accepted, e.g. <cite>[Rr]ef(erence)?$</cite> matches
+every type with suffix <cite>Ref</cite>, <cite>ref</cite>, <cite>Reference</cite> and <cite>reference</cite>. The default
+is empty. If a name in the list contains the sequence <cite>::</cite> it is matched
+against the qualified typename (i.e. <cite>namespace::Type</cite>, otherwise it is
+matched against only the type name (i.e. <cite>Type</cite>).</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

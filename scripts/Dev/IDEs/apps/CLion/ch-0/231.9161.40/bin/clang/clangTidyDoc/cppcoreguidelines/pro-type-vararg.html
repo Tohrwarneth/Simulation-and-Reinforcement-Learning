@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - cppcoreguidelines-pro-type-vararg</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="cppcoreguidelines-pro-type-vararg">
+<h1>cppcoreguidelines-pro-type-vararg</h1>
+<p>This check flags all calls to c-style vararg functions and all use of
+<code class="docutils literal notranslate"><span class="pre">va_arg</span></code>.</p>
+<p>To allow for SFINAE use of vararg functions, a call is not flagged if a literal
+0 is passed as the only vararg argument.</p>
+<p>Passing to varargs assumes the correct type will be read. This is fragile
+because it cannot generally be enforced to be safe in the language and so relies
+on programmer discipline to get it right.</p>
+<p>This rule is part of the “Type safety” profile of the C++ Core Guidelines, see
+<a class="reference external" href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-varargs">https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-varargs</a>.</p>
+</section>
+</div></body>
+</html>

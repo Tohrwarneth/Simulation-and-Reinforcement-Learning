@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - misc-confusable-identifiers</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="misc-confusable-identifiers">
+<h1>misc-confusable-identifiers</h1>
+<p>Warn about confusable identifiers, i.e. identifiers that are visually close to
+each other, but use different Unicode characters. This detects a potential
+attack described in <a class="reference external" href="https://www.cve.org/CVERecord?id=CVE-2021-42574">CVE-2021-42574</a>.</p>
+<p>Example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>int fo; // Initial character is U+0066 (LATIN SMALL LETTER F).
+int 𝐟o; // Initial character is U+1D41F (MATHEMATICAL BOLD SMALL F) not U+0066 (LATIN SMALL LETTER F).
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

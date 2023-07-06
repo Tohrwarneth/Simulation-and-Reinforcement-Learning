@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - android-cloexec-accept4</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="android-cloexec-accept4">
+<h1>android-cloexec-accept4</h1>
+<p><code class="docutils literal notranslate"><span class="pre">accept4()</span></code> should include <code class="docutils literal notranslate"><span class="pre">SOCK_CLOEXEC</span></code> in its type argument to avoid the
+file descriptor leakage. Without this flag, an opened sensitive file would
+remain open across a fork+exec to a lower-privileged SELinux domain.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">accept4</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="n">addrlen</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_NONBLOCK</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// becomes</span>
+
+<span class="n">accept4</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="n">addrlen</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_NONBLOCK</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">SOCK_CLOEXEC</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

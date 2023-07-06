@@ -1,3 +1,5 @@
+%! suppress = PrimitiveEquation
+%! suppress = FileNotFound
 %------------------ vorlage.tex ------------------------------------------------
 %
 % LaTeX-Vorlage zur Erstellung von Projektdokumentationen
@@ -10,7 +12,7 @@
 
 
 %------------------ Präambel ---------------------------------------------------
-\documentclass[envcountsame, envcountchap, deutsch]{i-studis.cls}
+\documentclass[envcountsame, envcountchap, deutsch]{i-studis}
 
 \usepackage[utf8]{inputenc}
 
@@ -84,14 +86,22 @@ $endif$
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
 
 %------------------ Manuelle Silbentrennung ------------------------------------
-\hyphenation{Ele-men-tar-ob-jek-te ab-ge-tas-tet Aus-wer-tung House-holder-Matrix Least-Squares-Al-go-ri-th-men}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\hyphenation{Ele-men-tar-ob-jek-te ab-ge-tas-tet Aus-wer-tung House-holder-Matrix Least-Squares-Al-go-ri-th-men grenz-über-schrei-tende}
 
 
 %------------------ Titelseite -------------------------------------------------
 \begin{document}
 
+$if(status)$
+$if(title)$
+\title{{\color{red} \huge \textit{$status$}\newline}$title$}
+$endif$
+$else$
 $if(title)$
 \title{$title$}
+$endif$
 $endif$
 $if(subtitle)$
 \subtitle{$subtitle$}
@@ -144,9 +154,12 @@ $body$
 
 
 % %------------------ Literaturverzeichnis & Index -------------------------------
-% \backmatter
-% \bibliography{literatur}								% Literaturverzeichnis (literatur.bib)
-% \printindex												% Index (optional)
+\backmatter
+$if(bib)$
+\bibliography{$bib$}								% Literaturverzeichnis (literatur.bib)
+$endif$
+
+\printindex												% Index (optional)
 
 
 % %------------------ Anhänge ----------------------------------------------------

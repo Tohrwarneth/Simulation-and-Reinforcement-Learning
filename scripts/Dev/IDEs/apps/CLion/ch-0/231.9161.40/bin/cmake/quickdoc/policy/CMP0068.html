@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0068</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0068">
+<span id="policy:CMP0068"><!--f--></span><h1>CMP0068</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.9.</span></p>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">RPATH</span></code> settings on macOS do not affect <code class="docutils literal notranslate"><span class="pre">install_name</span></code>.</p>
+<p>CMake 3.9 and newer remove any effect the following settings may have on the
+<code class="docutils literal notranslate"><span class="pre">install_name</span></code> of a target on macOS:</p>
+<ul class="simple">
+<li><p><span class="target" id="index-0-prop_tgt:BUILD_WITH_INSTALL_RPATH"><!--f--></span><a class="reference internal" href="prop_tgt/BUILD_WITH_INSTALL_RPATH.html#prop_tgt:BUILD_WITH_INSTALL_RPATH" title="BUILD_WITH_INSTALL_RPATH"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">BUILD_WITH_INSTALL_RPATH</span></code></a> target property</p></li>
+<li><p><span class="target" id="index-0-prop_tgt:SKIP_BUILD_RPATH"><!--f--></span><a class="reference internal" href="prop_tgt/SKIP_BUILD_RPATH.html#prop_tgt:SKIP_BUILD_RPATH" title="SKIP_BUILD_RPATH"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SKIP_BUILD_RPATH</span></code></a> target property</p></li>
+<li><p><span class="target" id="index-0-variable:CMAKE_SKIP_RPATH"><!--f--></span><a class="reference internal" href="variable/CMAKE_SKIP_RPATH.html#variable:CMAKE_SKIP_RPATH" title="CMAKE_SKIP_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SKIP_RPATH</span></code></a> variable</p></li>
+<li><p><span class="target" id="index-0-variable:CMAKE_SKIP_INSTALL_RPATH"><!--f--></span><a class="reference internal" href="variable/CMAKE_SKIP_INSTALL_RPATH.html#variable:CMAKE_SKIP_INSTALL_RPATH" title="CMAKE_SKIP_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SKIP_INSTALL_RPATH</span></code></a> variable</p></li>
+</ul>
+<p>Previously, setting <span class="target" id="index-1-prop_tgt:BUILD_WITH_INSTALL_RPATH"><!--f--></span><a class="reference internal" href="prop_tgt/BUILD_WITH_INSTALL_RPATH.html#prop_tgt:BUILD_WITH_INSTALL_RPATH" title="BUILD_WITH_INSTALL_RPATH"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">BUILD_WITH_INSTALL_RPATH</span></code></a> had the effect of
+setting both the <code class="docutils literal notranslate"><span class="pre">install_name</span></code> of a target to <span class="target" id="index-0-prop_tgt:INSTALL_NAME_DIR"><!--f--></span><a class="reference internal" href="prop_tgt/INSTALL_NAME_DIR.html#prop_tgt:INSTALL_NAME_DIR" title="INSTALL_NAME_DIR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INSTALL_NAME_DIR</span></code></a>
+and the <code class="docutils literal notranslate"><span class="pre">RPATH</span></code> to <span class="target" id="index-0-prop_tgt:INSTALL_RPATH"><!--f--></span><a class="reference internal" href="prop_tgt/INSTALL_RPATH.html#prop_tgt:INSTALL_RPATH" title="INSTALL_RPATH"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INSTALL_RPATH</span></code></a>.  In CMake 3.9, it only affects
+setting of <code class="docutils literal notranslate"><span class="pre">RPATH</span></code>.  However, if one wants <span class="target" id="index-1-prop_tgt:INSTALL_NAME_DIR"><!--f--></span><a class="reference internal" href="prop_tgt/INSTALL_NAME_DIR.html#prop_tgt:INSTALL_NAME_DIR" title="INSTALL_NAME_DIR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INSTALL_NAME_DIR</span></code></a> to
+apply to the target in the build tree, one may set
+<span class="target" id="index-0-prop_tgt:BUILD_WITH_INSTALL_NAME_DIR"><!--f--></span><a class="reference internal" href="prop_tgt/BUILD_WITH_INSTALL_NAME_DIR.html#prop_tgt:BUILD_WITH_INSTALL_NAME_DIR" title="BUILD_WITH_INSTALL_NAME_DIR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">BUILD_WITH_INSTALL_NAME_DIR</span></code></a>.</p>
+<p>If <span class="target" id="index-1-prop_tgt:SKIP_BUILD_RPATH"><!--f--></span><a class="reference internal" href="prop_tgt/SKIP_BUILD_RPATH.html#prop_tgt:SKIP_BUILD_RPATH" title="SKIP_BUILD_RPATH"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">SKIP_BUILD_RPATH</span></code></a>, <span class="target" id="index-1-variable:CMAKE_SKIP_RPATH"><!--f--></span><a class="reference internal" href="variable/CMAKE_SKIP_RPATH.html#variable:CMAKE_SKIP_RPATH" title="CMAKE_SKIP_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SKIP_RPATH</span></code></a> or
+<span class="target" id="index-1-variable:CMAKE_SKIP_INSTALL_RPATH"><!--f--></span><a class="reference internal" href="variable/CMAKE_SKIP_INSTALL_RPATH.html#variable:CMAKE_SKIP_INSTALL_RPATH" title="CMAKE_SKIP_INSTALL_RPATH"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_SKIP_INSTALL_RPATH</span></code></a> were used to strip the directory portion
+of the <code class="docutils literal notranslate"><span class="pre">install_name</span></code> of a target, one may set <code class="docutils literal notranslate"><span class="pre">INSTALL_NAME_DIR=&quot;&quot;</span></code>
+instead.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of this policy is to use the <code class="docutils literal notranslate"><span class="pre">RPATH</span></code> settings for
+<code class="docutils literal notranslate"><span class="pre">install_name</span></code> on macOS.  The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior of this policy is to ignore
+the <code class="docutils literal notranslate"><span class="pre">RPATH</span></code> settings for <code class="docutils literal notranslate"><span class="pre">install_name</span></code> on macOS.</p>
+<p>This policy was introduced in CMake version 3.9.  CMake version
+ warns when the policy is not set and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.
+Use the <span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code>
+explicitly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

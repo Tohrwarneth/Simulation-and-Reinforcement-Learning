@@ -1,0 +1,247 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindVulkan</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="findvulkan">
+<span id="module:FindVulkan"><!--f--></span><h1>FindVulkan</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.7.</span></p>
+</div>
+<p>Find Vulkan, which is a low-overhead, cross-platform 3D graphics
+and computing API.</p>
+<section id="optional-components">
+<h2>Optional COMPONENTS</h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>This module respects several optional COMPONENTS.
+There are corresponding imported targets for each of these.</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">glslc</span></code></dt><dd><p>The SPIR-V compiler.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code></dt><dd><p>The <code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code> tool.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">glslang</span></code></dt><dd><p>The SPIR-V generator library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">shaderc_combined</span></code></dt><dd><p>The static library for Vulkan shader compilation.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SPIRV-Tools</span></code></dt><dd><p>Tools to process SPIR-V modules.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">MoltenVK</span></code></dt><dd><p>On macOS, an additional component <code class="docutils literal notranslate"><span class="pre">MoltenVK</span></code> is available.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">dxc</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>The DirectX Shader Compiler.</p>
+</dd>
+</dl>
+<p>The <code class="docutils literal notranslate"><span class="pre">glslc</span></code> and <code class="docutils literal notranslate"><span class="pre">glslangValidator</span></code> components are provided even
+if not explicitly requested (for backward compatibility).</p>
+</section>
+<section id="imported-targets">
+<h2>IMPORTED Targets</h2>
+<p>This module defines <span class="target" id="index-0-prop_tgt:IMPORTED"><!--f--></span><a class="reference internal" href="prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> targets if Vulkan has been found:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::Vulkan</span></code></dt><dd><p>The main Vulkan library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::glslc</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>The GLSLC SPIR-V compiler, if it has been found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::Headers</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>Provides just Vulkan headers include paths, if found.  No library is
+included in this target.  This can be useful for applications that
+load Vulkan library dynamically.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::glslangValidator</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.21.</span></p>
+</div>
+<p>The glslangValidator tool, if found.  It is used to compile GLSL and
+HLSL shaders into SPIR-V.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::glslang</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Defined if SDK has the Khronos-reference front-end shader parser and SPIR-V
+generator library (glslang).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::shaderc_combined</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Defined if SDK has the Google static library for Vulkan shader compilation
+(shaderc_combined).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::SPIRV-Tools</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Defined if SDK has the Khronos library to process SPIR-V modules
+(SPIRV-Tools).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::MoltenVK</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Defined if SDK has the Khronos library which implement a subset of Vulkan API
+over Apple Metal graphics framework. (MoltenVK).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::volk</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>Defined if SDK has the Vulkan meta-loader (volk).</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::dxc_lib</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>Defined if SDK has the DirectX shader compiler library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan::dxc_exe</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>Defined if SDK has the DirectX shader compiler CLI tool.</p>
+</dd>
+</dl>
+</section>
+<section id="result-variables">
+<h2>Result Variables</h2>
+<p>This module defines the following variables:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_FOUND</span></code></dt><dd><p>set to true if Vulkan was found</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_INCLUDE_DIRS</span></code></dt><dd><p>include directories for Vulkan</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_LIBRARIES</span></code></dt><dd><p>link against this library to use Vulkan</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_VERSION</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.23.</span></p>
+</div>
+<p>value from <code class="docutils literal notranslate"><span class="pre">vulkan/vulkan_core.h</span></code></p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_glslc_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>True, if the SDK has the glslc executable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_glslangValidator_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>True, if the SDK has the glslangValidator executable.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_glslang_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>True, if the SDK has the glslang library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_shaderc_combined_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>True, if the SDK has the shaderc_combined library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_SPIRV-Tools_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>True, if the SDK has the SPIRV-Tools library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_MoltenVK_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>True, if the SDK has the MoltenVK library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_volk_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>True, if the SDK has the volk library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_dxc_lib_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>True, if the SDK has the DirectX shader compiler library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_dxc_exe_FOUND</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>True, if the SDK has the DirectX shader compiler CLI tool.</p>
+</dd>
+</dl>
+<p>The module will also defines these cache variables:</p>
+<dl>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_INCLUDE_DIR</span></code></dt><dd><p>the Vulkan include directory</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_LIBRARY</span></code></dt><dd><p>the path to the Vulkan library</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_GLSLC_EXECUTABLE</span></code></dt><dd><p>the path to the GLSL SPIR-V compiler</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_GLSLANG_VALIDATOR_EXECUTABLE</span></code></dt><dd><p>the path to the glslangValidator tool</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_glslang_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Path to the glslang library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_shaderc_combined_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Path to the shaderc_combined library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_SPIRV-Tools_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Path to the SPIRV-Tools library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_MoltenVK_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>Path to the MoltenVK library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_volk_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>Path to the volk library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_dxc_LIBRARY</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>Path to the DirectX shader compiler library.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">Vulkan_dxc_EXECUTABLE</span></code></dt><dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.25.</span></p>
+</div>
+<p>Path to the DirectX shader compiler CLI tool.</p>
+</dd>
+</dl>
+</section>
+<section id="hints">
+<h2>Hints</h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.18.</span></p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">VULKAN_SDK</span></code> environment variable optionally specifies the
+location of the Vulkan SDK root directory for the given
+architecture. It is typically set by sourcing the toplevel
+<code class="docutils literal notranslate"><span class="pre">setup-env.sh</span></code> script of the Vulkan SDK directory into the shell
+environment.</p>
+</section>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

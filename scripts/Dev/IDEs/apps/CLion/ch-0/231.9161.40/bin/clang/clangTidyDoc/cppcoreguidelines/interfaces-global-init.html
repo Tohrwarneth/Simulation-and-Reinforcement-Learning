@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - cppcoreguidelines-interfaces-global-init</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="cppcoreguidelines-interfaces-global-init">
+<h1>cppcoreguidelines-interfaces-global-init</h1>
+<p>This check flags initializers of globals that access extern objects,
+and therefore can lead to order-of-initialization problems.</p>
+<p>This rule is part of the “Interfaces” profile of the C++ Core Guidelines, see
+<a class="reference external" href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Ri-global-init">https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Ri-global-init</a></p>
+<p>Note that currently this does not flag calls to non-constexpr functions, and
+therefore globals could still be accessed from functions themselves.</p>
+</section>
+</div></body>
+</html>

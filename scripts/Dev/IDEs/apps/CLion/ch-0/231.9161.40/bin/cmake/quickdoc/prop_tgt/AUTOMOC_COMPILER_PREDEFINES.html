@@ -1,0 +1,50 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AUTOMOC_COMPILER_PREDEFINES</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="automoc-compiler-predefines">
+<span id="prop_tgt:AUTOMOC_COMPILER_PREDEFINES"><!--f--></span><h1>AUTOMOC_COMPILER_PREDEFINES</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.10.</span></p>
+</div>
+<p>Boolean value used by <span class="target" id="index-0-prop_tgt:AUTOMOC"><!--f--></span><a class="reference internal" href="prop_tgt/AUTOMOC.html#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a> to determine if the
+compiler pre definitions file <code class="docutils literal notranslate"><span class="pre">moc_predefs.h</span></code> should be generated.</p>
+<p>CMake generates a <code class="docutils literal notranslate"><span class="pre">moc_predefs.h</span></code> file with compiler pre definitions
+from the output of the command defined in
+<span class="target" id="index-0-variable:CMAKE_&lt;LANG&gt;_COMPILER_PREDEFINES_COMMAND"><!--f--></span><a class="reference internal" href="variable/CMAKE_LANG_COMPILER_PREDEFINES_COMMAND.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_PREDEFINES_COMMAND" title="CMAKE_&lt;LANG&gt;_COMPILER_PREDEFINES_COMMAND"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_COMPILER_PREDEFINES_COMMAND</span></code></a>
+when</p>
+<ul class="simple">
+<li><p><span class="target" id="index-1-prop_tgt:AUTOMOC"><!--f--></span><a class="reference internal" href="prop_tgt/AUTOMOC.html#prop_tgt:AUTOMOC" title="AUTOMOC"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC</span></code></a> is enabled,</p></li>
+<li><p><span class="target" id="index-0-prop_tgt:AUTOMOC_COMPILER_PREDEFINES"><!--f--></span><a class="reference internal" href="#prop_tgt:AUTOMOC_COMPILER_PREDEFINES" title="AUTOMOC_COMPILER_PREDEFINES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC_COMPILER_PREDEFINES</span></code></a> is enabled,</p></li>
+<li><p><span class="target" id="index-1-variable:CMAKE_&lt;LANG&gt;_COMPILER_PREDEFINES_COMMAND"><!--f--></span><a class="reference internal" href="variable/CMAKE_LANG_COMPILER_PREDEFINES_COMMAND.html#variable:CMAKE_&lt;LANG&gt;_COMPILER_PREDEFINES_COMMAND" title="CMAKE_&lt;LANG&gt;_COMPILER_PREDEFINES_COMMAND"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_CXX_COMPILER_PREDEFINES_COMMAND</span></code></a> isn't empty and</p></li>
+<li><p>the Qt version is greater or equal 5.8.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">moc_predefs.h</span></code> file, which is generated in <span class="target" id="index-0-prop_tgt:AUTOGEN_BUILD_DIR"><!--f--></span><a class="reference internal" href="prop_tgt/AUTOGEN_BUILD_DIR.html#prop_tgt:AUTOGEN_BUILD_DIR" title="AUTOGEN_BUILD_DIR"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOGEN_BUILD_DIR</span></code></a>,
+is passed to <code class="docutils literal notranslate"><span class="pre">moc</span></code> as the argument to the <code class="docutils literal notranslate"><span class="pre">--include</span></code> option.</p>
+<p>By default <span class="target" id="index-1-prop_tgt:AUTOMOC_COMPILER_PREDEFINES"><!--f--></span><a class="reference internal" href="#prop_tgt:AUTOMOC_COMPILER_PREDEFINES" title="AUTOMOC_COMPILER_PREDEFINES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">AUTOMOC_COMPILER_PREDEFINES</span></code></a> is initialized from
+<span class="target" id="index-0-variable:CMAKE_AUTOMOC_COMPILER_PREDEFINES"><!--f--></span><a class="reference internal" href="variable/CMAKE_AUTOMOC_COMPILER_PREDEFINES.html#variable:CMAKE_AUTOMOC_COMPILER_PREDEFINES" title="CMAKE_AUTOMOC_COMPILER_PREDEFINES"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_AUTOMOC_COMPILER_PREDEFINES</span></code></a>, which is ON by default.</p>
+<p>See the <span class="target" id="index-0-manual:cmake-qt(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-qt.7.html#manual:cmake-qt(7)" title="cmake-qt(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">cmake-qt(7)</span></code></a> manual for more information on using CMake
+with Qt.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

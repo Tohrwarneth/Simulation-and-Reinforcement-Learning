@@ -1,0 +1,51 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-suspicious-memset-usage</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-suspicious-memset-usage">
+<h1>bugprone-suspicious-memset-usage</h1>
+<p>This check finds <code class="docutils literal notranslate"><span class="pre">memset()</span></code> calls with potential mistakes in their arguments.
+Considering the function as <code class="docutils literal notranslate"><span class="pre">void*</span> <span class="pre">memset(void*</span> <span class="pre">destination,</span> <span class="pre">int</span> <span class="pre">fill_value,</span>
+<span class="pre">size_t</span> <span class="pre">byte_count)</span></code>, the following cases are covered:</p>
+<p><strong>Case 1: Fill value is a character ``’0’``</strong></p>
+<p>Filling up a memory area with ASCII code 48 characters is not customary,
+possibly integer zeroes were intended instead.
+The check offers a replacement of <code class="docutils literal notranslate"><span class="pre">'0'</span></code> with <code class="docutils literal notranslate"><span class="pre">0</span></code>. Memsetting character
+pointers with <code class="docutils literal notranslate"><span class="pre">'0'</span></code> is allowed.</p>
+<p><strong>Case 2: Fill value is truncated</strong></p>
+<p>Memset converts <code class="docutils literal notranslate"><span class="pre">fill_value</span></code> to <code class="docutils literal notranslate"><span class="pre">unsigned</span> <span class="pre">char</span></code> before using it. If
+<code class="docutils literal notranslate"><span class="pre">fill_value</span></code> is out of unsigned character range, it gets truncated
+and memory will not contain the desired pattern.</p>
+<p><strong>Case 3: Byte count is zero</strong></p>
+<p>Calling memset with a literal zero in its <code class="docutils literal notranslate"><span class="pre">byte_count</span></code> argument is likely
+to be unintended and swapped with <code class="docutils literal notranslate"><span class="pre">fill_value</span></code>. The check offers to swap
+these two arguments.</p>
+<p>Corresponding cpplint.py check name: <code class="docutils literal notranslate"><span class="pre">runtime/memset</span></code>.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="kt">void</span><span class="w"> </span><span class="nf">foo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">};</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">ip</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sc">&#39;1&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">cp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">c</span><span class="p">;</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+
+<span class="w">  </span><span class="c1">// Case 1</span>
+<span class="w">  </span><span class="n">memset</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// suspicious</span>
+<span class="w">  </span><span class="n">memset</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span><span class="w"> </span><span class="sc">&#39;0&#39;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// OK</span>
+
+<span class="w">  </span><span class="c1">// Case 2</span>
+<span class="w">  </span><span class="n">memset</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="mh">0xabcd</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">// fill value gets truncated</span>
+<span class="w">  </span><span class="n">memset</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="mh">0x00</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">   </span><span class="c1">// OK</span>
+
+<span class="w">  </span><span class="c1">// Case 3</span>
+<span class="w">  </span><span class="n">memset</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span><span class="w"> </span><span class="n">v</span><span class="p">);</span><span class="w"> </span><span class="c1">// zero length, potentially swapped</span>
+<span class="w">  </span><span class="n">memset</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">);</span><span class="w">           </span><span class="c1">// OK</span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

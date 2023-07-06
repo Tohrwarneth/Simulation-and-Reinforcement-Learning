@@ -1,0 +1,21 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - cppcoreguidelines-pro-type-union-access</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="cppcoreguidelines-pro-type-union-access">
+<h1>cppcoreguidelines-pro-type-union-access</h1>
+<p>This check flags all access to members of unions. Passing unions as a whole is
+not flagged.</p>
+<p>Reading from a union member assumes that member was the last one written, and
+writing to a union member assumes another member with a nontrivial destructor
+had its destructor called. This is fragile because it cannot generally be
+enforced to be safe in the language and so relies on programmer discipline to
+get it right.</p>
+<p>This rule is part of the “Type safety” profile of the C++ Core Guidelines, see
+<a class="reference external" href="https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-unions">https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md#Pro-type-unions</a>.</p>
+</section>
+</div></body>
+</html>

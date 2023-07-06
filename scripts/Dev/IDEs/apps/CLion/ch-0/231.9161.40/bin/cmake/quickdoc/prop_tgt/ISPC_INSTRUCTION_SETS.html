@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ISPC_INSTRUCTION_SETS</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="ispc-instruction-sets">
+<span id="prop_tgt:ISPC_INSTRUCTION_SETS"><!--f--></span><h1>ISPC_INSTRUCTION_SETS</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p>List of instruction set architectures to generate code for.</p>
+<p>This property is initialized by the value of the <span class="target" id="index-0-variable:CMAKE_ISPC_INSTRUCTION_SETS"><!--f--></span><a class="reference internal" href="variable/CMAKE_ISPC_INSTRUCTION_SETS.html#variable:CMAKE_ISPC_INSTRUCTION_SETS" title="CMAKE_ISPC_INSTRUCTION_SETS"><code class="xref cmake cmake-variable docutils literal notranslate"><span class="pre">CMAKE_ISPC_INSTRUCTION_SETS</span></code></a>
+variable if it is set when a target is created.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">ISPC_INSTRUCTION_SETS</span></code> target property must be used when generating for multiple
+instruction sets so that CMake can track what object files will be generated.</p>
+<section id="examples">
+<h2>Examples</h2>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">set_property(</span><span class="no">TARGET</span><span class="w"> </span><span class="nb">tgt</span><span class="w"> </span><span class="no">PROPERTY</span><span class="w"> </span><span class="no">ISPC_INSTRUCTION_SETS</span><span class="w"> </span><span class="nb">avx2-i32x4</span><span class="w"> </span><span class="nb">avx512skx-i32x835</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Generates code for avx2 and avx512skx target architectures.</p>
+</section>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

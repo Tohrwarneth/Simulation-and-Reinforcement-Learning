@@ -1,0 +1,37 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LINK_INTERFACE_MULTIPLICITY</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="link-interface-multiplicity">
+<span id="prop_tgt:LINK_INTERFACE_MULTIPLICITY"><!--f--></span><h1>LINK_INTERFACE_MULTIPLICITY</h1>
+<p>Repetition count for <code class="docutils literal notranslate"><span class="pre">STATIC</span></code> libraries with cyclic dependencies.</p>
+<p>When linking to a <code class="docutils literal notranslate"><span class="pre">STATIC</span></code> library target with cyclic dependencies the
+linker may need to scan more than once through the archives in the
+strongly connected component of the dependency graph.  CMake by
+default constructs the link line so that the linker will scan through
+the component at least twice.  This property specifies the minimum
+number of scans if it is larger than the default.  CMake uses the
+largest value specified by any target in a component.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

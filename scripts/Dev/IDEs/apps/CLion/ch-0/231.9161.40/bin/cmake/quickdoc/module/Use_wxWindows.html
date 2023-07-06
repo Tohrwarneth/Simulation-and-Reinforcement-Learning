@@ -1,0 +1,48 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Use_wxWindows</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="use-wxwindows">
+<span id="module:Use_wxWindows"><!--f--></span><h1>Use_wxWindows</h1>
+<div class="deprecated">
+<p><span class="versionmodified deprecated">Deprecated since version 2.8.10: </span>Use <code class="docutils literal notranslate"><span class="pre">find_package(wxWidgets)</span></code> and <code class="docutils literal notranslate"><span class="pre">include(${wxWidgets_USE_FILE})</span></code> instead.</p>
+</div>
+<p>This convenience include finds if wxWindows is installed and set the
+appropriate libs, incdirs, flags etc.  author Jan Woetzel &lt;jw -at-
+mip.informatik.uni-kiel.de&gt; (07/2003)</p>
+<p>USAGE:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>just include Use_wxWindows.cmake
+in your projects CMakeLists.txt
+</pre></div>
+</div>
+<p>include( ${CMAKE_MODULE_PATH}/Use_wxWindows.cmake)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>if you are sure you need GL then
+</pre></div>
+</div>
+<p>set(WXWINDOWS_USE_GL 1)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>*before* you include this file.
+</pre></div>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

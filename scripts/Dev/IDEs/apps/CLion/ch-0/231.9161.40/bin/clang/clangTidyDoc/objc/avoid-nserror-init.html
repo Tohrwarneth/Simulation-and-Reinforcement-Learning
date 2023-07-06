@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - objc-avoid-nserror-init</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="objc-avoid-nserror-init">
+<h1>objc-avoid-nserror-init</h1>
+<p>Finds improper initialization of <code class="docutils literal notranslate"><span class="pre">NSError</span></code> objects.</p>
+<p>According to Apple developer document, we should always use factory method
+<code class="docutils literal notranslate"><span class="pre">errorWithDomain:code:userInfo:</span></code> to create new NSError objects instead
+of <code class="docutils literal notranslate"><span class="pre">[NSError</span> <span class="pre">alloc]</span> <span class="pre">init]</span></code>. Otherwise it will lead to a warning message
+during runtime.</p>
+<p>The corresponding information about <code class="docutils literal notranslate"><span class="pre">NSError</span></code> creation: <a class="reference external" href="https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ErrorHandlingCocoa/CreateCustomizeNSError/CreateCustomizeNSError.html">https://developer.apple.com/library/content/documentation/Cocoa/Conceptual/ErrorHandlingCocoa/CreateCustomizeNSError/CreateCustomizeNSError.html</a></p>
+</section>
+</div></body>
+</html>

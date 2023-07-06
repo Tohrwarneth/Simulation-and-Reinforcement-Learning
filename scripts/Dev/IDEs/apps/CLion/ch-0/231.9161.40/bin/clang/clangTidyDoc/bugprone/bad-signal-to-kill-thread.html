@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-bad-signal-to-kill-thread</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-bad-signal-to-kill-thread">
+<h1>bugprone-bad-signal-to-kill-thread</h1>
+<p>Finds <code class="docutils literal notranslate"><span class="pre">pthread_kill</span></code> function calls when a thread is terminated by
+raising <code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code> signal and the signal kills the entire process, not
+just the individual thread. Use any signal except <code class="docutils literal notranslate"><span class="pre">SIGTERM</span></code>.</p>
+<p>This check corresponds to the CERT C Coding Standard rule
+<a class="reference external" href="https://wiki.sei.cmu.edu/confluence/display/c/POS44-C.+Do+not+use+signals+to+terminate+threads">POS44-C. Do not use signals to terminate threads</a>.</p>
+</section>
+</div></body>
+</html>

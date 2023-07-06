@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0012</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0012">
+<span id="policy:CMP0012"><!--f--></span><h1>CMP0012</h1>
+<p><span class="target" id="index-0-command:if"><!--f--></span><a class="reference internal" href="command/if.html#command:if" title="if"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if()</span></code></a> recognizes numbers and boolean constants.</p>
+<p>In CMake versions 2.6.4 and lower the <span class="target" id="index-1-command:if"><!--f--></span><a class="reference internal" href="command/if.html#command:if" title="if"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">if()</span></code></a> command implicitly
+dereferenced arguments corresponding to variables, even those named
+like numbers or boolean constants, except for <code class="docutils literal notranslate"><span class="pre">0</span></code> and <code class="docutils literal notranslate"><span class="pre">1</span></code>.  Numbers and
+boolean constants such as <code class="docutils literal notranslate"><span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">false</span></code>, <code class="docutils literal notranslate"><span class="pre">yes</span></code>, <code class="docutils literal notranslate"><span class="pre">no</span></code>, <code class="docutils literal notranslate"><span class="pre">on</span></code>,
+<code class="docutils literal notranslate"><span class="pre">off</span></code>, <code class="docutils literal notranslate"><span class="pre">y</span></code>, <code class="docutils literal notranslate"><span class="pre">n</span></code>, <code class="docutils literal notranslate"><span class="pre">notfound</span></code>, <code class="docutils literal notranslate"><span class="pre">ignore</span></code> (all case insensitive)
+were recognized in some cases but not all.  For example, the code <code class="docutils literal notranslate"><span class="pre">if(TRUE)</span></code>
+might have evaluated as <code class="docutils literal notranslate"><span class="pre">false</span></code>.
+Numbers such as 2 were recognized only in boolean expressions
+like <code class="docutils literal notranslate"><span class="pre">if(NOT</span> <span class="pre">2)</span></code> (leading to <code class="docutils literal notranslate"><span class="pre">false</span></code>) but not as a single-argument like
+<code class="docutils literal notranslate"><span class="pre">if(2)</span></code> (also leading to <code class="docutils literal notranslate"><span class="pre">false</span></code>).  Later versions of CMake prefer to
+treat numbers and boolean constants literally, so they should not be
+used as variable names.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior for this policy is to implicitly dereference
+variables named like numbers and boolean constants.  The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior
+for this policy is to recognize numbers and boolean constants without
+dereferencing variables with such names.</p>
+<p>This policy was introduced in CMake version 2.8.0.  CMake version
+ warns when the policy is not set and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior.  Use
+the <span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code> explicitly.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of a policy is
+<span class="target" id="index-0-manual:cmake-policies(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-policies.7.html#manual:cmake-policies(7)" title="cmake-policies(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">deprecated</span> <span class="pre">by</span> <span class="pre">definition</span></code></a>
+and may be removed in a future version of CMake.</p>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

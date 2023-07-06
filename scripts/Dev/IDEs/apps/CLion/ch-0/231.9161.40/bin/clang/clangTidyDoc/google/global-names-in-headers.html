@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - google-global-names-in-headers</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="google-global-names-in-headers">
+<h1>google-global-names-in-headers</h1>
+<p>Flag global namespace pollution in header files. Right now it only triggers on
+<code class="docutils literal notranslate"><span class="pre">using</span></code> declarations and directives.</p>
+<p>The relevant style guide section is
+<a class="reference external" href="https://google.github.io/styleguide/cppguide.html#Namespaces">https://google.github.io/styleguide/cppguide.html#Namespaces</a>.</p>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-HeaderFileExtensions">
+<span id="cmdoption-arg-headerfileextensions"></span><span class="sig-name descname"><span class="pre">HeaderFileExtensions</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>A comma-separated list of filename extensions of header files (the filename
+extensions should not contain “.” prefix). Default is “h”.
+For header files without an extension, use an empty string (if there are no
+other desired extensions) or leave an empty element in the list. E.g.,
+“h,hh,hpp,hxx,” (note the trailing comma).</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

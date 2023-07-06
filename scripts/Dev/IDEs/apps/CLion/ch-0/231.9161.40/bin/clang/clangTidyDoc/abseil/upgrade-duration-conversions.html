@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - abseil-upgrade-duration-conversions</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="abseil-upgrade-duration-conversions">
+<h1>abseil-upgrade-duration-conversions</h1>
+<p>Finds calls to <code class="docutils literal notranslate"><span class="pre">absl::Duration</span></code> arithmetic operators and factories whose
+argument needs an explicit cast to continue compiling after upcoming API
+changes.</p>
+<p>The operators <code class="docutils literal notranslate"><span class="pre">*=</span></code>, <code class="docutils literal notranslate"><span class="pre">/=</span></code>, <code class="docutils literal notranslate"><span class="pre">*</span></code>, and <code class="docutils literal notranslate"><span class="pre">/</span></code> for <code class="docutils literal notranslate"><span class="pre">absl::Duration</span></code> currently
+accept an argument of class type that is convertible to an arithmetic type. Such
+a call currently converts the value to an <code class="docutils literal notranslate"><span class="pre">int64_t</span></code>, even in a case such as
+<code class="docutils literal notranslate"><span class="pre">std::atomic&lt;float&gt;</span></code> that would result in lossy conversion.</p>
+<p>Additionally, the <code class="docutils literal notranslate"><span class="pre">absl::Duration</span></code> factory functions (<code class="docutils literal notranslate"><span class="pre">absl::Hours</span></code>,
+<code class="docutils literal notranslate"><span class="pre">absl::Minutes</span></code>, etc) currently accept an <code class="docutils literal notranslate"><span class="pre">int64_t</span></code> or a floating-point
+type. Similar to the arithmetic operators, calls with an argument of class type
+that is convertible to an arithmetic type go through the <code class="docutils literal notranslate"><span class="pre">int64_t</span></code> path.</p>
+<p>These operators and factories will be changed to only accept arithmetic types to
+prevent unintended behavior. After these changes are released, passing an
+argument of class type will no longer compile, even if the type is implicitly
+convertible to an arithmetic type.</p>
+<p>Here are example fixes created by this check:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Milliseconds</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+<span class="n">d</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>becomes</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">a</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Milliseconds</span><span class="p">(</span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">));</span><span class="w"></span>
+<span class="n">d</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="k">static_cast</span><span class="o">&lt;</span><span class="kt">int64_t</span><span class="o">&gt;</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Note that this check always adds a cast to <code class="docutils literal notranslate"><span class="pre">int64_t</span></code> in order to preserve the
+current behavior of user code. It is possible that this uncovers unintended
+behavior due to types implicitly convertible to a floating-point type.</p>
+</section>
+</div></body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="interface-link-libraries-direct-exclude">
+<span id="prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE"><!--f--></span><h1>INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.24.</span></p>
+</div>
+<p>List of libraries that consumers of this library should <em>not</em> treat
+as direct link dependencies.</p>
+<p>This target property may be set to <em>exclude</em> items from a dependent
+target's final set of direct link dependencies.  This property is
+processed after the <span class="target" id="index-0-prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT"><!--f--></span><a class="reference internal" href="prop_tgt/INTERFACE_LINK_LIBRARIES_DIRECT.html#prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT" title="INTERFACE_LINK_LIBRARIES_DIRECT"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code></a>
+target property of all other dependencies of the dependent target, so
+exclusion from direct link dependence takes priority over inclusion.</p>
+<p>The initial set of a dependent target's direct link dependencies is
+specified by its <span class="target" id="index-0-prop_tgt:LINK_LIBRARIES"><!--f--></span><a class="reference internal" href="prop_tgt/LINK_LIBRARIES.html#prop_tgt:LINK_LIBRARIES" title="LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">LINK_LIBRARIES</span></code></a> target property.  Indirect
+link dependencies are specified by the transitive closure of the direct
+link dependencies' <span class="target" id="index-0-prop_tgt:INTERFACE_LINK_LIBRARIES"><!--f--></span><a class="reference internal" href="prop_tgt/INTERFACE_LINK_LIBRARIES.html#prop_tgt:INTERFACE_LINK_LIBRARIES" title="INTERFACE_LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES</span></code></a> properties.
+Any link dependency may specify additional direct link dependencies
+using the <span class="target" id="index-1-prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT"><!--f--></span><a class="reference internal" href="prop_tgt/INTERFACE_LINK_LIBRARIES_DIRECT.html#prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT" title="INTERFACE_LINK_LIBRARIES_DIRECT"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code></a> target property.
+The set of direct link dependencies is then filtered to exclude items named
+by any dependency's <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code> target
+property.</p>
+<p>Excluding an item from a dependent target's direct link dependencies
+does not mean the dependent target won't link the item.  The item
+may still be linked as an indirect link dependency via the
+<span class="target" id="index-1-prop_tgt:INTERFACE_LINK_LIBRARIES"><!--f--></span><a class="reference internal" href="prop_tgt/INTERFACE_LINK_LIBRARIES.html#prop_tgt:INTERFACE_LINK_LIBRARIES" title="INTERFACE_LINK_LIBRARIES"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES</span></code></a> property on other dependencies.</p>
+<p>The value of <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code> may use
+<span class="target" id="index-0-manual:cmake-generator-expressions(7)"><!--f--></span><a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-generator-expressions.7.html#manual:cmake-generator-expressions(7)" title="cmake-generator-expressions(7)"><code class="xref cmake cmake-manual docutils literal notranslate"><span class="pre">generator</span> <span class="pre">expressions</span></code></a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT_EXCLUDE</span></code> target property is intended for
+advanced use cases such as injection of static plugins into a consuming
+executable.  It should not be used as a substitute for organizing
+normal calls to <span class="target" id="index-0-command:target_link_libraries"><!--f--></span><a class="reference internal" href="command/target_link_libraries.html#command:target_link_libraries" title="target_link_libraries"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">target_link_libraries()</span></code></a>.</p>
+</div>
+<p>See the <span class="target" id="index-2-prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT"><!--f--></span><a class="reference internal" href="prop_tgt/INTERFACE_LINK_LIBRARIES_DIRECT.html#prop_tgt:INTERFACE_LINK_LIBRARIES_DIRECT" title="INTERFACE_LINK_LIBRARIES_DIRECT"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">INTERFACE_LINK_LIBRARIES_DIRECT</span></code></a> target property
+documentation for more details and examples.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

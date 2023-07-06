@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindSDL_sound</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="findsdl-sound">
+<span id="module:FindSDL_sound"><!--f--></span><h1>FindSDL_sound</h1>
+<p>Locates the SDL_sound library</p>
+<p>This module depends on SDL being found and must be called AFTER
+FindSDL.cmake is called.</p>
+<p>This module defines</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SDL_SOUND_INCLUDE_DIR, where to find SDL_sound.h
+SDL_SOUND_FOUND, if false, do not try to link to SDL_sound
+SDL_SOUND_LIBRARIES, this contains the list of libraries that you need
+  to link against.
+SDL_SOUND_EXTRAS, this is an optional variable for you to add your own
+  flags to SDL_SOUND_LIBRARIES. This is prepended to SDL_SOUND_LIBRARIES.
+  This is available mostly for cases this module failed to anticipate for
+  and you must add additional flags. This is marked as ADVANCED.
+SDL_SOUND_VERSION_STRING, human-readable string containing the
+  version of SDL_sound
+</pre></div>
+</div>
+<p>This module also defines (but you shouldn't need to use directly)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>SDL_SOUND_LIBRARY, the name of just the SDL_sound library you would link
+against. Use SDL_SOUND_LIBRARIES for you link instructions and not this one.
+</pre></div>
+</div>
+<p>And might define the following as needed</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>MIKMOD_LIBRARY
+MODPLUG_LIBRARY
+OGG_LIBRARY
+VORBIS_LIBRARY
+SMPEG_LIBRARY
+FLAC_LIBRARY
+SPEEX_LIBRARY
+</pre></div>
+</div>
+<p>Typically, you should not use these variables directly, and you should
+use SDL_SOUND_LIBRARIES which contains SDL_SOUND_LIBRARY and the other
+audio libraries (if needed) to successfully compile on your system.</p>
+<p>Responds to the $SDLDIR and $SDLSOUNDDIR environmental variable that
+would correspond to the ./configure --prefix=$SDLDIR used in building
+SDL.</p>
+<p>On OSX, this will prefer the Framework version (if found) over others.
+People will have to manually change the cache values of SDL_LIBRARY to
+override this selectionor set the CMake environment CMAKE_INCLUDE_PATH
+to modify the search paths.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

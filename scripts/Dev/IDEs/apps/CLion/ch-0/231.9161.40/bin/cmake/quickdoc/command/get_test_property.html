@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>get_test_property</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="get-test-property">
+<span id="command:get_test_property"><!--f--></span><h1>get_test_property</h1>
+<p>Get a property of the test.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">get_test_property(</span><span class="nb">test</span><span class="w"> </span><span class="nb">property</span><span class="w"> </span><span class="no">VAR</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Get a property from the test.  The value of the property is stored in
+the variable <code class="docutils literal notranslate"><span class="pre">VAR</span></code>.  If the test property is not found, the behavior
+depends on whether it has been defined to be an <code class="docutils literal notranslate"><span class="pre">INHERITED</span></code> property
+or not (see <span class="target" id="index-0-command:define_property"><!--f--></span><a class="reference internal" href="command/define_property.html#command:define_property" title="define_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">define_property()</span></code></a>).  Non-inherited properties will
+set <code class="docutils literal notranslate"><span class="pre">VAR</span></code> to &quot;NOTFOUND&quot;, whereas inherited properties will search the
+relevant parent scope as described for the <span class="target" id="index-1-command:define_property"><!--f--></span><a class="reference internal" href="command/define_property.html#command:define_property" title="define_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">define_property()</span></code></a>
+command and if still unable to find the property, <code class="docutils literal notranslate"><span class="pre">VAR</span></code> will be set to
+an empty string.</p>
+<p>For a list of standard properties you can type
+<a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake.1.html#cmdoption-cmake-help-property-list"><code class="xref std std-option docutils literal notranslate"><span class="pre">cmake</span> <span class="pre">--help-property-list</span></code></a>.</p>
+<p>See also the more general <span class="target" id="index-0-command:get_property"><!--f--></span><a class="reference internal" href="command/get_property.html#command:get_property" title="get_property"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">get_property()</span></code></a> command.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

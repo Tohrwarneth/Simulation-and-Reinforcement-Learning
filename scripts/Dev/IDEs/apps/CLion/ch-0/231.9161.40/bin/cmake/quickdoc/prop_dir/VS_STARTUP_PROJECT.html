@@ -1,0 +1,44 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VS_STARTUP_PROJECT</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="vs-startup-project">
+<span id="prop_dir:VS_STARTUP_PROJECT"><!--f--></span><h1>VS_STARTUP_PROJECT</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.6.</span></p>
+</div>
+<p>Specify the default startup project in a Visual Studio solution.</p>
+<p>The <a class="reference internal" href="https://cmake.org/cmake/help/v3.24/manual/cmake-generators.7.html#visual-studio-generators"><span class="std std-ref">Visual Studio Generators</span></a> create a <code class="docutils literal notranslate"><span class="pre">.sln</span></code> file for each directory
+whose <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file calls the <span class="target" id="index-0-command:project"><!--f--></span><a class="reference internal" href="command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> command.  Set this
+property in the same directory as a <span class="target" id="index-1-command:project"><!--f--></span><a class="reference internal" href="command/project.html#command:project" title="project"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">project()</span></code></a> command call (e.g. in
+the top-level <code class="docutils literal notranslate"><span class="pre">CMakeLists.txt</span></code> file) to specify the default startup project
+for the corresponding solution file.</p>
+<p>The property must be set to the name of an existing target.  This
+will cause that project to be listed first in the generated solution
+file causing Visual Studio to make it the startup project if the
+solution has never been opened before.</p>
+<p>If this property is not specified, then the <code class="docutils literal notranslate"><span class="pre">ALL_BUILD</span></code> project
+will be the default.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

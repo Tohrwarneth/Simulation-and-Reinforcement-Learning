@@ -1,0 +1,56 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindosgDB</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="findosgdb">
+<span id="module:FindosgDB"><!--f--></span><h1>FindosgDB</h1>
+<p>This is part of the <code class="docutils literal notranslate"><span class="pre">Findosg*</span></code> suite used to find OpenSceneGraph
+components.  Each component is separate and you must opt in to each
+module.  You must also opt into OpenGL and OpenThreads (and Producer
+if needed) as these modules won't do it for you.  This is to allow you
+control over your own system piece by piece in case you need to opt
+out of certain components or change the Find behavior for a particular
+module (perhaps because the default <span class="target" id="index-0-module:FindOpenGL"><!--f--></span><a class="reference internal" href="module/FindOpenGL.html#module:FindOpenGL" title="FindOpenGL"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindOpenGL</span></code></a> module doesn't
+work with your system as an example).  If you want to use a more
+convenient module that includes everything, use the
+<span class="target" id="index-0-module:FindOpenSceneGraph"><!--f--></span><a class="reference internal" href="module/FindOpenSceneGraph.html#module:FindOpenSceneGraph" title="FindOpenSceneGraph"><code class="xref cmake cmake-module docutils literal notranslate"><span class="pre">FindOpenSceneGraph</span></code></a> instead of the <code class="docutils literal notranslate"><span class="pre">Findosg*.cmake</span></code> modules.</p>
+<p>Locate osgDB This module defines:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">OSGDB_FOUND</span></code></dt><dd><p>Was osgDB found?</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OSGDB_INCLUDE_DIR</span></code></dt><dd><p>Where to find the headers</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OSGDB_LIBRARIES</span></code></dt><dd><p>The libraries to link against for the osgDB</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OSGDB_LIBRARY</span></code></dt><dd><p>The osgDB library</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">OSGDB_LIBRARY_DEBUG</span></code></dt><dd><p>The osgDB debug library</p>
+</dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">$OSGDIR</span></code> is an environment variable that would correspond to:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>./configure --prefix=$OSGDIR used in building osg.
+</pre></div>
+</div>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-unused-raii</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-unused-raii">
+<h1>bugprone-unused-raii</h1>
+<p>Finds temporaries that look like RAII objects.</p>
+<p>The canonical example for this is a scoped lock.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">scoped_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">global_mutex</span><span class="p">);</span><span class="w"></span>
+<span class="w">  </span><span class="n">critical_section</span><span class="p">();</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>The destructor of the scoped_lock is called before the <code class="docutils literal notranslate"><span class="pre">critical_section</span></code> is
+entered, leaving it unprotected.</p>
+<p>We apply a number of heuristics to reduce the false positive count of this
+check:</p>
+<ul class="simple">
+<li><p>Ignore code expanded from macros. Testing frameworks make heavy use of this.</p></li>
+<li><p>Ignore types with trivial destructors. They are very unlikely to be RAII
+objects and there’s no difference when they are deleted.</p></li>
+<li><p>Ignore objects at the end of a compound statement (doesn’t change behavior).</p></li>
+<li><p>Ignore objects returned from a call.</p></li>
+</ul>
+</section>
+</div></body>
+</html>

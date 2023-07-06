@@ -1,0 +1,40 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SKIP_PRECOMPILE_HEADERS</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="skip-precompile-headers">
+<span id="prop_sf:SKIP_PRECOMPILE_HEADERS"><!--f--></span><h1>SKIP_PRECOMPILE_HEADERS</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.16.</span></p>
+</div>
+<p>Is this source file skipped by <span class="target" id="index-0-prop_tgt:PRECOMPILE_HEADERS"><!--f--></span><a class="reference internal" href="prop_tgt/PRECOMPILE_HEADERS.html#prop_tgt:PRECOMPILE_HEADERS" title="PRECOMPILE_HEADERS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PRECOMPILE_HEADERS</span></code></a> feature.</p>
+<p>This property helps with build problems that one would run into
+when using the <span class="target" id="index-1-prop_tgt:PRECOMPILE_HEADERS"><!--f--></span><a class="reference internal" href="prop_tgt/PRECOMPILE_HEADERS.html#prop_tgt:PRECOMPILE_HEADERS" title="PRECOMPILE_HEADERS"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">PRECOMPILE_HEADERS</span></code></a> feature.</p>
+<p>One example would be the usage of Objective-C (<code class="docutils literal notranslate"><span class="pre">*.m</span></code>) files, and
+Objective-C++ (<code class="docutils literal notranslate"><span class="pre">*.mm</span></code>) files, which lead to compilation failure
+because they are treated (in case of Ninja / Makefile generator)
+as C, and CXX respectively. The precompile headers are not
+compatible between languages.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - readability-non-const-parameter</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="readability-non-const-parameter">
+<h1>readability-non-const-parameter</h1>
+<p>The check finds function parameters of a pointer type that could be changed to
+point to a constant type instead.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">const</span></code> is used properly, many mistakes can be avoided. Advantages when
+using <code class="docutils literal notranslate"><span class="pre">const</span></code> properly:</p>
+<ul class="simple">
+<li><p>prevent unintentional modification of data;</p></li>
+<li><p>get additional warnings such as using uninitialized data;</p></li>
+<li><p>make it easier for developers to see possible side effects.</p></li>
+</ul>
+<p>This check is not strict about constness, it only warns when the constness will
+make the function interface safer.</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// warning here; the declaration &quot;const char *p&quot; would make the function</span>
+<span class="c1">// interface safer.</span>
+<span class="kt">char</span><span class="w"> </span><span class="nf">f1</span><span class="p">(</span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// no warning; the declaration could be more const &quot;const int * const p&quot; but</span>
+<span class="c1">// that does not make the function interface safer.</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">f2</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// no warning; making x const does not make the function interface safer</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">f3</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// no warning; Technically, *p can be const (&quot;const struct S *p&quot;). But making</span>
+<span class="c1">// *p const could be misleading. People might think that it&#39;s safe to pass</span>
+<span class="c1">// const data to this function.</span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">S</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">f3</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">S</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+
+<span class="c1">// no warning; p is referenced by an lvalue.</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">f4</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="o">&amp;</span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

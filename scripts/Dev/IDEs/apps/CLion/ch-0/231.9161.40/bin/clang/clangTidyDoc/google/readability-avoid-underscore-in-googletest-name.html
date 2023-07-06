@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - google-readability-avoid-underscore-in-googletest-name</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="google-readability-avoid-underscore-in-googletest-name">
+<h1>google-readability-avoid-underscore-in-googletest-name</h1>
+<p>Checks whether there are underscores in googletest test and test case names in
+test macros:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TEST</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TEST_F</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TEST_P</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TYPED_TEST</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TYPED_TEST_P</span></code></p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">FRIEND_TEST</span></code> macro is not included.</p>
+<p>For example:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="n">TEST</span><span class="p">(</span><span class="n">TestCaseName</span><span class="p">,</span><span class="w"> </span><span class="n">Illegal_TestName</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="n">TEST</span><span class="p">(</span><span class="n">Illegal_TestCaseName</span><span class="p">,</span><span class="w"> </span><span class="n">TestName</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+</pre></div>
+</div>
+<p>would trigger the check. <a class="reference external" href="https://google.github.io/googletest/faq.html#why-should-test-suite-names-and-test-names-not-contain-underscore">Underscores are not allowed</a> in test names nor test
+case names.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">DISABLED_</span></code> prefix, which may be used to <a class="reference external" href="https://google.github.io/googletest/advanced.html#temporarily-disabling-tests">disable individual tests</a>, is
+ignored when checking test names, but the rest of the rest of the test name is
+still checked.</p>
+<p>This check does not propose any fixes.</p>
+</section>
+</div></body>
+</html>

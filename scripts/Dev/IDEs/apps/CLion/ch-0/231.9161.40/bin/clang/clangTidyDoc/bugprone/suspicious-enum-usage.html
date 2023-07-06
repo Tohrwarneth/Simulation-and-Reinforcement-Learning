@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - bugprone-suspicious-enum-usage</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="bugprone-suspicious-enum-usage">
+<h1>bugprone-suspicious-enum-usage</h1>
+<p>The checker detects various cases when an enum is probably misused (as a bitmask
+).</p>
+<ol class="arabic simple">
+<li><p>When “ADD” or “bitwise OR” is used between two enum which come from different
+types and these types value ranges are not disjoint.</p></li>
+</ol>
+<p>The following cases will be investigated only using <a class="reference internal" href="#cmdoption-arg-StrictMode"><code class="xref std std-option docutils literal notranslate"><span class="pre">StrictMode</span></code></a>. We
+regard the enum as a (suspicious)
+bitmask if the three conditions below are true at the same time:</p>
+<ul class="simple">
+<li><p>at most half of the elements of the enum are non pow-of-2 numbers (because of
+short enumerations)</p></li>
+<li><p>there is another non pow-of-2 number than the enum constant representing all
+choices (the result “bitwise OR” operation of all enum elements)</p></li>
+<li><p>enum type variable/enumconstant is used as an argument of a <cite>+</cite> or “bitwise OR
+“ operator</p></li>
+</ul>
+<p>So whenever the non pow-of-2 element is used as a bitmask element we diagnose a
+misuse and give a warning.</p>
+<ol class="arabic simple" start="2">
+<li><p>Investigating the right hand side of <cite>+=</cite> and <cite>|=</cite> operator.</p></li>
+<li><p>Check only the enum value side of a <cite>|</cite> and <cite>+</cite> operator if one of them is not
+enum val.</p></li>
+<li><p>Check both side of <cite>|</cite> or <cite>+</cite> operator where the enum values are from the
+same enum type.</p></li>
+</ol>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">D</span><span class="p">,</span><span class="w"> </span><span class="n">E</span><span class="p">,</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="k">enum</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">G</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">H</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="n">I</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">12</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+
+<span class="kt">unsigned</span><span class="w"> </span><span class="n">flag</span><span class="p">;</span><span class="w"></span>
+<span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"></span>
+<span class="w">    </span><span class="n">A</span><span class="w"> </span><span class="o">|</span><span class="w"></span>
+<span class="w">    </span><span class="n">H</span><span class="p">;</span><span class="w"> </span><span class="c1">// OK, disjoint value intervals in the enum types -&gt;probably good use.</span>
+<span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">B</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">F</span><span class="p">;</span><span class="w"> </span><span class="c1">// Warning, have common values so they are probably misused.</span>
+
+<span class="c1">// Case 2:</span>
+<span class="k">enum</span><span class="w"> </span><span class="nc">Bitmask</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">D</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">E</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">F</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">G</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">31</span><span class="w"> </span><span class="c1">// OK, real bitmask.</span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="k">enum</span><span class="w"> </span><span class="nc">Almostbitmask</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="n">AA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">BB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">CC</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">DD</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">EE</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">FF</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="n">GG</span><span class="w"> </span><span class="c1">// Problem, forgot to initialize.</span>
+<span class="p">};</span><span class="w"></span>
+
+<span class="kt">unsigned</span><span class="w"> </span><span class="n">flag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="n">flag</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="n">E</span><span class="p">;</span><span class="w"> </span><span class="c1">// OK.</span>
+<span class="n">flag</span><span class="w"> </span><span class="o">|=</span><span class="w"></span>
+<span class="w">    </span><span class="n">EE</span><span class="p">;</span><span class="w"> </span><span class="c1">// Warning at the decl, and note that it was used here as a bitmask.</span>
+</pre></div>
+</div>
+<section id="options">
+<h2>Options</h2>
+<dl class="std option">
+<dt class="sig sig-object std" id="cmdoption-arg-StrictMode">
+<span id="cmdoption-arg-strictmode"></span><span class="sig-name descname"><span class="pre">StrictMode</span></span><span class="sig-prename descclassname"></span></dt>
+<dd><p>Default value: 0.
+When non-null the suspicious bitmask usage will be investigated additionally
+to the different enum usage check.</p>
+</dd></dl>
+
+</section>
+</section>
+</div></body>
+</html>

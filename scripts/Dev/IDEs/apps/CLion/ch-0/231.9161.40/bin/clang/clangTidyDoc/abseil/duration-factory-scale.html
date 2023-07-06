@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - abseil-duration-factory-scale</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="abseil-duration-factory-scale">
+<h1>abseil-duration-factory-scale</h1>
+<p>Checks for cases where arguments to <code class="docutils literal notranslate"><span class="pre">absl::Duration</span></code> factory functions are
+scaled internally and could be changed to a different factory function. This
+check also looks for arguments with a zero value and suggests using
+<code class="docutils literal notranslate"><span class="pre">absl::ZeroDuration()</span></code> instead.</p>
+<p>Examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Original - Internal multiplication.</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">x</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="mi">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Suggested - Use absl::Minutes instead.</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Minutes</span><span class="p">(</span><span class="n">x</span><span class="p">);</span><span class="w"></span>
+
+
+<span class="c1">// Original - Internal division.</span>
+<span class="kt">int</span><span class="w"> </span><span class="n">y</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Milliseconds</span><span class="p">(</span><span class="n">y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000.</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Suggested - Use absl:::Seconds instead.</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="n">y</span><span class="p">);</span><span class="w"></span>
+
+
+<span class="c1">// Original - Zero-value argument.</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Hours</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Suggested = Use absl::ZeroDuration instead</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">ZeroDuration</span><span class="p">();</span><span class="w"></span>
+</pre></div>
+</div>
+</section>
+</div></body>
+</html>

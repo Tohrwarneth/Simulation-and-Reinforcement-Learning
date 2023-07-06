@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>create_test_sourcelist</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="create-test-sourcelist">
+<span id="command:create_test_sourcelist"><!--f--></span><h1>create_test_sourcelist</h1>
+<p>Create a test driver and source list for building test programs.</p>
+<div class="highlight-cmake notranslate"><div class="highlight"><pre><span></span><span class="nf">create_test_sourcelist(</span><span class="nb">sourceListName</span><span class="w"> </span><span class="nb">driverName</span><span class="w"></span>
+<span class="w">                       </span><span class="nb">test1</span><span class="w"> </span><span class="nb">test2</span><span class="w"> </span><span class="nb">test3</span><span class="w"></span>
+<span class="w">                       </span><span class="no">EXTRA_INCLUDE</span><span class="w"> </span><span class="nb">include.h</span><span class="w"></span>
+<span class="w">                       </span><span class="no">FUNCTION</span><span class="w"> </span><span class="nb">function</span><span class="nf">)</span><span class="w"></span>
+</pre></div>
+</div>
+<p>A test driver is a program that links together many small tests into a
+single executable.  This is useful when building static executables
+with large libraries to shrink the total required size.  The list of
+source files needed to build the test driver will be in
+<code class="docutils literal notranslate"><span class="pre">sourceListName</span></code>.  <code class="docutils literal notranslate"><span class="pre">driverName</span></code> is the name of the test driver program.
+The rest of the arguments consist of a list of test source files, can
+be semicolon separated.  Each test source file should have a function
+in it that is the same name as the file with no extension (foo.cxx
+should have int foo(int, char*[]);) <code class="docutils literal notranslate"><span class="pre">driverName</span></code> will be able to call
+each of the tests by name on the command line.  If <code class="docutils literal notranslate"><span class="pre">EXTRA_INCLUDE</span></code> is
+specified, then the next argument is included into the generated file.
+If <code class="docutils literal notranslate"><span class="pre">FUNCTION</span></code> is specified, then the next argument is taken as a
+function name that is passed a pointer to ac and av.  This can be used
+to add extra command line processing to each test.  The
+<code class="docutils literal notranslate"><span class="pre">CMAKE_TESTDRIVER_BEFORE_TESTMAIN</span></code> cmake variable can be set to
+have code that will be placed directly before calling the test main function.
+<code class="docutils literal notranslate"><span class="pre">CMAKE_TESTDRIVER_AFTER_TESTMAIN</span></code> can be set to have code that
+will be placed directly after the call to the test main function.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

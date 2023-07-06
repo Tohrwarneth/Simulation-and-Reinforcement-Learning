@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - readability-convert-member-functions-to-static</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="readability-convert-member-functions-to-static">
+<h1>readability-convert-member-functions-to-static</h1>
+<p>Finds non-static member functions that can be made <code class="docutils literal notranslate"><span class="pre">static</span></code>
+because the functions don’t use <code class="docutils literal notranslate"><span class="pre">this</span></code>.</p>
+<p>After applying modifications as suggested by the check, running the check again
+might find more opportunities to mark member functions <code class="docutils literal notranslate"><span class="pre">static</span></code>.</p>
+<p>After making a member function <code class="docutils literal notranslate"><span class="pre">static</span></code>, you might want to run the check
+<a class="reference external" href="../readability/static-accessed-through-instance.html">readability-static-accessed-through-instance</a> to replace calls like
+<code class="docutils literal notranslate"><span class="pre">Instance.method()</span></code> by <code class="docutils literal notranslate"><span class="pre">Class::method()</span></code>.</p>
+</section>
+</div></body>
+</html>

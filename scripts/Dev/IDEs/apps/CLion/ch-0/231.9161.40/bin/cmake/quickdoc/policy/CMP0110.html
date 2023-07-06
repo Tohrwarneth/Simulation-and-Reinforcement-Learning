@@ -1,0 +1,49 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CMP0110</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="cmp0110">
+<span id="policy:CMP0110"><!--f--></span><h1>CMP0110</h1>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.19.</span></p>
+</div>
+<p><span class="target" id="index-0-command:add_test"><!--f--></span><a class="reference internal" href="command/add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a> supports arbitrary characters in test names.</p>
+<p><span class="target" id="index-1-command:add_test"><!--f--></span><a class="reference internal" href="command/add_test.html#command:add_test" title="add_test"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">add_test()</span></code></a> can now (officially) create tests with whitespace and
+other special characters in its name.  Before CMake version 3.19 that was not
+allowed, however, it was possible to work around this limitation by explicitly
+putting escaped quotes around the test's name in the <code class="docutils literal notranslate"><span class="pre">add_test</span></code> command.</p>
+<p>Although never officially supported several projects in the wild found and
+implemented this workaround.  However, the new change which officially allows
+the <code class="docutils literal notranslate"><span class="pre">add_test</span></code> command to support whitespace and other special characters in
+test names now breaks that workaround.  In order for these projects to work
+smoothly with newer CMake versions, this policy was introduced.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior of this policy is to still prevent <code class="docutils literal notranslate"><span class="pre">add_test</span></code> from
+handling whitespace and special characters properly (if not using the
+mentioned workaround).  The <code class="docutils literal notranslate"><span class="pre">NEW</span></code> behavior on the other hand allows names
+with whitespace and special characters for tests created by <code class="docutils literal notranslate"><span class="pre">add_test</span></code>.</p>
+<p>This policy was introduced in CMake version 3.19.  CMake version 
+warns when the policy is not set and uses <code class="docutils literal notranslate"><span class="pre">OLD</span></code> behavior. Use the
+<span class="target" id="index-0-command:cmake_policy"><!--f--></span><a class="reference internal" href="command/cmake_policy.html#command:cmake_policy" title="cmake_policy"><code class="xref cmake cmake-command docutils literal notranslate"><span class="pre">cmake_policy()</span></code></a> command to set it to <code class="docutils literal notranslate"><span class="pre">OLD</span></code> or <code class="docutils literal notranslate"><span class="pre">NEW</span></code> explicitly.</p>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>

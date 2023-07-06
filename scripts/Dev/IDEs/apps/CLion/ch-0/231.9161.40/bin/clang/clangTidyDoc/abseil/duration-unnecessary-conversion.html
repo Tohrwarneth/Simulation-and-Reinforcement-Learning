@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>clang-tidy - abseil-duration-unnecessary-conversion</title>
+	/* CLION CLANG-TIDY DOCUMENTATION CSS PLACEHOLDER */
+  </head>
+  <body><div class="content"><section id="abseil-duration-unnecessary-conversion">
+<h1>abseil-duration-unnecessary-conversion</h1>
+<p>Finds and fixes cases where <code class="docutils literal notranslate"><span class="pre">absl::Duration</span></code> values are being converted to
+numeric types and back again.</p>
+<p>Floating-point examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Original - Conversion to double and back again</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">ToDoubleSeconds</span><span class="p">(</span><span class="n">d1</span><span class="p">));</span><span class="w"></span>
+
+<span class="c1">// Suggestion - Remove unnecessary conversions</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// Original - Division to convert to double and back again</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">FDivDuration</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="mi">1</span><span class="p">)));</span><span class="w"></span>
+
+<span class="c1">// Suggestion - Remove division and conversion</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Integer examples:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Original - Conversion to integer and back again</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Hours</span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">ToInt64Hours</span><span class="p">(</span><span class="n">d1</span><span class="p">));</span><span class="w"></span>
+
+<span class="c1">// Suggestion - Remove unnecessary conversions</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span><span class="w"></span>
+
+<span class="c1">// Original - Integer division followed by conversion</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="n">d1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="mi">1</span><span class="p">));</span><span class="w"></span>
+
+<span class="c1">// Suggestion - Remove division and conversion</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Unwrapping scalar operations:</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// Original - Multiplication by a scalar</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d1</span><span class="p">;</span><span class="w"></span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">absl</span><span class="o">::</span><span class="n">Seconds</span><span class="p">(</span><span class="n">absl</span><span class="o">::</span><span class="n">ToInt64Seconds</span><span class="p">(</span><span class="n">d1</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">);</span><span class="w"></span>
+
+<span class="c1">// Suggestion - Remove unnecessary conversion</span>
+<span class="n">absl</span><span class="o">::</span><span class="n">Duration</span><span class="w"> </span><span class="n">d2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">d1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"></span>
+</pre></div>
+</div>
+<p>Note: Converting to an integer and back to an <code class="docutils literal notranslate"><span class="pre">absl::Duration</span></code> might be a
+truncating operation if the value is not aligned to the scale of conversion.
+In the rare case where this is the intended result, callers should use
+<code class="docutils literal notranslate"><span class="pre">absl::Trunc</span></code> to truncate explicitly.</p>
+</section>
+</div></body>
+</html>

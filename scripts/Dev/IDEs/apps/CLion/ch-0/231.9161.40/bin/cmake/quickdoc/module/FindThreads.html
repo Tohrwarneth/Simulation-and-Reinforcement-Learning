@@ -1,0 +1,76 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FindThreads</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css" />
+    <style type="text/css">
+      /* CLION CMAKE DOCUMENTATION CSS PLACEHOLDER */
+    </style>
+  </head>
+  <body>
+    <div class="document">
+
+      <div class="documentwrapper">
+          <div class="body">
+            
+              <section id="findthreads">
+<span id="module:FindThreads"><!--f--></span><h1>FindThreads</h1>
+<p>This module determines the thread library of the system.</p>
+<section id="imported-targets">
+<h2>Imported Targets</h2>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>This module defines the following <span class="target" id="index-0-prop_tgt:IMPORTED"><!--f--></span><a class="reference internal" href="prop_tgt/IMPORTED.html#prop_tgt:IMPORTED" title="IMPORTED"><code class="xref cmake cmake-prop_tgt docutils literal notranslate"><span class="pre">IMPORTED</span></code></a> target:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">Threads::Threads</span></code></dt><dd><p>The thread library, if found.</p>
+</dd>
+</dl>
+</section>
+<section id="result-variables">
+<h2>Result Variables</h2>
+<p>The following variables are set:</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">Threads_FOUND</span></code></dt><dd><p>If a supported thread library was found.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_THREAD_LIBS_INIT</span></code></dt><dd><p>The thread library to use. This may be empty if the thread functions
+are provided by the system libraries and no special flags are needed
+to use them.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_USE_WIN32_THREADS_INIT</span></code></dt><dd><p>If the found thread library is the win32 one.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_USE_PTHREADS_INIT</span></code></dt><dd><p>If the found thread library is pthread compatible.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">CMAKE_HP_PTHREADS_INIT</span></code></dt><dd><p>If the found thread library is the HP thread library.</p>
+</dd>
+</dl>
+</section>
+<section id="variables-affecting-behavior">
+<h2>Variables Affecting Behavior</h2>
+<dl class="cmake variable">
+<dt class="sig sig-object cmake" id="variable:THREADS_PREFER_PTHREAD_FLAG">
+<span class="sig-name descname"><span class="pre">THREADS_PREFER_PTHREAD_FLAG</span></span></dt>
+<dd><div class="versionadded">
+<p><span class="versionmodified added">New in version 3.1.</span></p>
+</div>
+<p>If the use of the -pthread compiler and linker flag is preferred then
+the caller can set this variable to TRUE. The compiler flag can only be
+used with the imported target. Use of both the imported target as well
+as this switch is highly recommended for new code.</p>
+<p>This variable has no effect if the system libraries provide the
+thread functions, i.e. when <code class="docutils literal notranslate"><span class="pre">CMAKE_THREAD_LIBS_INIT</span></code> will be empty.</p>
+</dd></dl>
+
+</section>
+</section>
+
+            
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
