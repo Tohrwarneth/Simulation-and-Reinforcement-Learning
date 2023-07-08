@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="reinforcement-pdf" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="$PROJECT_DIR$/scripts/build-pdf.ps1" scriptParameters="-OD &quot;../generated/reinforcement&quot; -MF &quot;../paper/reinforcement/Reinforcement.md&quot; -FN &quot;Reinforcement&quot; -ID &quot;../paper/reinforcement/images&quot; -hsTemplate -SR &quot;../paper/reinforcement/chapters&quot;  overview.md konzept.md" workingDirectory="$ProjectFileDir$/$FileDirName$" executablePath="C:/Program Files/PowerShell/7/pwsh.exe">
+  <configuration default="false" name="reinforcement-pdf" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="$PROJECT_DIR$/scripts/build-pdf.ps1" scriptParameters="-OD &quot;../generated/reinforcement&quot; -MF &quot;../paper/reinforcement/Reinforcement.md&quot; -FN &quot;Reinforcement&quot; -ID &quot;../paper/reinforcement/images&quot; -hsTemplate -SR &quot;../paper/reinforcement/chapters&quot;  overview.md konzept.md" workingDirectory="$ProjectFileDir$/scripts" executablePath="C:/Program Files/PowerShell/7/pwsh.exe">
     <envs />
     <method v="2" />
   </configuration>
