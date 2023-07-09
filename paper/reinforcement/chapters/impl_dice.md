@@ -1,4 +1,4 @@
-# Implementierung nach Zombie Dice Vorbild
+# Implementierung nach Zombie Dice
 
 Die erste Implementierung eines PPO-Algorithmus basiert auf die Implementierung des Professors Dr. C. Lürig für das
 Spiel Zombie Dice. Dessen Netz besteht aus verschiedenen Linear Layers und verwendet die Leaky

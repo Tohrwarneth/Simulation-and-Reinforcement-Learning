@@ -1,0 +1,1 @@
+# Trainingsergebnisse nach Neuralnet

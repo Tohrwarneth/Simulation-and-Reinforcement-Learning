@@ -6,3 +6,5 @@ auf die Gym Bibliothek zurückgegriffen, welche kleine Beispielsimulationen bere
 Reinforcement Learner trainieren kann.
 
 ## Trainingsprozess nach Neuralnet
+
+Der Reinforcement Learner von Neuralnet basiert auf die in Kapitel \ref{formel_OpenAI} gezeigte Formel von OpenAI. 

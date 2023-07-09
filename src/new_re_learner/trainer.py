@@ -25,7 +25,7 @@ class PPOTrainer:
         N = (24 * 60) / 8  # learn after N steps
         # N = 20  # learn after N steps
         agent = self.get_new_actor(sim)
-        n_games = 300
+        n_games = 320
         # n_games = 300
 
         figure_file = 'images/train_phill.png'
