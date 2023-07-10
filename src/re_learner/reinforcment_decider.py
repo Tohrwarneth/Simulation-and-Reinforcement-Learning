@@ -2,6 +2,7 @@ import enums
 from re_learner import Net, NetCoder
 from re_learner.IReinforcementDecider import IReinforcementDecider
 
+
 class ReinforcementDecider(IReinforcementDecider):
     net: Net
 

@@ -2,6 +2,11 @@ import numpy as np
 
 
 class PPOMemory:
+    '''
+    Memory of PPO
+    Creates Batches for training
+    '''
+
     def __init__(self, batch_size):
         self.states = []
         self.probs = []

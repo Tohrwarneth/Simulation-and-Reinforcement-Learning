@@ -65,7 +65,6 @@ class Elevator:
         elif self.position == 0:
             self.direction = Direction.UP
 
-        # TODO: schauen ob erste Zeile len(self.passengers) > 0 nichts kaputt macht
         if (self.target == self.position and len(self.passengers)) or (
                 self.is_floor_requested() and len(self.passengers) < self.capacity):
             # job done or elevator is requestes while driving
@@ -211,9 +210,3 @@ class Elevator:
 
         self.nextState = decision
         return self.reward
-
-        #
-        # if self.target == self.position:
-        #     self.nextState = ElevatorState.WAIT
-        # else:
-        #     self.nextState = ElevatorState.UP if self.direction == Direction.UP else ElevatorState.DOWN

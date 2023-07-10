@@ -2,8 +2,6 @@ from __future__ import annotations
 from time import time
 import numpy as np
 import torch
-from matplotlib import pyplot as plt
-
 import enums
 import plotter
 from logic.person import Person
@@ -37,6 +35,7 @@ class Simulation:
 
     def __init__(self, show_gui=True, rl_decider: bool = False,
                  elevator_position: tuple[int, int, int] = (0, 0, 0)):
+        self.reset()
         self.latestDecision = None
         self.showGui = show_gui
         self.rlDecider = rl_decider
@@ -64,11 +63,17 @@ class Simulation:
         if rl_decider:
             NetCoder.init(self.get_game_state(), Conf.capacity)
 
+        self.rewardList = list()
+
     def run(self, episode_buffer: list[tuple, float, int] = None, action: int = None, step: bool = False) -> \
             tuple[tuple, float, bool] | None:
         """
         Update and render loop of the simulation.
-        :return: None
+        :param episode_buffer: episode buffer for dice implementation
+        :param action: action index send by Neuralnet implementation
+        :param step: run simulation for one tact
+
+        :return: step result or None
         """
         Logger.init()
 
@@ -107,8 +112,6 @@ class Simulation:
                         elevator.log()
                     if Logger.noLogs:
                         debug_position.append(elevator.position + 1)
-                if Logger.noLogs and not Conf.train:
-                    print(debug_position)
                 if len(elevator_waiting_time) == 0:
                     elevator_waiting_time.append((Clock.tact, 0))
                 avg_waiting_time = np.mean(elevator_waiting_time, axis=0)[1]
@@ -125,21 +128,17 @@ class Simulation:
                 self.latestAvgWaitingTime = self.avgWaitingTime[len(self.avgWaitingTime) - 1]
 
                 if self.rlDecider and action is None:
-                    # Nicht, wenn auf Warten gestellt wird. Also nur, wenn er Entscheidung treffen soll
                     decisions = Conf.reinforcement_decider.get_decision(self)
                     self.apply_decisions(decisions, need_decisions)
-                current_people_in_office = self.personManager.get_people_in_office()
 
                 if self.rlDecider:
-                    # self.reward = -self.latestAvgWaitingTime
-                    # self.reward -= self.latestAvgWaitingTime
-                    # self.reward += Conf.totalAmountPerson - self.personManager.get_remaining_people()
                     current_people_in_office = self.personManager.get_people_in_office()
-
-                    # self.reward = max(0, current_people_in_office - self.peopleInOffice)
-                    self.rewardList.append(self.reward)
-
                     self.peopleInOffice = current_people_in_office
+
+                    # Optional reward. Not used for final training
+                    # self.reward += current_people_in_office
+
+                    self.rewardList.append(self.reward)
 
                 Clock.tact += 1
 
@@ -148,7 +147,8 @@ class Simulation:
                     Logger.log()
 
                 if episode_buffer is not None and action is None:
-                    episode_buffer.append((self.get_game_state(), self.latestDecision, self.reward))
+                    # adds episode buffer for dice implementation
+                    episode_buffer.append((self.get_game_state(), self.latestDecision, sum(self.rewardList)))
 
             if self.showGui:
                 self.ui_manager.render()
@@ -206,6 +206,12 @@ class Simulation:
         return log
 
     def get_game_state(self) -> tuple:
+        '''
+        Returns the current game state
+
+        :return: tact, avg waiting time, remaining persons, 15 * call up, 15 * call down,
+        3 * (position, direction, next state, 5 * passengers)
+        '''
         elevators: list[tuple] = list()
         for e in self.elevators:
             elevators.append((e.position, e.direction, e.nextState, e.passengers))
@@ -221,34 +227,53 @@ class Simulation:
 
     def apply_decisions(self, decisions: tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState],
                         need_decisions: list[bool, bool, bool]) -> None:
+        '''
+        Apply decisions of the dice PPO
+        :param decisions: (state 0, state 1, state 2)
+        :param need_decisions: does an elevator needs a decision
+        '''
         self.latestDecision = decisions
-        # self.reward += self.personManager.get_people_in_motion() * Reward.notHomePenalty
         for index, elevator in enumerate(self.elevators):
             if need_decisions[index]:
                 elevator.apply_decision(decisions[elevator.index])
             elevator.log()
 
     @staticmethod
-    def load_rl_model(model_file: str, device: torch.device, is_phill=False,
+    def load_rl_model(model_file: str | None, is_phill=False,
                       sim: Simulation = None) -> re_learner.Net.Net:
+        '''
+        Load a reinforcement net or returns new one
+        :param model_file: File of the model
+        :param is_phill: is the Neuralnet implementation used
+        :param sim: simulation for the new actor of the Neuralnet
+
+        :return: model / net
+        '''
         if is_phill:
             return trainer.PPOTrainer.get_new_actor(sim)
         else:
             try:
                 net = torch.load(model_file)
-                net.to(device)
             except:
                 net = re_learner.Net.Net()
             Conf.reinforcement_decider.init(net)
             return net
 
     @staticmethod
-    def reset():
+    def reset() -> None:
+        '''
+        Resets the state of indices generation and clock
+        '''
         Elevator.nextElevatorIndex = 0
         Person.nextPersonIndex = 0
         Clock.reset()
 
-    def sim_reset(self):
+    def sim_reset(self) -> tuple:
+        '''
+        Reset simulation
+
+        :return: New game state
+        '''
         self.reset()
         self.__init__(self.showGui, self.rlDecider)
         return self.get_game_state()
@@ -265,10 +290,9 @@ if __name__ == "__main__":
     else:
         sim = Simulation(show_gui=show_gui, rl_decider=reinforcement_learning)
         if reinforcement_learning:
-            device = torch.device('cpu')
             if rl_dice:
-                Simulation.load_rl_model(re_learner.TrainerPPO.TrainerPPO.modelFile, device)
+                Simulation.load_rl_model(re_learner.TrainerPPO.TrainerPPO.modelFile)
             elif rl_phill:
-                sim.agent = Simulation.load_rl_model(trainer.PPOTrainer.modelFile, device, rl_phill, sim)
+                sim.agent = Simulation.load_rl_model(None, rl_phill, sim)
         sim.run()
         Simulation.reset()

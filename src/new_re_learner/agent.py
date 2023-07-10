@@ -1,5 +1,8 @@
+"""
+Class created by phill of Neuralnet
+modified from gym to Elevator Simulation
+"""
 import numpy as np
-
 from new_re_learner.memory import PPOMemory
 from new_re_learner.network import ActorNetwork, CriticNetwork
 import torch as T
@@ -68,6 +71,7 @@ class Agent:
 
             values = T.tensor(values).to(self.actor.device)
             for batch in batches:
+                # batch of a time step
                 states = T.tensor(state_arr[batch], dtype=T.float).to(self.actor.device)
                 old_probs = T.tensor(old_prob_arr[batch]).to(self.actor.device)
                 actions = T.tensor(action_arr[batch]).to(self.actor.device)
@@ -84,6 +88,7 @@ class Agent:
                 weighted_clipped_probs = T.clamp(prob_ratio, 1 - self.policy_clip,
                                                  1 + self.policy_clip) * advantage[batch]
                 actor_loss = -T.min(weighted_probs, weighted_clipped_probs).mean()
+                # actor loss according to OpenAIs algorithm
 
                 returns = advantage[batch] + values[batch]
                 critic_loss = (returns - critic_value) ** 2
@@ -98,3 +103,10 @@ class Agent:
                 self.critic.optimizer.step()
 
         self.memory.clear_memory()
+
+
+if __name__ == "__main__":
+    agent = Agent(27, 57)
+    print(agent.actor)
+    print(5 * '-')
+    print(agent.critic)

@@ -1,13 +1,8 @@
-# -*- coding: utf-8 -*-
 """
-Created on Tue Sep  8 10:47:48 2020
-
-@author: chris
+Class created by Prof. C. Lürig
+modified from Zombie Dice to Elevator Simulation
 """
 from __future__ import annotations
-
-import numpy as np
-
 import simulation
 import utils
 from re_learner import NetCoder
@@ -15,11 +10,10 @@ import torch
 
 
 class EpisodeEncoder:
-    def __init__(self, decider, device):
+    def __init__(self, decider):
         '''Runs the episode encoder with a decider handed over.'''
         self.__epsiodeList = []
         self.__decider = decider
-        self.__device = device
         self.__finalEpisodeBuffer = []
 
     def generate_episodes(self, num_of_episodes):
@@ -27,8 +21,6 @@ class EpisodeEncoder:
             numOfEpisdes : The number of episodes we want to generate internally.
         '''
         self.__finalEpisodeBuffer = []
-        avg_waiting = 0.0
-        remaining = utils.Conf.totalAmountPerson
         best_remaining = 0
         best_waiting = 0
         best_reward = 0
@@ -41,10 +33,10 @@ class EpisodeEncoder:
 
             for index, pairing in enumerate(reversed(local_episode_buffer)):
                 self.__finalEpisodeBuffer.append(pairing + (75, 0,))
-                # Destination ist Wartezeit von 75 Takten und 0 Personen im Haus
+                # Destination is avg. waiting time of 75 tacts and 0 Persons remaining
             avg_waiting = sim.avgWaitingTime[len(sim.avgWaitingTime) - 1]
             remaining = sim.personManager.get_remaining_people()
-            reward = np.mean(sim.rewardList, axis=0)
+            reward = sum(sim.rewardList)
             if best_episode == -1:
                 best_remaining = remaining
                 best_reward = reward
@@ -55,7 +47,6 @@ class EpisodeEncoder:
                 best_reward = reward
                 best_remaining = remaining
                 best_waiting = avg_waiting
-            sim.reset()
         print(
             f'\rEpisode: {num_of_episodes}/{num_of_episodes}\tBeste Episode: {best_episode}\t Waiting Time = {best_waiting:.2f}\t'
             f'Remaining = {best_remaining}/{utils.Conf.totalAmountPerson}\t Reward = {best_reward:.2f}')
@@ -81,15 +72,9 @@ class EpisodeEncoder:
             decision_tensor[i] = NetCoder.states_to_decision(decision)
             value_tensor[i] = avg_waiting
             reward_tensor[i] = reward
-            # TODO: Ist Destination Value und wird für die Rewardfkt genutzt. Oder ist das der Reward?
-            # value_tensor[i, 1] = remaining
             print(f'\rBuild trainings tensor {loading_dots * "."}', end='')
             loading_dots += 1
             if loading_dots > 3:
                 loading_dots = 1
         print()
-        input_tensor.to(self.__device)
-        decision_tensor.to(self.__device)
-        value_tensor.to(self.__device)
-        reward_tensor.to(self.__device)
         return input_tensor, decision_tensor, value_tensor, reward_tensor

@@ -67,6 +67,7 @@ class Conf:
         parser.add_argument('-nl', '--noLogs', help="Doesn't generates log files", action='store_true')
 
         args = parser.parse_args()
+
         argument_dict: dict = vars(args)
         print(f"Dict format: {argument_dict}")
 

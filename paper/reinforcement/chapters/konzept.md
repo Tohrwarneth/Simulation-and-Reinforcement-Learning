@@ -10,7 +10,7 @@ Standardalgorithmus für verstärktes Lernen bei OpenAI geworden. PPO ist ein on
 die meisten klassischen Reinforcement-Learning-Algorithmen, am besten durch ein dichtes Belohnungssystem lernt. OpenAI
 definierte für die Zielfunktion ihres Algorithmus wie folgt:
 
-\labe{formel_OpenAI}
+\label{formel_OpenAI}
 $$ L^{\text{CLIP}}(\theta) = \hat{E_t}[\textit{min}(r_t(\theta), 1 - \varepsilon, q + \varepsilon) \hat{A_t})] $$
 
 - $\theta$ ist der Policy Parameter

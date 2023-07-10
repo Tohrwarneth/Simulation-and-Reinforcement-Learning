@@ -1,2 +1,2 @@
 ./build-pdf.ps1 -OD "../generated/reinforcement" -MF "../paper/reinforcement/Reinforcement.md" -FN "Reinforcement" -ID "../paper/reinforcement/images" -hsTemplate -SR "../paper/reinforcement/chapters" `
-overview.md konzept.md impl_dice.md impl_phill.md result_dice.md result_phill.md
+overview.md konzept.md impl_dice.md impl_phill.md result_dice.md result_phill.md schluss.md

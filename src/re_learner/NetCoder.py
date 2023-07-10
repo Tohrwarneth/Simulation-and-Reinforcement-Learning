@@ -1,12 +1,9 @@
 from __future__ import annotations
-
-# -*- coding: utf-8 -*-
 """
-Created on Sun May 23 13:02:21 2021
-
-@author: chris
+Class created by Prof. C. Lürig
+modified from Zombie Dice to Elevator Simulation
 """
-'''Contains helper functions to encode the state of the game for neuronal networks.'''
+
 import utils
 import enums
 
@@ -17,6 +14,13 @@ num_actions: int
 
 
 def init(game_state, elevator_capacity):
+    '''
+    Transfer all possible decisions of triples to indices and fills look-up dictionary
+
+    :param game_state: example game state
+    :param elevator_capacity: number elevators
+    :return:
+    '''
     global stateWidth, capacity, num_actions
     capacity = elevator_capacity
     stateWidth = len(normalize_game_state(game_state))
@@ -32,7 +36,14 @@ def init(game_state, elevator_capacity):
     num_actions = len(decisions_states)
 
 
-def encode_in_tensor(tensor, tensor_position, game_state):
+def encode_in_tensor(tensor, tensor_position, game_state) -> None:
+    '''
+    Insert game state into tensor
+
+    :param tensor: target tensor
+    :param tensor_position: which position within tensor
+    :param game_state: current game state
+    '''
     global stateWidth
     n_game_state = normalize_game_state(game_state)
     for index, element in enumerate(n_game_state):
@@ -41,6 +52,12 @@ def encode_in_tensor(tensor, tensor_position, game_state):
 
 def decision_to_states(decisions: int) -> \
         tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState] | tuple[None, None, None]:
+    '''
+    Translate index to decision tuple
+
+    :param decisions: decision index
+    :return: decision tuple
+    '''
     global decisions_states
     if decisions is None:
         return None, None, None
@@ -51,13 +68,24 @@ def decision_to_states(decisions: int) -> \
 
 
 def states_to_decision(states: tuple[enums.ElevatorState, enums.ElevatorState, enums.ElevatorState]) -> int:
+    '''
+    Returns index of decision tuple
+
+    :param states: tuple of decisions
+    :return: decision index
+    '''
     global decisions_states
     key = [k for k, v in decisions_states.items() if v == states][0]
     return key
 
 
 def normalize_game_state(game_state: tuple) -> list:
-    # TODO: Am schluss normieren
+    '''
+    Encode current game state to tensor friendly data types
+
+    :param game_state: current game state
+    :return: tensor friendly list
+    '''
     conf = utils.Conf
     global capacity
     tact, avg_waiting, remaining, call_up, call_down, elevators = game_state
@@ -75,10 +103,6 @@ def normalize_game_state(game_state: tuple) -> list:
         for person in passengers:
             n_elevators.append(person.schedule[0][1] / conf.maxFloor)  # target floor
         for i in range(empty_job):
-            # TODO: passt die -1?
             n_elevators.append(-1)
-
-    # avg_waiting / 60 * 24 = 1, wenn jemand bei Takt 0 kommt und dann bis Tagende wartet
-    # Wird nie 1
     return [tact / 60 * 24, avg_waiting / 60 * 24, remaining / conf.totalAmountPerson] \
         + n_call_up + n_call_down + n_elevators
