@@ -178,7 +178,8 @@ class Simulation:
         Clock.endOfDay = True
         data = self.end_of_day_log()
         if not Conf.train:
-            print(f"Average Waiting Time: {data['avgWaitingTime']:.2f} | "
+            print(f"Average Waiting Time of finished travels: {data['avgWaitingTime']:.2f} | "
+                  f"Current avg. Waiting Time: {data['currentAvgWaitingTime']} | "
                   f"Remaining Persons: {data['remaining']}")
         if Conf.generatesPlots:
             plotter.draw_data(self)
@@ -192,8 +193,8 @@ class Simulation:
         log: dict = dict()
 
         if self.finalAvgWaitingTime:
-            # avg_waiting = self.finalAvgWaitingTime.pop()
-            log["avgWaitingTime"] = self.latestAvgWaitingTime
+            log["avgWaitingTime"] = self.finalAvgWaitingTime.pop()
+            log["currentAvgWaitingTime"] = self.latestAvgWaitingTime
         else:
             log["avgWaitingTime"] = None
 
